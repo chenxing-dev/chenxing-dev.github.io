@@ -71,11 +71,11 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="relative w-screen h-screen overflow-hidden select-none bg-gray-900">
+  <div class="relative max-w-screen h-screen overflow-hidden select-none bg-gray-900">
     <Wallpaper />
 
     <!-- Desktop Icons -->
-    <div class="absolute top-0 left-0 p-4 grid grid-cols-1 gap-6">
+    <div class="absolute top-0 left-0 p-4 grid grid-flow-row gap-4">
       <DesktopIcon v-for="(app, index) in desktopApps" :key="index" :icon="app.icon" :label="app.label"
         @open="openWindow(app.type)" />
     </div>
