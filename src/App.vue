@@ -1,20 +1,10 @@
 <script setup lang="ts">
-
 import { ref, onMounted } from 'vue'
-import { useStorage } from '@vueuse/core'
 import Wallpaper from './components/desktop/Wallpaper.vue'
 import DesktopIcon from './components/desktop/DesktopIcon.vue'
 import WindowManager from './components/WindowManager.vue'
-
-// Define window interface
-interface WindowConfig {
-  id: number
-  type: string
-  position: { x: number; y: number }
-  size: { width: number; height: number }
-  zIndex: number
-  minimized: boolean
-}
+import useWindowManager from "./components/useWindowManager.ts"
+import { useStorage } from '@vueuse/core'
 
 // Desktop apps configuration
 const desktopApps = ref([
@@ -28,44 +18,18 @@ const desktopApps = ref([
   { type: 'settings', icon: '⚙️', label: 'Settings' },
 ])
 
-// Window manager state
-const zIndexCounter = ref(1)
-const windows = useStorage<WindowConfig[]>('tissuepackos-windows', [])
+const { windows, openWindow, closeWindow, focusWindow, createWindow } = useWindowManager()
 
-const openWindow = (type: string) => {
-  const id = Date.now()
-  windows.value.push({
-    id,
-    type,
-    position: { x: 100 + windows.value.length * 20, y: 100 + windows.value.length * 20 },
-    size: { width: 600, height: 400 },
-    zIndex: zIndexCounter.value++,
-    minimized: false
-  })
-}
-
-const closeWindow = (id: number) => {
-  windows.value = windows.value.filter(w => w.id !== id)
-}
-
-const focusWindow = (id: number) => {
-  windows.value.forEach(w => {
-    if (w.id === id) {
-      w.zIndex = zIndexCounter.value++
-      w.minimized = false
-    }
-  })
-}
-
-const minimizeWindow = (id: number) => {
-  windows.value = windows.value.map(w =>
-    w.id === id ? { ...w, minimized: !w.minimized } : w
-  )
-}
 
 // Initialize with terminal window on load
 onMounted(() => {
-  openWindow('terminal')
+  // Only open terminal if it's the first load
+  const firstRun = useStorage('tissuepackos-first-run', true)
+
+  if (firstRun.value) {
+    windows.value = [createWindow('terminal')]
+    firstRun.value = false
+  }
 })
 
 </script>
@@ -76,12 +40,12 @@ onMounted(() => {
 
     <!-- Desktop Icons -->
     <div class="absolute top-0 left-0 p-4 grid grid-flow-row gap-4">
-      <DesktopIcon v-for="(app, index) in desktopApps" :key="index" :icon="app.icon" :label="app.label"
-        @open="openWindow(app.type)" />
+      <DesktopIcon v-for="(app, index) in desktopApps" :key="index" :icon="app.icon" :label="app.label" :type="app.type"
+        @open="openWindow" />
     </div>
 
     <!-- Window Manager -->
-    <WindowManager :windows="windows" @close="closeWindow" @focus="focusWindow" @minimize="minimizeWindow" />
+    <WindowManager :windows="windows" @close="closeWindow" @focus="focusWindow" />
   </div>
 </template>
 
