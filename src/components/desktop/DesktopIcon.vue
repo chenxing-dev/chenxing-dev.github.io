@@ -1,6 +1,26 @@
+<script setup lang="ts">
+defineProps<{
+  icon: string
+  label: string
+}>()
+
+const emit = defineEmits(['open'])
+</script>
+
 <template>
-  <div class="desktop-icon" @dblclick="openApp">
-    <img :src="icon" class="w-12 h-12 mb-1" />
-    <span class="text-xs">{{ label }}</span>
+  <div class="desktop-icon group flex flex-col items-center p-2 w-16 cursor-pointer transition-all"
+    @dblclick="emit('open')">
+    <div
+      class="icon-container mb-1 w-12 h-12 flex items-center justify-center rounded-lg bg-white/10 backdrop-blur-sm group-hover:bg-blue-500/30 transition-colors">
+      <span class="text-2xl">{{ icon }}</span>
+    </div>
+    <span class="text-xs text-white text-shadow-md px-1 py-0.5 rounded group-hover:bg-blue-500/50 transition-colors">
+      {{ label }}
+    </span>
   </div>
 </template>
+<style scoped>
+.text-shadow-md {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+</style>
