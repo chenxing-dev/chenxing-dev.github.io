@@ -35,7 +35,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="relative max-w-screen h-screen overflow-hidden select-none bg-gray-900">
+  <div class="relative w-screen h-screen overflow-hidden select-none bg-zinc-50">
     <Wallpaper />
 
     <!-- Desktop Icons -->
@@ -50,7 +50,6 @@ onMounted(() => {
 </template>
 
 <style>
-/* Global styles for OS-like interface */
 body {
   margin: 0;
   font-family: 'Segoe UI', 'Noto Sans', system-ui, sans-serif;

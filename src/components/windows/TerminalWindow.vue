@@ -1,40 +1,61 @@
 <template>
-  <div class="terminal">
-    <div ref="output"></div>
-    <div class="input-line">
-      <span class="prompt">user@tissuepack:~$ </span>
-      <input v-model="command" @keyup.enter="executeCommand" ref="input" />
+  <div class="terminal text-zinc-50 whitespace-pre overflow-auto h-full">
+    <div v-for="(line, index) in output" :key="index" class="terminal-line">
+      <p v-if="line.type === 'command'" class="flex">
+        <span class="terminal-prompt mr-2">user@paperos:~$</span>
+        <span>{{ line.text }}</span>
+      </p>
+      <p v-else class="terminal-output">{{ line.text }}</p>
     </div>
+    <p class="terminal-line flex">
+      <span class="terminal-prompt mr-2">user@paperos:~$</span>
+      <input v-model="command" @keyup.enter="executeCommand" class="terminal-input bg-transparent outline-none flex-1"
+        ref="input" />
+    </p>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue";
+import { ref } from 'vue'
+
+const command = ref('')
+const output = ref<{ type: string, text: string }[]>([
+  { type: 'output', text: 'Welcome to PaperOS Terminal!' },
+  { type: 'output', text: 'Type "help" for available commands' }
+])
 
 const commands: { [key: string]: (args?: string[]) => string } = {
   help: () => `Available commands: ${Object.keys(commands).join(", ")}`,
-  neofetch: () => `
-    user@tissuepack 
-    -------------------- 
-    OS: TissuePackOS v1.0 
-    Shell: vue-sh 
-    Theme: Cozy Minimalism`
-  // ... other commands
+  neofetch: () =>
+    `user@paperos 
+-------------------- 
+OS: PaperOS v1.0 
+Shell: vue-sh 
+Theme: Cozy Minimalism`,
+  clear: () => {
+    output.value = []
+    return ''
+  },
+  about: () => 'PaperOS is a personal desktop environment website built with Vue.js',
 };
 
-const output = ref('Welcome to TissuePack Terminal!\nType "help" for commands\n');
-const command = ref("");
-
 const executeCommand = () => {
-  const [cmd, ...args] = command.value.split(" ");
-  output.value += `\n$ ${command.value}\n`;
+  if (!command.value.trim()) return
+
+  output.value.push({ type: 'command', text: command.value })
+
+  const cmd = command.value.split(' ')[0]
+  const args = command.value.split(' ').slice(1)
 
   if (commands[cmd]) {
-    output.value += commands[cmd](args) + "\n";
+    const result = commands[cmd](args)
+    if (result) {
+      output.value.push({ type: 'output', text: result })
+    }
   } else {
-    output.value += `Command not found: ${cmd}\n`;
+    output.value.push({ type: 'output', text: `Command not found: ${cmd}` })
   }
 
-  command.value = "";
+  command.value = ''
 };
 </script>

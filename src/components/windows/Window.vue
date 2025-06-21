@@ -53,7 +53,7 @@ watch(focused, (isFocused) => {
 onMounted(() => {
   gsap.from(windowRef.value, {
     scale: 0.8,
-    opacity: 0,
+    opacity: 1,
     duration: 0.3,
     ease: 'back.out(1.7)'
   })
@@ -71,20 +71,19 @@ const title = computed(() => {
 </script>
 
 <template>
-  <VueDraggableResizable :x="window.position.x" :y="window.position.y" :w="window.size.width" :h="window.size.height"
-    :z="window.zIndex" :min-width="300" :min-height="200" :draggable="true" :resizable="false"
-    @activated="emit('focus', window.id)" class="window-container">
-    <div ref="windowRef" class="window bg-gray-800 rounded overflow-hidden flex flex-col w-full h-full"
+  <VueDraggableResizable class="window bg-transparent" :draggable="true" :resizable="false"
+    :drag-handle="'.drag-handle'" :x="window.position.x" :y="window.position.y" :w="window.size.width"
+    :h="window.size.height" :z="window.zIndex" :min-width="300" :min-height="200" @activated="emit('focus', window.id)">
+    <div ref="windowRef" class="bg-zinc-800 overflow-hidden flex flex-col w-full h-full"
       @mousedown="emit('focus', window.id)">
       <!-- Title Bar -->
       <div
-        class="title-bar flex items-center justify-between px-3 py-1.5 bg-gradient-to-r from-blue-600 to-blue-800 text-white cursor-move">
+        class="title-bar drag-handle flex items-center justify-between px-3 py-1.5 bg-gradient-to-r from-zinc-600 to-zinc-800 text-white cursor-grab">
         <div class="flex items-center">
-          <span class="mr-2">{{ title.charAt(0) }}</span>
-          <span class="text-sm font-medium truncate max-w-[200px]">{{ title.slice(1) }}</span>
+          <span class="text-sm font-medium truncate max-w-[200px]">{{ title }}</span>
         </div>
         <div class="flex items-center space-x-2">
-          <button class="close-btn w-5 h-5 flex items-center justify-center rounded hover:bg-red-500"
+          <button class="close-btn w-5 h-5 flex items-center justify-center rounded hover:bg-zinc-500"
             @click.stop="emit('close', window.id)">
             <div class="w-2.5 h-0.5 bg-white rotate-45 absolute"></div>
             <div class="w-2.5 h-0.5 bg-white -rotate-45 absolute"></div>
@@ -93,9 +92,9 @@ const title = computed(() => {
       </div>
 
       <!-- Window Content -->
-      <div class="window-content flex-1 overflow-auto bg-gray-900/80 p-4">
+      <div class="window-content flex-1 overflow-auto bg-zinc-900/80 p-4">
         <component :is="contentComponent" v-if="contentComponent" />
-        <div v-else class="h-full flex items-center justify-center text-gray-400">
+        <div v-else class="h-full flex items-center justify-center text-zinc-400">
           Window content not available
         </div>
       </div>
@@ -105,10 +104,14 @@ const title = computed(() => {
 
 
 
-<style scoped>
+<style>
+/* Make sure draggable areas are interactive */
+.vdr {
+  pointer-events: auto;
+}
+
 .window {
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: none;
 }
 
 .title-bar {
