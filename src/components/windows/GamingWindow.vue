@@ -9,8 +9,9 @@
 
 <script lang="ts" setup>
 const games = [
-  { title: "Pixel Quest", thumbnail: "/assets/pixel-quest.png" },
-  { title: "Cyber Runner", thumbnail: "/assets/cyber-runner.png" }
+  { title: "Placeholder", thumbnail: "" }
+  // { title: "Pixel Quest", thumbnail: "/assets/pixel-quest.png" },
+  // { title: "Cyber Runner", thumbnail: "/assets/cyber-runner.png" }
   // ... 15 total entries
 ];
 </script>
