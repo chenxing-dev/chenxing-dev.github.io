@@ -35,7 +35,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="relative w-screen h-screen overflow-hidden select-none bg-zinc-50">
+  <div class="relative w-screen h-screen overflow-hidden select-none">
     <Wallpaper />
 
     <!-- Desktop Icons -->

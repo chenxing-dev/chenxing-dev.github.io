@@ -1,29 +1,23 @@
 <script setup lang="ts">
+import type { CSSProperties } from 'vue';
 
-const textureStyle = {
-    backgroundImage: `
-linear-gradient(to bottom right, var(--tissue-light), var(--tissue-dark)),
-url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='400'
-    viewBox='0 0 400 400'><path fill='none' stroke='rgba(0,0,0,0.03)' stroke-width='1.5' d='M50,50 C100,30 150,70 180,130 C210,190 250,180 300,200 C350,220 370,170 370,120'/><path fill='none' stroke='rgba(0,0,0,0.03)' stroke-width='1.5' d='M80,300 C120,250 180,270 220,220 C260,170 300,200 340,240'/><path fill='none' stroke='rgba(0,0,0,0.03)' stroke-width='1.5' d='M20,200 C60,160 100,220 140,180'/></svg>")
-`,
-    backgroundBlendMode: 'overlay',
-    backgroundSize: 'cover, 400px 400px',
-    opacity: '0.9',
-    filter: 'brightness(1.1) contrast(1.1)'
-}
+// Subtle noise overlay
+const noiseOverlay = "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.05' numOctaves='4' stitchTiles='titch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E %3CfeComponentTransfer%3E %3CfeFuncR type='table' tableValues='[amount] (1 - [amount])'/%3E%3CfeFuncG type='table' tableValues='[amount] (1 - [amount])'/%3E%3CfeFuncB type='table' tableValues='[amount] (1 - [amount])'/%3E%3C/feComponentTransfer%3E  %3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.25'/%3E%3C/svg%3E\")";
+
+const textureStyle: CSSProperties = {
+    backgroundImage: noiseOverlay,
+    backgroundSize: 'cover',
+};
 </script>
 
 <template>
-    <div class="absolute inset-0 overflow-hidden">
-        <div class="absolute inset-0 bg-tissue-base" :style="textureStyle">
+    <div class="absolute inset-0 z-0 bg-zinc-50">
+        <div class="absolute inset-0" :style="textureStyle">
+            <div class="absolute inset-0 bg-zinc-50/40"></div>
         </div>
     </div>
 </template>
 
 
 
-<style>
-.bg-tissue-base {
-    background: linear-gradient(to bottom right, var(--tissue-light), var(--tissue-dark));
-}
-</style>
+<style></style>
