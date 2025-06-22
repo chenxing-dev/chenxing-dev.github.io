@@ -42,9 +42,16 @@ onMounted(() => {
 </template>
 
 <style>
+@import url(https://fonts.bunny.net/css?family=noto-serif-sc:400,900);
+@import url(https://fonts.bunny.net/css?family=noto-sans-sc:400,900);
+
+:root {
+  --font-serif: 'Noto Serif SC', sans-serif;
+}
+
 body {
   margin: 0;
-  font-family: 'Segoe UI', 'Noto Sans', system-ui, sans-serif;
+  font-family: 'Noto Sans SC', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow: hidden;
