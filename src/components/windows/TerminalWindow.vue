@@ -5,11 +5,33 @@ import { ref, watch, nextTick } from 'vue'
 type TerminalOutputLine =
   | { type: 'command', text: string }
   | { type: 'output', text: string }
-
-const command = ref('')
-
 // Define the command function type
 type CommandFunction = (args?: string[]) => TerminalOutputLine[] | void;
+
+const command = ref('')
+const output = ref<TerminalOutputLine[]>([
+  { type: 'output', text: 'Welcome to 陈刑OS Terminal!' },
+  { type: 'output', text: 'Type "help" for available commands' }
+])
+const terminalBody = ref<HTMLElement | null>(null)
+const inputRef = ref<HTMLInputElement | null>(null)
+
+const scrollToBottom = () => {
+  nextTick(() => {
+    if (terminalBody.value) {
+      terminalBody.value.scrollTop = terminalBody.value.scrollHeight
+    }
+  })
+}
+
+// Scroll to bottom when output changes
+watch(output, () => {
+  scrollToBottom()
+}, { deep: true })
+
+watch(inputRef, () => {
+  inputRef.value?.focus()
+})
 
 const commands: Record<string, CommandFunction> = {
   help: () => {
@@ -38,32 +60,6 @@ const commands: Record<string, CommandFunction> = {
   date: () => [{ type: 'output', text: new Date().toLocaleString() }],
   echo: (args?: string[]) => [{ type: 'output', text: args?.join(' ') ?? '' }]
 };
-
-const output = ref<TerminalOutputLine[]>([
-  { type: 'output', text: 'Welcome to 陈刑OS Terminal!' },
-  { type: 'output', text: 'Type "help" for available commands' }
-])
-
-const terminalBody = ref<HTMLElement | null>(null)
-const inputRef = ref<HTMLInputElement | null>(null)
-
-const scrollToBottom = () => {
-  nextTick(() => {
-    if (terminalBody.value) {
-      terminalBody.value.scrollTop = terminalBody.value.scrollHeight
-    }
-  })
-}
-
-// Scroll to bottom when output changes
-watch(output, () => {
-  scrollToBottom()
-}, { deep: true })
-
-watch(inputRef, () => {
-  inputRef.value?.focus()
-})
-
 const executeCommand = () => {
   if (!command.value.trim()) return
 
@@ -85,7 +81,6 @@ const executeCommand = () => {
   scrollToBottom()
 };
 </script>
-
 
 <template>
   <div class="terminal whitespace-pre overflow-auto h-full text-wrap break-all" ref="terminalBody">
