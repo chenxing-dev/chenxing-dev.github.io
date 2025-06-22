@@ -8,14 +8,14 @@ import { useStorage } from '@vueuse/core'
 
 // Desktop apps configuration
 const desktopApps = ref([
-  { type: 'gaming', icon: '🎮', label: 'Games' },
-  { type: 'terminal', icon: '🐧', label: 'Terminal' },
-  { type: 'scripts', icon: '📜', label: 'Scripts' },
-  { type: 'code_projects', icon: '💻', label: 'Projects' },
-  { type: 'about_me', icon: '👤', label: 'About' },
-  { type: 'contact', icon: '✉️', label: 'Contact' },
-  { type: 'clock', icon: '🕒', label: 'Clock' },
-  { type: 'settings', icon: '⚙️', label: 'Settings' },
+  { type: 'gaming', icon: '🎮', label: 'games' },
+  { type: 'terminal', icon: '🐧', label: 'terminal' },
+  { type: 'scripts', icon: '📜', label: 'scripts' },
+  { type: 'code_projects', icon: '💻', label: 'projects' },
+  { type: 'about_me', icon: '👤', label: 'about' },
+  { type: 'contact', icon: '✉️', label: 'contact' },
+  { type: 'clock', icon: '🕒', label: 'clock' },
+  { type: 'settings', icon: '⚙️', label: 'settings' },
 ])
 
 const { windows, openWindow, closeWindow, focusWindow, createWindow } = useWindowManager()
@@ -35,7 +35,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="relative w-screen h-screen overflow-hidden select-none">
+  <div class="relative w-screen h-screen overflow-hidden select-none text-zinc-900">
     <Wallpaper />
 
     <!-- Desktop Icons -->
