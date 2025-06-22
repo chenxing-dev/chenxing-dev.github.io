@@ -15,6 +15,7 @@
     "vue-draggable-resizable": "^3.0.0"
   },
   "devDependencies": {
+    "@types/node": "^24.0.3",
     "@unocss/preset-wind4": "^66.2.3",
     "@vitejs/plugin-vue": "^5.2.3",
     "@vue/tsconfig": "^0.7.0",

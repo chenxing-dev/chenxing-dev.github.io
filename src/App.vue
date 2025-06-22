@@ -5,18 +5,10 @@ import DesktopIcon from './components/desktop/DesktopIcon.vue'
 import WindowManager from './components/WindowManager.vue'
 import useWindowManager from "./components/useWindowManager.ts"
 import { useStorage } from '@vueuse/core'
+import { getDesktopApps } from './config/app.ts'
 
 // Desktop apps configuration
-const desktopApps = ref([
-  { type: 'gaming', icon: '🎮', label: 'games' },
-  { type: 'terminal', icon: '🐧', label: 'terminal' },
-  { type: 'scripts', icon: '📜', label: 'scripts' },
-  { type: 'code_projects', icon: '💻', label: 'projects' },
-  { type: 'about_me', icon: '👤', label: 'about' },
-  { type: 'contact', icon: '✉️', label: 'contact' },
-  { type: 'clock', icon: '🕒', label: 'clock' },
-  { type: 'settings', icon: '⚙️', label: 'settings' },
-])
+const desktopApps = getDesktopApps()
 
 const { windows, openWindow, closeWindow, focusWindow, createWindow } = useWindowManager()
 
@@ -27,7 +19,7 @@ onMounted(() => {
   const firstRun = useStorage('os-first-run', true)
 
   if (firstRun.value) {
-    windows.value = [createWindow('terminal')]
+    windows.value = [createWindow('terminal'), createWindow('clock')]
     firstRun.value = false
   }
 })

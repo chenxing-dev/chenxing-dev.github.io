@@ -1,5 +1,5 @@
 <template>
-  <div class="terminal text-zinc-50 whitespace-pre overflow-auto h-full">
+  <div class="terminal whitespace-pre overflow-auto h-full">
     <div v-for="(line, index) in output" :key="index" class="terminal-line">
       <p v-if="line.type === 'command'" class="flex">
         <span class="terminal-prompt mr-2">user@陈刑OS:~$</span>
