@@ -21,7 +21,7 @@ export interface WindowItem {
 }
 
 export default function () {
-  const windows = ref(useStorage<WindowItem[]>("tissuepackos-windows", []));
+  const windows = ref(useStorage<WindowItem[]>("os-windows", []));
   const zIndexCounter = ref(1);
 
   function createWindow(type: string): WindowItem {

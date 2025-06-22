@@ -2,13 +2,13 @@
   <div class="terminal text-zinc-50 whitespace-pre overflow-auto h-full">
     <div v-for="(line, index) in output" :key="index" class="terminal-line">
       <p v-if="line.type === 'command'" class="flex">
-        <span class="terminal-prompt mr-2">user@paperos:~$</span>
+        <span class="terminal-prompt mr-2">user@陈刑OS:~$</span>
         <span>{{ line.text }}</span>
       </p>
       <p v-else class="terminal-output">{{ line.text }}</p>
     </div>
     <p class="terminal-line flex">
-      <span class="terminal-prompt mr-2">user@paperos:~$</span>
+      <span class="terminal-prompt mr-2">user@陈刑OS:~$</span>
       <input v-model="command" @keyup.enter="executeCommand" class="terminal-input bg-transparent outline-none flex-1"
         ref="input" />
     </p>
@@ -20,23 +20,23 @@ import { ref } from 'vue'
 
 const command = ref('')
 const output = ref<{ type: string, text: string }[]>([
-  { type: 'output', text: 'Welcome to PaperOS Terminal!' },
+  { type: 'output', text: 'Welcome to 陈刑OS Terminal!' },
   { type: 'output', text: 'Type "help" for available commands' }
 ])
 
 const commands: { [key: string]: (args?: string[]) => string } = {
   help: () => `Available commands: ${Object.keys(commands).join(", ")}`,
   neofetch: () =>
-    `user@paperos 
+    `user@陈刑OS 
 -------------------- 
-OS: PaperOS v1.0 
+OS: 陈刑OS  v1.0 
 Shell: vue-sh 
 Theme: Cozy Minimalism`,
   clear: () => {
     output.value = []
     return ''
   },
-  about: () => 'PaperOS is a personal desktop environment website built with Vue.js',
+  about: () => '陈刑OS  is a personal desktop environment website built with Vue.js',
 };
 
 const executeCommand = () => {

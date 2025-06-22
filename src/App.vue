@@ -24,7 +24,7 @@ const { windows, openWindow, closeWindow, focusWindow, createWindow } = useWindo
 // Initialize with terminal window on load
 onMounted(() => {
   // Only open terminal if it's the first load
-  const firstRun = useStorage('tissuepackos-first-run', true)
+  const firstRun = useStorage('os-first-run', true)
 
   if (firstRun.value) {
     windows.value = [createWindow('terminal')]

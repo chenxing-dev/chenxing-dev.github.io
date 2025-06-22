@@ -1,10 +1,10 @@
-# TissuePackOS - A Cozy OS-Styled Personal Website
+# 陈刑OS - A Cozy OS-Styled Personal Website
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-TissuePackOS is a personal portfolio website designed to mimic an operating system interface. Built with Vue.js and TypeScript, it features draggable windows, a terminal emulator, and interactive apps that showcase my projects in a cozy desktop environment.
+陈刑OS is a personal portfolio website designed to mimic an operating system interface. Built with Vue.js and TypeScript, it features draggable windows, a terminal emulator, and interactive apps that showcase my projects in a cozy desktop environment.
 
-![TissuePackOS Screenshot](./screenshot.png)
+![陈刑OS Screenshot](./screenshot.png)
 
 ## ✨ Features
 
@@ -21,8 +21,8 @@ TissuePackOS is a personal portfolio website designed to mimic an operating syst
 
 ## 🚀 Live Demo
 
-Experience TissuePackOS directly in your browser:  
-[https://chenxing-dev.github.io/tissue-pack-os](https://dev-chenxing.github.io/tissue-pack-os)
+Experience 陈刑OS directly in your browser:  
+[https://chenxing-dev.github.io/](https://dev-chenxing.github.io/)
 
 ## 🛠️ Installation
 
@@ -30,8 +30,8 @@ To run locally:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/chenxing-dev/tissue-pack-os.git
-   cd tissue-pack-os
+   git clone https://github.com/chenxing-dev/chenxing-dev.github.io.git
+   cd chenxing-dev.github.io
    ```
 
 2. Install dependencies:
@@ -52,7 +52,7 @@ To run locally:
 ## 📂 Project Structure
 
 ```
-tissue-pack-os/
+chenxing-dev.github.io/
 ├── src/
 │   ├── components/       # Vue components
 │   │   ├── desktop/      # Desktop icons and wallpaper
@@ -79,16 +79,16 @@ tissue-pack-os/
 
 ## 🪟 Window Apps
 
-| App | Description |
-|-----|-------------|
-| 🎮 Gaming | Showcases game development projects and favorite games |
-| 🐧 Terminal | Interactive terminal emulator with Linux-like commands |
-| 📜 Scripts | Interactive JavaScript demos and creative coding projects |
-| 💻 Projects | GitHub project cards with tech stack information |
-| 👤 About | Personal bio and background information |
-| ✉️ Contact | Contact form and social media links |
-| 🕒 Clock | Live time and date display |
-| ⚙️ Settings | OS customization options |
+| App        | Description                                               |
+| ---------- | --------------------------------------------------------- |
+| 🎮 Gaming   | Showcases game development projects and favorite games    |
+| 🐧 Terminal | Interactive terminal emulator with Linux-like commands    |
+| 📜 Scripts  | Interactive JavaScript demos and creative coding projects |
+| 💻 Projects | GitHub project cards with tech stack information          |
+| 👤 About    | Personal bio and background information                   |
+| ✉️ Contact  | Contact form and social media links                       |
+| 🕒 Clock    | Live time and date display                                |
+| ⚙️ Settings | OS customization options                                  |
 
 ## 🤝 Contributing
 
