@@ -1,0 +1,1 @@
+.gaming-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:16px;padding:12px}.game-card{transition:transform .2s}.game-card:hover{transform:scale(1.05)}

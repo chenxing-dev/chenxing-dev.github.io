@@ -1,0 +1,1 @@
+import{d as n,b as t,f as o,c as r,o as a}from"./index-CTOluovf.js";const l=n({__name:"ScriptsWindow",setup(s){const e=t(null);return o(()=>{e.value}),(c,f)=>(a(),r("div",{ref_key:"sketchContainer",ref:e},null,512))}});export{l as default};
