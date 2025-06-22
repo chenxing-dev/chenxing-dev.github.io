@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed, defineAsyncComponent, markRaw, onMounted, ref, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import VueDraggableResizable from "vue-draggable-resizable";
 import "vue-draggable-resizable/style.css";
 import gsap from "gsap";
@@ -52,7 +52,8 @@ const contentComponent = computed(() => getWindowComponent(props.window.type))
     <div ref="windowRef" class="bg-zinc-50 border-2 border-zinc-950 overflow-hidden flex flex-col w-full h-full p-0.5"
       @mousedown="emit('focus', window.id)">
       <!-- Title Bar -->
-      <div class="title-bar drag-handle flex items-center justify-between cursor-grab border-2 border-zinc-950 h-6">
+      <div
+        class="title-bar drag-handle flex items-center justify-between cursor-grab border-2 border-b-0 border-zinc-950 h-6">
         <div class="flex items-center mx-auto">
           <span class="mr-1">{{ icon }}</span>
           <span class="text-sm font-medium truncate max-w-[200px]">{{ title }}</span>
@@ -67,7 +68,7 @@ const contentComponent = computed(() => getWindowComponent(props.window.type))
       </div>
 
       <!-- Window Content -->
-      <div class="window-content flex-1 overflow-auto p-4 border-2 border-zinc-900">
+      <div class="window-content flex-1 overflow-auto p-4 pr-2 border-2 border-zinc-900">
         <component :is="contentComponent" v-if="contentComponent" />
         <div v-else class="h-full flex items-center justify-center text-zinc-400">
           Window content not available
@@ -84,19 +85,5 @@ const contentComponent = computed(() => getWindowComponent(props.window.type))
 .vdr {
   pointer-events: auto;
   border: none;
-}
-
-/* .window {
-  border: 1px solid black;
-} */
-
-.title-bar {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
-  user-select: none;
-}
-
-.window-content {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(100, 100, 100, 0.4) transparent;
 }
 </style>
