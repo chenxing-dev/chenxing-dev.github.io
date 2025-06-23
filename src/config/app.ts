@@ -67,7 +67,9 @@ export const appConfigs: AppConfig[] = [
     icon: "⚙️",
     label: "Settings",
     title: "System Settings",
-    component: defineAsyncComponent(() => import("../components/windows/SettingsWindow.vue"))
+    component: defineAsyncComponent(() => import("../components/windows/SettingsWindow.vue")),
+    width: 800,
+    height: 540
   }
 ];
 
