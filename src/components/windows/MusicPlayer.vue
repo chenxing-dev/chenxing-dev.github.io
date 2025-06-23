@@ -132,7 +132,7 @@ onUnmounted(() => {
 
 <template>
   <div class="flex flex-col w-full h-full">
-    <div class="w-full h-full flex flex-col justify-center">
+    <div class="w-full h-full flex flex-col justify-center px-2">
       <!-- Audio element -->
       <audio ref="audioRef" :src="currentTrack.file" @timeupdate="onTimeUpdate" @loadedmetadata="onLoadedMetadata"
         @ended="onEnded"></audio>
@@ -196,7 +196,7 @@ onUnmounted(() => {
       </div>
 
       <!-- Playlist -->
-      <div class="border-t border-zinc-400 max-h-48 overflow-y-auto">
+      <div class="border-t border-zinc-400 max-h-48 overflow-y-auto mx-2">
         <div v-for="(track, index) in playlist" :key="track.id"
           class="flex items-center p-2 border-b border-zinc-300/50 hover:bg-zinc-100 cursor-pointer transition-colors"
           :class="{ 'bg-zinc-50': currentTrackIndex === index }"

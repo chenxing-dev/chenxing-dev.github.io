@@ -26,12 +26,11 @@ export const appConfigs: AppConfig[] = [
     component: defineAsyncComponent(() => import("../components/windows/TerminalWindow.vue"))
   },
   {
-    type: "components",
-    icon: "📜",
-    label: "Components",
-    title: "Components Demos",
-    component: defineAsyncComponent(() => import("../components/windows/ComponentsWindow.vue")),
-    height: 540
+    type: "music",
+    icon: "🎵",
+    label: "Music Player",
+    title: "Music Player",
+    component: defineAsyncComponent(() => import("../components/windows/MusicPlayer.vue")),
   },
   {
     type: "code_projects",
