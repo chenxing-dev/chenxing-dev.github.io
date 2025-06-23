@@ -62,7 +62,7 @@ const contentComponent = computed(() => getWindowComponent(props.window.type));
       </div>
 
       <!-- Window Content -->
-      <div class="window-content flex-1 overflow-auto p-4 pr-2 border-2 border-zinc-900">
+      <div class="window-content flex-1 overflow-auto pr-2 border-2 border-zinc-900">
         <component :is="contentComponent" v-if="contentComponent" />
         <div v-else class="h-full flex items-center justify-center text-zinc-400">Window content not available</div>
       </div>
@@ -75,5 +75,9 @@ const contentComponent = computed(() => getWindowComponent(props.window.type));
 .vdr {
   pointer-events: auto;
   border: none;
+}
+.window-content {
+  scrollbar-color: #71717a #e4e4e7;
+  scrollbar-width: thin;
 }
 </style>

@@ -13,7 +13,7 @@
 - 💾 **Persistent State** - Window positions saved between sessions
 - 🎮 **Gaming Library** - Showcase of game projects and favorites
 - 🐧 **Terminal Emulator** with common Linux commands
-- 📜 **p5js sketches** - Interactive p5.js sketches
+- 📜 **Vue Components Showcase** - Interactive Vue components showcase
 - 💻 **Code Projects** - GitHub projects with tech stack icons
 - ⚙️ **Settings** - Customize the OS experience
 - 🕒 **Live Clock** - Current time and date display

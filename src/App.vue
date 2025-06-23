@@ -18,7 +18,7 @@ onMounted(() => {
   const firstRun = useStorage("os-first-run", true);
 
   if (firstRun.value) {
-    windows.value = [createWindow("terminal"), createWindow("clock")];
+    windows.value = [createWindow("terminal")];
     firstRun.value = false;
   }
 });

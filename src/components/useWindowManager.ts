@@ -1,5 +1,6 @@
 import { ref } from "vue";
 import { useStorage } from "@vueuse/core";
+import { getAppByType } from "../config/app.ts";
 
 interface WindowPosition {
   x: number;
@@ -24,23 +25,35 @@ export default function () {
   const windows = ref(useStorage<WindowItem[]>("os-windows", []));
   const zIndexCounter = ref(1);
 
+  // Default window dimensions
+  const DEFAULT_WIDTH = 600;
+  const DEFAULT_HEIGHT = 400;
+
   function createWindow(type: string): WindowItem {
+    const appConfig = getAppByType(type);
+    if (!appConfig) {
+      throw new Error(`No app configuration found for type: ${type}`);
+    }
     return {
       id: Date.now(),
       type,
       position: {
-        x: 100 + windows.value.length * 20,
-        y: 100 + windows.value.length * 20
+        x: Math.random() * (window.innerWidth - (appConfig.width || DEFAULT_WIDTH)) * 0.5,
+        y: Math.random() * (window.innerHeight - (appConfig.height || DEFAULT_HEIGHT)) * 0.5
       },
-      size: { width: 600, height: 400 },
-      zIndex: zIndexCounter.value++,
-    }
+      size: {
+        // Use configured dimensions or defaults
+        width: appConfig.width || DEFAULT_WIDTH,
+        height: appConfig.height || DEFAULT_HEIGHT
+      },
+      zIndex: zIndexCounter.value++
+    };
   }
 
   const openWindow = (type: string) => {
-    const newWindow = createWindow(type)
-    windows.value.push(newWindow)
-    return newWindow.id
+    const newWindow = createWindow(type);
+    windows.value.push(newWindow);
+    return newWindow.id;
   };
 
   const closeWindow = (id: number) => {

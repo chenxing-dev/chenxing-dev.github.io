@@ -77,7 +77,7 @@ watch(
   { deep: true }
 );
 
-watch(inputRef, () => {
+watch([terminalBody, inputRef], () => {
   inputRef.value?.focus();
 });
 
@@ -192,7 +192,7 @@ const executeCommand = () => {
 </script>
 
 <template>
-  <div class="terminal whitespace-pre overflow-auto h-full text-wrap break-all" ref="terminalBody">
+  <div class="terminal whitespace-pre overflow-auto h-full text-wrap break-all py-2 px-4" ref="terminalBody">
     <div v-for="(line, index) in output" :key="index" class="terminal-line">
       <p v-if="line.type === 'command'" class="inline text-nowrap">
         <span class="terminal-prompt mr-2">{{ prompt(line.cwd) }}</span>
