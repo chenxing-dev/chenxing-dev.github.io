@@ -31,7 +31,7 @@ const activateTab = (index: number) => {
     </div>
 
     <!-- Component Showcase Area -->
-    <div class="flex-1 p-4 overflow-auto bg-gradient-to-br from-zinc-50 to-zinc-100">
+    <div class="flex-1 px-4 bg-gradient-to-br from-zinc-50 to-zinc-100">
       <div v-show="activeTab === 1" class="flex items-center justify-center h-full">
         <MusicPlayer />
       </div>

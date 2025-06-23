@@ -140,18 +140,9 @@ const handleMouseMove = (e: MouseEvent) => {
   mouse.value.y = e.clientY - rect.top;
 };
 
-const handleResize = () => {
-  if (canvasRef.value) {
-    canvasRef.value.width = canvasRef.value.offsetWidth;
-    canvasRef.value.height = canvasRef.value.offsetHeight;
-    initCanvas();
-  }
-};
-
 onMounted(() => {
   initCanvas();
   animate();
-  window.addEventListener("resize", handleResize);
   if (canvasRef.value) {
     canvasRef.value.addEventListener("mousemove", handleMouseMove);
   }
@@ -161,7 +152,6 @@ onUnmounted(() => {
   if (animationFrame.value) {
     cancelAnimationFrame(animationFrame.value);
   }
-  window.removeEventListener("resize", handleResize);
   if (canvasRef.value) {
     canvasRef.value.removeEventListener("mousemove", handleMouseMove);
   }
@@ -182,6 +172,7 @@ onUnmounted(() => {
   height: 100%;
   aspect-ratio: 16 / 9;
 }
+
 .particle-text-container canvas {
   width: 100%;
   height: 100%;
@@ -194,7 +185,9 @@ onUnmounted(() => {
   right: 0;
   bottom: 1rem;
   text-align: center;
-  color: #71717a; /* zinc-500 */
-  font-size: 0.875rem; /* text-sm */
+  color: #71717a;
+  /* zinc-500 */
+  font-size: 0.875rem;
+  /* text-sm */
 }
 </style>
