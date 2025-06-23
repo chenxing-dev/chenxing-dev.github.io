@@ -58,7 +58,9 @@ export const appConfigs: AppConfig[] = [
     icon: "🕒",
     label: "Clock",
     title: "Clock",
-    component: defineAsyncComponent(() => import("../components/windows/ClockWindow.vue"))
+    component: defineAsyncComponent(() => import("../components/windows/ClockWindow.vue")),
+    width: 360,
+    height: 80
   },
   {
     type: "settings",
