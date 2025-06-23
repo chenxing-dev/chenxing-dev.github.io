@@ -92,11 +92,11 @@ const commands: Record<string, CommandFunction> = {
   neofetch: () => {
     return [
       { type: "output", text: "user@chenxing-dev.github.io" },
-      { type: "output", text: "----------------" },
-      { type: "output", text: "OS: 陈刑OS v1.0" },
-      { type: "output", text: "Host: chenxing-dev.github.io" },
-      { type: "output", text: "Shell: vue-sh 3.5.13" },
-      { type: "output", text: "Theme: Cozy Minimalism" }
+      { type: "output", text: "---------------------------------------" },
+      { type: "output", text: "OS           陈刑OS v1.0" },
+      { type: "output", text: "Host       chenxing-dev.github.io" },
+      { type: "output", text: "Shell      vue-sh 3.5.13" },
+      { type: "output", text: "Theme  Cozy Minimalism" }
     ];
   },
   clear: () => {
@@ -209,7 +209,8 @@ const executeCommand = () => {
     </div>
     <p class="terminal-line flex">
       <span class="terminal-prompt mr-2">{{ prompt(currentDir) }}</span>
-      <input class="terminal-input bg-transparent outline-none flex-1" v-model="command" @keyup.enter="executeCommand" ref="inputRef" autofocus />
+      <input class="terminal-input bg-transparent outline-none flex-1" v-model="command" @keyup.enter="executeCommand"
+        ref="inputRef" autofocus />
     </p>
   </div>
 </template>
