@@ -4,7 +4,6 @@
 - ⚙️ **Settings** - Customize the OS experience
   - Theme selection
   - Background textures
-- 🕒 **Live Clock** - Current time and date display
 
 - [UnoCSS](https://unocss.dev/) - Instant On-demand Atomic CSS Engine
 - [GSAP](https://greensock.com/gsap/) - Professional JavaScript Animation

@@ -4,7 +4,7 @@ import VueDraggableResizable from "vue-draggable-resizable";
 import "vue-draggable-resizable/style.css";
 import gsap from "gsap";
 import { useFocus } from "@vueuse/core";
-import type { WindowItem } from "../useWindowManager.ts";
+import useWindowManager, { type WindowItem } from "../useWindowManager.ts";
 import { getWindowTitle, getWindowIcon, getWindowComponent } from "../../config/app.ts";
 
 const props = defineProps<{
@@ -15,6 +15,24 @@ const emit = defineEmits<{
   (e: "close", id: number): void;
   (e: "focus", id: number): void;
 }>();
+
+const { updateWindowState } = useWindowManager()
+
+// Local state for drag position
+const position = ref({
+  x: props.window.position.x,
+  y: props.window.position.y
+})
+
+// Handle drag events
+const onDrag = (x: number, y: number) => {
+  position.value = { x, y }
+}
+
+// Handle drag end - update persistent state
+const onDragStop = () => {
+  updateWindowState(props.window.id, position.value)
+}
 
 // Focus management
 const windowRef = ref<HTMLElement | null>(null);
@@ -45,16 +63,22 @@ const contentComponent = computed(() => getWindowComponent(props.window.type));
 </script>
 
 <template>
-  <VueDraggableResizable class="window bg-transparent" :draggable="true" :resizable="false" :drag-handle="'.drag-handle'" :x="window.position.x" :y="window.position.y" :w="window.size.width" :h="window.size.height" :z="window.zIndex" :min-width="300" :min-height="200" @activated="emit('focus', window.id)">
-    <div ref="windowRef" class="bg-zinc-50 border-2 border-zinc-950 overflow-hidden flex flex-col w-full h-full p-0.5" @mousedown="emit('focus', window.id)">
+  <VueDraggableResizable class="window bg-transparent" :draggable="true" :resizable="false"
+    :drag-handle="'.drag-handle'" :x="window.position.x" :y="window.position.y" :w="window.size.width"
+    :h="window.size.height" :z="window.zIndex" :min-width="300" :min-height="200" @dragging="onDrag"
+    @drag-stop="onDragStop" @activated="emit('focus', window.id)">
+    <div ref="windowRef" class="bg-zinc-50 border-2 border-zinc-950 overflow-hidden flex flex-col w-full h-full p-0.5"
+      @mousedown="emit('focus', window.id)">
       <!-- Title Bar -->
-      <div class="title-bar drag-handle flex items-center justify-between cursor-grab border-2 border-b-0 border-zinc-950 h-6">
+      <div
+        class="title-bar drag-handle flex items-center justify-between cursor-grab border-2 border-b-0 border-zinc-950 h-6">
         <div class="flex items-center mx-auto">
           <span class="mr-1 text-xs">{{ icon }}</span>
           <span class="text-sm font-medium truncate max-w-[200px]">{{ title }}</span>
         </div>
         <div class="flex items-center border-l-2 border-zinc-900 h-full">
-          <button class="close-btn w-5 h-5 flex items-center justify-center hover:bg-zinc-300" @click.stop="emit('close', window.id)">
+          <button class="close-btn w-5 h-5 flex items-center justify-center hover:bg-zinc-300"
+            @click.stop="emit('close', window.id)">
             <div class="w-3 h-0.5 bg-zinc-950 rotate-45 absolute"></div>
             <div class="w-3 h-0.5 bg-zinc-950 -rotate-45 absolute"></div>
           </button>
@@ -76,6 +100,7 @@ const contentComponent = computed(() => getWindowComponent(props.window.type));
   pointer-events: auto;
   border: none;
 }
+
 .window-content {
   scrollbar-color: #71717a #e4e4e7;
   scrollbar-width: thin;
