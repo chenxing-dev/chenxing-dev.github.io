@@ -1,4 +1,4 @@
-import { ref, watch } from "vue";
+import { useStorage } from "@vueuse/core";
 
 // Define the settings interface
 interface Settings {
@@ -9,32 +9,20 @@ interface Settings {
   customCSS: string;
 }
 
+// Default settings
+export const defaultSettings: Settings = {
+  theme: "minimal",
+  background: "white",
+  iconSize: "medium",
+  clockFormat: "24h",
+  customCSS: ""
+};
+
 export const useSettings = () => {
-  // Default settings
-  const defaultSettings: Settings = {
-    theme: "minimal",
-    background: "white",
-    iconSize: "medium",
-    clockFormat: "24h",
-    customCSS: ""
-  };
-
-  // Load settings from localStorage or use defaults
-  const settings = ref<Settings>({
-    ...defaultSettings,
-    ...JSON.parse(localStorage.getItem("tissuePackOS_settings") || "{}")
-  });
-
-  // Save settings to localStorage
-  const saveSettings = () => {
-    localStorage.setItem("tissuePackOS_settings", JSON.stringify(settings.value));
-  };
-
-  // Watch for changes and save automatically
-  watch(settings, saveSettings, { deep: true });
-
+  // Load settings from storage or use defaults
+  const settings = useStorage<Settings>("os-settings", defaultSettings, undefined, { mergeDefaults: true });
+  // Return the settings object
   return {
-    settings,
-    saveSettings
+    settings
   };
 };

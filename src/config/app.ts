@@ -30,7 +30,7 @@ export const appConfigs: AppConfig[] = [
     icon: "🎵",
     label: "Music Player",
     title: "Music Player",
-    component: defineAsyncComponent(() => import("../components/windows/MusicPlayer.vue")),
+    component: defineAsyncComponent(() => import("../components/windows/MusicPlayer.vue"))
   },
   {
     type: "code_projects",
@@ -57,10 +57,19 @@ export const appConfigs: AppConfig[] = [
     type: "clock",
     icon: "🕒",
     label: "Clock",
-    title: "Clock",
-    component: defineAsyncComponent(() => import("../components/windows/ClockWindow.vue")),
+    title: "Digital Clock",
+    component: defineAsyncComponent(() => import("../components/windows/DigitalClock.vue")),
     width: 360,
     height: 80
+  },
+  {
+    type: "analogClock",
+    icon: "🕒",
+    label: "Analog Clock",
+    title: "Analog Clock",
+    component: defineAsyncComponent(() => import("../components/windows/AnalogClock.vue")),
+    width: 240,
+    height: 240
   },
   {
     type: "settings",

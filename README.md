@@ -92,7 +92,6 @@ chenxing-dev.github.io/
 | ---------- | --------------------------------------------------------- |
 | 🎮 Gaming   | Showcases game development projects and favorite games    |
 | 🐧 Terminal | Interactive terminal emulator with Linux-like commands    |
-| 📜 Scripts  | Interactive JavaScript demos and creative coding projects |
 | 💻 Projects | GitHub project cards with tech stack information          |
 | 👤 About    | Personal bio and background information                   |
 | ✉️ Contact  | Contact form and social media links                       |

@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { useSettings } from "../useSettings";
 
-const { settings, saveSettings } = useSettings();
+import { defaultSettings, useSettings } from "../useSettings";
+
+const { settings } = useSettings();
 
 // Tab management
 const activeTab = ref("appearance");
@@ -29,14 +30,7 @@ const textures = [
 
 // Reset settings to defaults
 const resetSettings = () => {
-  settings.value = {
-    theme: "cozy",
-    background: "fabric",
-    iconSize: "medium",
-    clockFormat: "24h",
-    customCSS: ""
-  };
-  saveSettings();
+  Object.assign(settings, defaultSettings);
 };
 </script>
 
@@ -141,9 +135,9 @@ const resetSettings = () => {
         <div v-show="activeTab === 'desktop'">
           <h3 class="text-lg font-bold text-zinc-500 mb-4">Desktop</h3>
 
-          <div class="grid grid-cols-1 gap-6">
+          <div class="grid grid-cols-1 gap-4">
             <!-- Clock Format -->
-            <div class="bg-zinc-50/90 backdrop-blur-sm rounded-xl border border-zinc-300 p-4">
+            <div class="bg-zinc-50/90 rounded-xl border border-zinc-300 p-4">
               <h4 class="font-medium text-zinc-600 mb-4">Clock Format</h4>
               <div class="space-y-3">
                 <label class="flex items-center cursor-pointer">
@@ -158,7 +152,7 @@ const resetSettings = () => {
             </div>
 
             <!-- Custom CSS -->
-            <div class="bg-zinc-50/90 rounded-xl border border-zinc-300 p-4 md:col-span-2">
+            <div class="bg-zinc-50/90 rounded-xl border border-zinc-300 p-4">
               <h4 class="font-medium text-zinc-600 mb-4">Custom CSS</h4>
               <textarea v-model="settings.customCSS" class="w-full h-32 p-3 text-sm font-mono rounded-lg border border-zinc-300 focus:outline-none focus:ring-1 focus:ring-zinc-500" placeholder="Add your custom CSS here..."></textarea>
               <div class="text-xs text-zinc-500 mt-2">Use custom CSS to personalize your OS appearance</div>
