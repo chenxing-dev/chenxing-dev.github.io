@@ -68,9 +68,9 @@ const resetSettings = () => {
       </div>
 
       <!-- Settings Content -->
-      <div class="flex-1 p-6 overflow-auto bg-gradient-to-br from-zinc-100 to-zinc-200">
+      <div class="flex-1 p-6 overflow-auto bg-gradient-to-br from-zinc-100 to-zinc-200 tab-content">
         <!-- Appearance Settings -->
-        <div v-show="activeTab === 'appearance'" class="tab-content">
+        <div v-show="activeTab === 'appearance'">
           <h3 class="text-lg font-bold text-zinc-500 mb-4">Appearance</h3>
 
           <div class="grid grid-cols-1 gap-6">
@@ -138,7 +138,7 @@ const resetSettings = () => {
         </div>
 
         <!-- Desktop Settings -->
-        <div v-show="activeTab === 'desktop'" class="tab-content">
+        <div v-show="activeTab === 'desktop'">
           <h3 class="text-lg font-bold text-zinc-500 mb-4">Desktop</h3>
 
           <div class="grid grid-cols-1 gap-6">
@@ -204,5 +204,10 @@ input[type="range"]::-moz-range-thumb {
   cursor: pointer;
   border: 2px solid white;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.tab-content {
+  scrollbar-color: #71717a #e4e4e7;
+  scrollbar-width: thin;
 }
 </style>
