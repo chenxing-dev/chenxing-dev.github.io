@@ -12,9 +12,8 @@ const desktopApps = getDesktopApps();
 
 const { windows, openWindow, closeWindow, focusWindow, createWindow } = useWindowManager();
 
-// Initialize with terminal window on load
 onMounted(() => {
-  // Only open terminal if it's the first load
+  // Initialize with terminal window on load
   const firstRun = useStorage("os-first-run", true);
 
   if (firstRun.value) {
@@ -29,8 +28,10 @@ onMounted(() => {
     <Wallpaper />
 
     <!-- Desktop Icons -->
-    <div class="absolute top-0 left-0 p-4 grid grid-flow-row gap-4">
-      <DesktopIcon v-for="(app, index) in desktopApps" :key="index" :icon="app.icon" :label="app.label" :type="app.type" @open="openWindow" />
+    <div class="absolute top-0 left-0 w-full p-2 md:p-4">
+      <div ref="desktopIconsContainer" class="grid gap-2 md:gap-4 h-full items-start justify-items-center grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 2xl:grid-cols-12">
+        <DesktopIcon v-for="(app, index) in desktopApps" :key="index" :icon="app.icon" :label="app.label" :type="app.type" @open="openWindow" />
+      </div>
     </div>
 
     <!-- Window Manager -->
@@ -53,5 +54,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
   overflow: hidden;
   user-select: none;
+}
+
+/* Smooth transitions for layout changes */
+.grid {
+  transition: grid-template-columns 0.3s ease;
 }
 </style>

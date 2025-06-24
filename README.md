@@ -1,4 +1,4 @@
-# 陈刑OS - A Cozy OS-Styled Personal Website
+# 陈刑OS - A Cozy Minimalist OS-Styled Personal Website
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
@@ -9,13 +9,14 @@
 ## ✨ Features
 
 - 🖥️ **Desktop Interface**
-- 🪟 **Window Management System**
-- 💾 **Persistent State** - Window positions saved between sessions
+  - 🪟 **Window Management System**: Vue-powered draggable windows with z-index management
+  - 💾 **Persistent State** - Window positions saved between sessions
 - 🎮 **Gaming Library** - Showcase of game projects and favorites
 - 🐧 **Terminal Emulator** with common Linux commands
-- 📜 **Vue Components Showcase** - Interactive Vue components showcase
 - 💻 **Code Projects** - GitHub projects with tech stack icons
 - ⚙️ **Settings** - Customize the OS experience
+  - Theme selection
+  - Background textures
 - 🕒 **Live Clock** - Current time and date display
 
 
@@ -53,17 +54,25 @@ To run locally:
 
 ```
 chenxing-dev.github.io/
+├── public/                  # Static assets
+│   ├── audio/               # Sound files
+│   └── images/              # Background images
 ├── src/
-│   ├── components/       # Vue components
-│   │   ├── desktop/      # Desktop icons and wallpaper
-│   │   └── windows/      # Window components for each app
-│   ├── App.vue           # Main app component
-│   └── main.ts           # Entry point
-├── index.html            # HTML template
+│   ├── components/                   # Vue components
+│   │   ├── desktop/                  # Desktop icons and wallpaper
+│   │   └── windows/                  # Window components for each app
+│   │       ├── MusicPlayer.vue
+│   │       ├── TerminalWindow.vue
+│   │       ├── Window.vue            # Window wrapper component
+│   │       └── ...                   # Other app windows
+│   ├── App.vue                       # Main app component
+│   └── main.ts                       # Entry point
+├── index.html                        # HTML template
 ├── package.json
-├── tsconfig.json         # TypeScript configuration
-├── uno.config.ts         # UnoCSS configuration
-└── vite.config.ts        # Vite configuration
+├── README.md                         # Project documentation
+├── tsconfig.json                     # TypeScript configuration
+├── uno.config.ts                     # UnoCSS configuration
+└── vite.config.ts                    # Vite configuration
 ```
 
 ## 🛠️ Built With
