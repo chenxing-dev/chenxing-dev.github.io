@@ -1,4 +1,3 @@
-- 💾 **Persistent State** - Window positions saved between sessions
 - Gaming portfolio with playable projects
 - 💻 **Code Projects** - GitHub projects with tech stack icons
 - ⚙️ **Settings** - Customize the OS experience

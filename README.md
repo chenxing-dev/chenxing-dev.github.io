@@ -88,15 +88,15 @@ chenxing-dev.github.io/
 
 ## 🪟 Window Apps
 
-| App        | Description                                               |
-| ---------- | --------------------------------------------------------- |
-| 🎮 Gaming   | Showcases game development projects and favorite games    |
-| 🐧 Terminal | Interactive terminal emulator with Linux-like commands    |
-| 💻 Projects | GitHub project cards with tech stack information          |
-| 👤 About    | Personal bio and background information                   |
-| ✉️ Contact  | Contact form and social media links                       |
-| 🕒 Clock    | Live time and date display                                |
-| ⚙️ Settings | OS customization options                                  |
+| App        | Description                                            |
+| ---------- | ------------------------------------------------------ |
+| 🎮 Gaming   | Showcases game development projects                    |
+| 🐧 Terminal | Interactive terminal emulator with Linux-like commands |
+| 💻 Projects | GitHub project cards with tech stack information       |
+| 👤 About    | Personal bio and background information                |
+| ✉️ Contact  | Contact form and social media links                    |
+| 🕒 Clock    | Live time and date display                             |
+| ⚙️ Settings | OS customization options                               |
 
 ## 🤝 Contributing
 
