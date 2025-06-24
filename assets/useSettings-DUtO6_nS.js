@@ -1,0 +1,1 @@
+import{x as t}from"./index-qNZ81F-n.js";const e={theme:"minimal",background:"white",iconSize:"medium",clockFormat:"24h",customCSS:""},i=()=>({settings:t("os-settings",e,void 0,{mergeDefaults:!0})});export{e as d,i as u};
