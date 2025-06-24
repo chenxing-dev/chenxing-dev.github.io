@@ -14,7 +14,7 @@ const tabs = [
 // Preview themes
 const themes = [
   { id: "cozy", name: "Cozy", colors: ["#d4b483", "#a0b4a6", "#c6a1a8"] },
-  { id: "minimal", name: "Minimal", colors: ["#8ba6ac", "#a0c1d1", "#e8e3d8"] },
+  { id: "minimal", name: "Minimal", colors: ["#71717a", "#fafafa", "#e4e4e7"] },
   { id: "paper", name: "Paper", colors: ["#f5f0e6", "#e8d8c5", "#d4c0a1"] },
   { id: "forest", name: "Forest", colors: ["#a0b4a6", "#8ba6ac", "#6a8b9c"] }
 ];
@@ -70,15 +70,15 @@ const resetSettings = () => {
       <!-- Settings Content -->
       <div class="flex-1 p-6 overflow-auto bg-gradient-to-br from-zinc-100 to-zinc-200">
         <!-- Appearance Settings -->
-        <div v-show="activeTab === 'appearance'">
+        <div v-show="activeTab === 'appearance'" class="tab-content">
           <h3 class="text-lg font-bold text-zinc-500 mb-4">Appearance</h3>
 
           <div class="grid grid-cols-1 gap-6">
             <!-- Theme Selection -->
             <div class="bg-zinc-50/90 backdrop-blur-sm rounded-xl border border-zinc-300 p-4">
-              <h4 class="font-medium text-zinc-500 mb-4">Theme</h4>
+              <h4 class="font-medium text-zinc-600 mb-4">Theme</h4>
               <div class="grid grid-cols-2 gap-4">
-                <div v-for="theme in themes" :key="theme.id" @click="settings.theme = theme.id" class="border-2 rounded-xl p-4 cursor-pointer transition-all hover:scale-[1.02]" :class="{ 'border-zinc-400': settings.theme === theme.id, 'border-transparent': settings.theme !== theme.id }">
+                <div v-for="theme in themes" :key="theme.id" @click="settings.theme = theme.id" class="border-2 rounded-xl p-4 cursor-pointer transition-all hover:scale-[1.02] text-zinc-600" :class="{ 'border-zinc-400': settings.theme === theme.id, 'border-transparent': settings.theme !== theme.id }">
                   <div class="font-medium text-center mb-2">{{ theme.name }}</div>
                   <div class="flex h-8 rounded-lg overflow-hidden shadow">
                     <div v-for="(color, index) in theme.colors" :key="index" class="flex-1" :style="{ backgroundColor: color }"></div>
@@ -89,7 +89,7 @@ const resetSettings = () => {
 
             <!-- Background Texture -->
             <div class="bg-zinc-50/90 backdrop-blur-sm rounded-xl border border-zinc-300 p-4">
-              <h4 class="font-medium text-zinc-500 mb-4">Background</h4>
+              <h4 class="font-medium text-zinc-600 mb-4">Background</h4>
               <div class="grid grid-cols-4 gap-4">
                 <div v-for="texture in textures" :key="texture.id" @click="settings.background = texture.id" class="border-2 rounded-lg p-4 cursor-pointer transition-all hover:scale-[1.02] flex flex-col h-full" :class="{ 'border-zinc-400': settings.background === texture.id, 'border-transparent': settings.background !== texture.id }">
                   <!-- Fixed height text container with centered content -->
@@ -102,7 +102,7 @@ const resetSettings = () => {
                       'bg-[#e8e3d8]': texture.id === 'fabric',
                       'bg-[#f5f0e6]': texture.id === 'paper',
                       'bg-[#d8e3f0]': texture.id === 'linen',
-                      'bg-white': texture.id === 'white'
+                      'bg-zinc-50': texture.id === 'white'
                     }"
                   >
                     <!-- Fabric texture -->
@@ -120,10 +120,10 @@ const resetSettings = () => {
 
             <!-- Icon Size -->
             <div class="bg-zinc-50/90 backdrop-blur-sm rounded-xl border border-zinc-300 p-4">
-              <h4 class="font-medium text-zinc-500 mb-4">Icon Size</h4>
+              <h4 class="font-medium text-zinc-600 mb-4">Icon Size</h4>
               <div class="flex items-center justify-between mb-2">
-                <span class="text-sm text-zinc-500">Small</span>
-                <span class="text-sm text-zinc-500">Large</span>
+                <span class="text-sm text-zinc-600">Small</span>
+                <span class="text-sm text-zinc-600">Large</span>
               </div>
               <div class="relative pt-1">
                 <input type="range" min="1" max="3" v-model="settings.iconSize" class="w-full h-2 bg-zinc-300 rounded-lg appearance-none cursor-pointer accent-zinc-500" />
@@ -138,13 +138,13 @@ const resetSettings = () => {
         </div>
 
         <!-- Desktop Settings -->
-        <div v-show="activeTab === 'desktop'">
+        <div v-show="activeTab === 'desktop'" class="tab-content">
           <h3 class="text-lg font-bold text-zinc-500 mb-4">Desktop</h3>
 
           <div class="grid grid-cols-1 gap-6">
             <!-- Clock Format -->
             <div class="bg-zinc-50/90 backdrop-blur-sm rounded-xl border border-zinc-300 p-4">
-              <h4 class="font-medium text-zinc-500 mb-4">Clock Format</h4>
+              <h4 class="font-medium text-zinc-600 mb-4">Clock Format</h4>
               <div class="space-y-3">
                 <label class="flex items-center cursor-pointer">
                   <input type="radio" v-model="settings.clockFormat" value="24h" class="mr-3 accent-zinc-500" />
