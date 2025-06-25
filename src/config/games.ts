@@ -11,8 +11,8 @@ export interface Game {
   tech: string[];
   features: string[];
   playUrl: string;
-  width?: number; // Optional width for embedded games
-  height?: number; // Optional height for embedded games
+  width: number;
+  height: number;
 }
 
 export const games = ref<Game[]>([
@@ -42,8 +42,8 @@ export const games = ref<Game[]>([
     tech: ["Phaser", "JavaScript", "HTML5"],
     features: ["Relaxing gameplay", "Colorful graphics", "No time limit"],
     playUrl: "#",
-    width: 400,
-    height: 400
+    width: 480,
+    height: 480
   },
   {
     id: "neon-drift",
@@ -55,7 +55,9 @@ export const games = ref<Game[]>([
     thumbnail: "/images/neon-drift.png",
     tech: ["Unity", "C#", "Shader Graph"],
     features: ["12 unique racing tracks", "Customizable vehicles"],
-    playUrl: "#"
+    playUrl: "#",
+    width: 480,
+    height: 480
   },
   {
     genre: "RPG",
@@ -81,7 +83,9 @@ export const games = ref<Game[]>([
     id: "bloodfall",
     icon: "🩸",
     tech: ["Phaser", "TypeScript", "WebGL"],
-    playUrl: "#"
+    playUrl: "#",
+    width: 480,
+    height: 480
   },
   {
     id: "pixel-paws",
@@ -91,8 +95,10 @@ export const games = ref<Game[]>([
     description: "Wholesome pet simulator with pixel art animals and cozy gameplay.",
     longDescription: "Pixel Paws is a cozy pet simulation game where you care for adorable pixel art animals. Build your dream pet sanctuary, nurture your companions, and participate in fun minigames. Features a day/night cycle, changing seasons, and a heartwarming story about friendship.",
     thumbnail: "/images/pixel-paws.png",
-    tech: ["Unity", "C#", "Aseprite"],
+    tech: ["Unity", "C#"],
     features: ["15+ unique pets to care for", "Customizable sanctuary", "Day/night and seasonal cycles", "Heartwarming storyline", "Relaxing minigames"],
-    playUrl: "#"
+    playUrl: "#",
+    width: 480,
+    height: 480
   }
 ]);
