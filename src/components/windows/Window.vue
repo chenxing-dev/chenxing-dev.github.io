@@ -5,7 +5,7 @@ import "vue-draggable-resizable/style.css";
 import gsap from "gsap";
 import { useFocus } from "@vueuse/core";
 import useWindowManager, { type WindowItem } from "../useWindowManager.ts";
-import { getWindowTitle, getWindowIcon, getWindowComponent } from "../../config/app.ts";
+import { getComponentByType } from "../../config/app.ts";
 
 const props = defineProps<{
   window: WindowItem;
@@ -16,23 +16,23 @@ const emit = defineEmits<{
   (e: "focus", id: number): void;
 }>();
 
-const { updateWindowState } = useWindowManager()
+const { updateWindowState } = useWindowManager();
 
 // Local state for drag position
 const position = ref({
   x: props.window.position.x,
   y: props.window.position.y
-})
+});
 
 // Handle drag events
 const onDrag = (x: number, y: number) => {
-  position.value = { x, y }
-}
+  position.value = { x, y };
+};
 
 // Handle drag end - update persistent state
 const onDragStop = () => {
-  updateWindowState(props.window.id, position.value)
-}
+  updateWindowState(props.window.id, position.value);
+};
 
 // Focus management
 const windowRef = ref<HTMLElement | null>(null);
@@ -55,30 +55,30 @@ onMounted(() => {
 });
 
 // Window title
-const title = computed(() => getWindowTitle(props.window.type));
-const icon = computed(() => getWindowIcon(props.window.type));
+const title = props.window.title || "Untitled Window";
+const icon = props.window.icon || "❓";
 
 // Current window content
-const contentComponent = computed(() => getWindowComponent(props.window.type));
+const contentComponent = computed(() => {
+  const component = getComponentByType(props.window.type);
+  if (component) {
+    return component;
+  }
+  return null;
+});
 </script>
 
 <template>
-  <VueDraggableResizable class="window bg-transparent" :draggable="true" :resizable="false"
-    :drag-handle="'.drag-handle'" :x="window.position.x" :y="window.position.y" :w="window.size.width"
-    :h="window.size.height" :z="window.zIndex" :min-width="300" :min-height="200" @dragging="onDrag"
-    @drag-stop="onDragStop" @activated="emit('focus', window.id)">
-    <div ref="windowRef" class="bg-zinc-50 border-2 border-zinc-950 overflow-hidden flex flex-col w-full h-full p-0.5"
-      @mousedown="emit('focus', window.id)">
+  <VueDraggableResizable class="window bg-transparent" :draggable="true" :resizable="false" :drag-handle="'.drag-handle'" :x="window.position.x" :y="window.position.y" :w="window.size.width" :h="window.size.height" :z="window.zIndex" :min-width="300" :min-height="200" @dragging="onDrag" @drag-stop="onDragStop" @activated="emit('focus', window.id)">
+    <div ref="windowRef" class="bg-zinc-50 border-2 border-zinc-950 overflow-hidden flex flex-col w-full h-full p-0.5" @mousedown="emit('focus', window.id)">
       <!-- Title Bar -->
-      <div
-        class="title-bar drag-handle flex items-center justify-between cursor-grab border-2 border-b-0 border-zinc-950 h-6">
+      <div class="title-bar drag-handle flex items-center justify-between cursor-grab border-2 border-b-0 border-zinc-950 h-6">
         <div class="flex items-center mx-auto">
           <span class="mr-1 text-xs">{{ icon }}</span>
           <span class="text-sm font-medium truncate max-w-[200px]">{{ title }}</span>
         </div>
         <div class="flex items-center border-l-2 border-zinc-900 h-full">
-          <button class="close-btn w-5 h-5 flex items-center justify-center hover:bg-zinc-300"
-            @click.stop="emit('close', window.id)">
+          <button class="close-btn w-5 h-5 flex items-center justify-center hover:bg-zinc-300" @click.stop="emit('close', window.id)">
             <div class="w-3 h-0.5 bg-zinc-950 rotate-45 absolute"></div>
             <div class="w-3 h-0.5 bg-zinc-950 -rotate-45 absolute"></div>
           </button>
@@ -87,7 +87,7 @@ const contentComponent = computed(() => getWindowComponent(props.window.type));
 
       <!-- Window Content -->
       <div class="window-content flex-1 overflow-auto pr-2 border-2 border-zinc-900">
-        <component :is="contentComponent" v-if="contentComponent" />
+        <component :is="contentComponent" v-if="contentComponent" :type="window.type"/>
         <div v-else class="h-full flex items-center justify-center text-zinc-400">Window content not available</div>
       </div>
     </div>

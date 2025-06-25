@@ -1,6 +1,6 @@
 import { ref } from "vue";
 import { useStorage } from "@vueuse/core";
-import { getAppByType } from "../config/app.ts";
+import { getAppByType, type AppConfig } from "../config/app.ts";
 
 // Default window dimensions
 const DEFAULT_WIDTH = 600;
@@ -23,20 +23,23 @@ export interface WindowItem {
   position: WindowPosition;
   size: WindowSize;
   zIndex: number;
+  title: string;
+  icon: string;
 }
 
 export default function useWindowManager() {
   const windows = ref(useStorage<WindowItem[]>("os-windows", []));
   const zIndexCounter = ref(1);
 
-  function createWindow(type: string): WindowItem {
-    const appConfig = getAppByType(type);
+  function createWindow(type: string, appConfig?: AppConfig): WindowItem {
+    // If appConfig is not provided, fetch it based on the type
+    appConfig = appConfig || getAppByType(type);
     if (!appConfig) {
       throw new Error(`No app configuration found for type: ${type}`);
     }
     return {
       id: Date.now(),
-      type,
+      type: appConfig.type,
       position: {
         x: Math.random() * (window.innerWidth - (appConfig.width || DEFAULT_WIDTH)),
         y: Math.random() * (window.innerHeight - (appConfig.height || DEFAULT_HEIGHT))
@@ -46,12 +49,18 @@ export default function useWindowManager() {
         width: appConfig.width || DEFAULT_WIDTH,
         height: appConfig.height || DEFAULT_HEIGHT
       },
-      zIndex: zIndexCounter.value++
+      zIndex: zIndexCounter.value++,
+      title: appConfig.title,
+      icon: appConfig.icon
     };
   }
 
-  const openWindow = (type: string) => {
-    const newWindow = createWindow(type);
+  const openWindow = (type: string, appConfig?: AppConfig) => {
+    appConfig = appConfig || getAppByType(type);
+    if (!appConfig) {
+      throw new Error(`No app configuration found for type: ${type}`);
+    }
+    const newWindow = createWindow(type, appConfig);
     windows.value.push(newWindow);
     return newWindow.id;
   };
@@ -73,14 +82,19 @@ export default function useWindowManager() {
         return {
           ...window,
           position
-        }
+        };
       }
-      return window
-    })
-  }
+      return window;
+    });
+  };
 
   return {
-    windows, openWindow, closeWindow, focusWindow, zIndexCounter, createWindow,
+    windows,
+    openWindow,
+    closeWindow,
+    focusWindow,
+    zIndexCounter,
+    createWindow,
     updateWindowState
   };
 }

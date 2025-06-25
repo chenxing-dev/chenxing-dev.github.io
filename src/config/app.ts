@@ -1,6 +1,8 @@
 import { defineAsyncComponent } from "vue";
+import { games } from "./games";
 
 export interface AppConfig {
+  showOnDesktop: boolean; // Whether the app should be shown on the desktop
   type: string;
   icon: string;
   label: string;
@@ -12,6 +14,7 @@ export interface AppConfig {
 
 export const appConfigs: AppConfig[] = [
   {
+    showOnDesktop: true,
     type: "gaming",
     icon: "🎮",
     label: "Games",
@@ -19,6 +22,7 @@ export const appConfigs: AppConfig[] = [
     component: defineAsyncComponent(() => import("../components/windows/GamingWindow.vue"))
   },
   {
+    showOnDesktop: true,
     type: "terminal",
     icon: "🐧",
     label: "Terminal",
@@ -26,6 +30,7 @@ export const appConfigs: AppConfig[] = [
     component: defineAsyncComponent(() => import("../components/windows/TerminalWindow.vue"))
   },
   {
+    showOnDesktop: true,
     type: "music",
     icon: "🎵",
     label: "Music Player",
@@ -33,6 +38,7 @@ export const appConfigs: AppConfig[] = [
     component: defineAsyncComponent(() => import("../components/windows/MusicPlayer.vue"))
   },
   {
+    showOnDesktop: true,
     type: "code_projects",
     icon: "💻",
     label: "Projects",
@@ -40,6 +46,7 @@ export const appConfigs: AppConfig[] = [
     component: defineAsyncComponent(() => import("../components/windows/ProjectsWindow.vue"))
   },
   {
+    showOnDesktop: true,
     type: "about_me",
     icon: "👤",
     label: "About",
@@ -47,6 +54,7 @@ export const appConfigs: AppConfig[] = [
     component: defineAsyncComponent(() => import("../components/windows/AboutWindow.vue"))
   },
   {
+    showOnDesktop: true,
     type: "contact",
     icon: "✉️",
     label: "Contact",
@@ -54,17 +62,19 @@ export const appConfigs: AppConfig[] = [
     component: defineAsyncComponent(() => import("../components/windows/ContactWindow.vue"))
   },
   {
-    type: "clock",
-    icon: "🕒",
-    label: "Clock",
+    showOnDesktop: true,
+    type: "digitalClock",
+    icon: "⏰",
+    label: "Digital Clock",
     title: "Digital Clock",
     component: defineAsyncComponent(() => import("../components/windows/DigitalClock.vue")),
     width: 360,
     height: 80
   },
   {
+    showOnDesktop: true,
     type: "analogClock",
-    icon: "🕒",
+    icon: "🕰️",
     label: "Analog Clock",
     title: "Analog Clock",
     component: defineAsyncComponent(() => import("../components/windows/AnalogClock.vue")),
@@ -72,6 +82,7 @@ export const appConfigs: AppConfig[] = [
     height: 240
   },
   {
+    showOnDesktop: true,
     type: "settings",
     icon: "⚙️",
     label: "Settings",
@@ -79,7 +90,17 @@ export const appConfigs: AppConfig[] = [
     component: defineAsyncComponent(() => import("../components/windows/SettingsWindow.vue")),
     width: 800,
     height: 540
-  }
+  },
+  ...games.value.map(game => ({
+    showOnDesktop: false, // Games are not shown on desktop by default
+    type: game.id,
+    icon: game.icon || "🎮",
+    label: game.title,
+    title: game.title,
+    component: defineAsyncComponent(() => import("../components/windows/GamePlayerWindow.vue")),
+    width: 800,
+    height: 600,
+  }))
 ];
 
 // Helper functions for accessing app config
@@ -88,20 +109,13 @@ export const getAppByType = (type: string) => {
 };
 
 export const getDesktopApps = () => {
-  return appConfigs.map(({ type, icon, label }) => ({ type, icon, label }));
+  return appConfigs.map(({ showOnDesktop, type, icon, label }) => ({ showOnDesktop, type, icon, label }));
 };
 
-export const getWindowTitle = (type: string) => {
+export const getComponentByType = (type: string) => {
   const app = getAppByType(type);
-  return app ? app.title : "Untitled Window";
-};
-
-export const getWindowIcon = (type: string) => {
-  const app = getAppByType(type);
-  return app ? app.icon : "❓";
-};
-
-export const getWindowComponent = (type: string) => {
-  const app = getAppByType(type);
-  return app ? app.component : null;
+  if (!app) {
+    throw new Error(`No app configuration found for type: ${type}`);
+  }
+  return app.component;
 };
