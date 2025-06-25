@@ -88,15 +88,15 @@ export const games = ref<Game[]>([
     height: 480
   },
   {
-    id: "pixel-paws",
     icon: "🐾",
-    title: "Pixel Paws",
+    id: "cozy-pet-simulator",
+    title: "Cozy Pet Simulator",
+    thumbnail: "/images/cozy-pet-simulator.png",
     genre: "Simulation",
     description: "Wholesome pet simulator with pixel art animals and cozy gameplay.",
-    longDescription: "Pixel Paws is a cozy pet simulation game where you care for adorable pixel art animals. Build your dream pet sanctuary, nurture your companions, and participate in fun minigames. Features a day/night cycle, changing seasons, and a heartwarming story about friendship.",
-    thumbnail: "/images/pixel-paws.png",
+    longDescription: "Cozy Pet Simulator is a cozy pet simulation game where you care for adorable pixel art animals. Build your dream pet sanctuary, nurture your companions, and participate in fun minigames. Features a day/night cycle, dynamic weather, and each pet has its own personality and needs.",
     tech: ["Unity", "C#"],
-    features: ["15+ unique pets to care for", "Customizable sanctuary", "Day/night and seasonal cycles", "Heartwarming storyline", "Relaxing minigames"],
+    features: ["Relaxing gameplay", "Cute pixel art style", "Minigames and activities"],
     playUrl: "#",
     width: 480,
     height: 480
