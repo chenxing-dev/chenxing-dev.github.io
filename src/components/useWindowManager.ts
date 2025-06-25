@@ -22,6 +22,9 @@ export interface WindowItem {
   type: string;
   position: WindowPosition;
   size: WindowSize;
+  mobileSize?: {
+    height: number;
+  };
   zIndex: number;
   title: string;
   icon: string;
@@ -37,13 +40,14 @@ export default function useWindowManager() {
     if (!appConfig) {
       throw new Error(`No app configuration found for type: ${type}`);
     }
+    const position = {
+      x: Math.random() * (window.innerWidth - (appConfig.width || DEFAULT_WIDTH)),
+      y: Math.random() * (window.innerHeight - (appConfig.height || DEFAULT_HEIGHT))
+    }
     return {
       id: Date.now(),
       type: appConfig.type,
-      position: {
-        x: Math.random() * (window.innerWidth - (appConfig.width || DEFAULT_WIDTH)),
-        y: Math.random() * (window.innerHeight - (appConfig.height || DEFAULT_HEIGHT))
-      },
+      position,
       size: {
         // Use configured dimensions or defaults
         width: appConfig.width || DEFAULT_WIDTH,
@@ -51,7 +55,8 @@ export default function useWindowManager() {
       },
       zIndex: zIndexCounter.value++,
       title: appConfig.title,
-      icon: appConfig.icon
+      icon: appConfig.icon,
+      mobileSize: appConfig.mobileSize
     };
   }
 

@@ -10,6 +10,9 @@ export interface AppConfig {
   component: any;
   width?: number;
   height?: number;
+  mobileSize?: {
+    height: number;
+  };
 }
 
 export const appConfigs: AppConfig[] = [
@@ -35,7 +38,10 @@ export const appConfigs: AppConfig[] = [
     icon: "🎵",
     label: "Music Player",
     title: "Music Player",
-    component: defineAsyncComponent(() => import("../components/windows/MusicPlayer.vue"))
+    component: defineAsyncComponent(() => import("../components/windows/MusicPlayer.vue")),
+    mobileSize: {
+      height: 400
+    }
   },
   {
     showOnDesktop: true,
@@ -69,7 +75,10 @@ export const appConfigs: AppConfig[] = [
     title: "Digital Clock",
     component: defineAsyncComponent(() => import("../components/windows/DigitalClock.vue")),
     width: 360,
-    height: 80
+    height: 80,
+    mobileSize: {
+      height: 80
+    }
   },
   {
     showOnDesktop: true,
@@ -79,7 +88,10 @@ export const appConfigs: AppConfig[] = [
     title: "Analog Clock",
     component: defineAsyncComponent(() => import("../components/windows/AnalogClock.vue")),
     width: 240,
-    height: 240
+    height: 240,
+    mobileSize: {
+      height: 240
+    }
   },
   {
     showOnDesktop: true,
@@ -88,7 +100,7 @@ export const appConfigs: AppConfig[] = [
     label: "Settings",
     title: "System Settings",
     component: defineAsyncComponent(() => import("../components/windows/SettingsWindow.vue")),
-    width: 800,
+    width: 720,
     height: 540
   },
   ...games.value.map(game => ({

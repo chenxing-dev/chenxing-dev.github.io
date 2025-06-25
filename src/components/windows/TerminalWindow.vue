@@ -195,7 +195,7 @@ const executeCommand = () => {
   <div class="terminal whitespace-pre overflow-auto h-full text-wrap break-all py-2 px-4" ref="terminalBody">
     <div v-for="(line, index) in output" :key="index" class="terminal-line">
       <p v-if="line.type === 'command'" class="inline text-nowrap">
-        <span class="terminal-prompt mr-2">{{ prompt(line.cwd) }}</span>
+        <span class="terminal-prompt mr-2 text-nowrap">{{ prompt(line.cwd) }}</span>
         <span class="text-wrap">{{ line.text }}</span>
       </p>
       <span v-else-if="line.type === 'file-list'" class="terminal-file-list grid grid-cols-4">
@@ -208,7 +208,7 @@ const executeCommand = () => {
       <p v-else class="terminal-output">{{ line.text }}</p>
     </div>
     <p class="terminal-line flex">
-      <span class="terminal-prompt mr-2">{{ prompt(currentDir) }}</span>
+      <span class="terminal-prompt mr-2 text-nowrap">{{ prompt(currentDir) }}</span>
       <input class="terminal-input bg-transparent outline-none flex-1" v-model="command" @keyup.enter="executeCommand"
         ref="inputRef" autofocus />
     </p>

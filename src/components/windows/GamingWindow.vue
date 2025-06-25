@@ -1,7 +1,7 @@
 <template>
   <div class="flex-1 overflow-auto p-4">
     <!-- Game Grid -->
-    <div class="grid grid-cols-2 gap-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div v-for="game in games" :key="game.id" class="overflow-hidden bg-zinc-100 border border-zinc-600 transform transition-all duration-300 hover:shadow-xl p-2">
         <!-- Game Thumbnail -->
         <div class="relative h-64 overflow-hidden bg-zinc-900">
