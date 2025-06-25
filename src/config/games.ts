@@ -26,7 +26,9 @@ export const games = ref<Game[]>([
     thumbnail: "/images/jumping-dino.png",
     tech: ["Kaplay", "JavaScript", "HTML5"],
     features: ["Endless gameplay with increasing difficulty", "Unlockable characters and skins"],
-    playUrl: "https://chenxing-dev.github.io/jumping-dino/"
+    playUrl: "https://chenxing-dev.github.io/jumping-dino/",
+    width: 720,
+    height: 540
   },
   // Sample game data
   {
