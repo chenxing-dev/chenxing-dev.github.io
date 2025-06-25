@@ -14,8 +14,6 @@
                 {{ game.title }}
               </h3>
               <div class="flex items-center text-sm text-zinc-300 mb-1">
-                <span class="mr-2">{{ game.year }}</span>
-                <span class="w-1 h-1 rounded-full bg-zinc-400 mr-2"></span>
                 <span>{{ game.genre }}</span>
               </div>
             </div>
