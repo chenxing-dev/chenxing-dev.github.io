@@ -24,13 +24,15 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="relative w-screen h-screen overflow-hidden select-none text-zinc-900">
+  <div class="relative w-screen h-dvh overflow-hidden select-none text-zinc-900">
     <Wallpaper />
 
     <!-- Desktop Icons -->
     <div class="absolute top-0 left-0 w-full p-2 md:p-4">
-      <div ref="desktopIconsContainer" class="grid gap-2 md:gap-4 h-full items-start justify-items-center grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 2xl:grid-cols-12">
-        <DesktopIcon v-for="(app, index) in desktopApps" :key="index" :icon="app.icon" :label="app.label" :type="app.type" @open="openWindow" v-show="app.showOnDesktop" />
+      <div ref="desktopIconsContainer"
+        class="grid gap-2 md:gap-4 h-full items-start justify-items-center grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 2xl:grid-cols-12">
+        <DesktopIcon v-for="(app, index) in desktopApps" :key="index" :icon="app.icon" :label="app.label"
+          :type="app.type" @open="openWindow" v-show="app.showOnDesktop" />
       </div>
     </div>
 
