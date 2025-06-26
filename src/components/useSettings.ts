@@ -11,8 +11,8 @@ interface Settings {
 
 // Default settings
 export const defaultSettings: Settings = {
-  theme: "minimal",
-  background: "white",
+  theme: "theme-minimal",
+  background: "bg-off-white",
   iconSize: "medium",
   clockFormat: "24h",
   customCSS: ""

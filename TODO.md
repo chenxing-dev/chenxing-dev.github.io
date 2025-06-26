@@ -4,7 +4,7 @@
   - Color Blocks
   - Cozy Pet Simulator
 - 💻 **Code Projects** - GitHub project cards with tech stack icons
-  - Todo List: Features include creating, editing, and deleting tasks, as well as filtering by status."
+  - Smart Calculator
 - ⚙️ **Settings** - Customize the OS experience
   - Theme selection
   - Background textures

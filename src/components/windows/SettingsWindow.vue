@@ -14,18 +14,18 @@ const tabs = [
 
 // Preview themes
 const themes = [
-  { id: "cozy", name: "Cozy", colors: ["#d4b483", "#a0b4a6", "#c6a1a8"] },
-  { id: "minimal", name: "Minimal", colors: ["#71717a", "#fafafa", "#e4e4e7"] },
-  { id: "paper", name: "Paper", colors: ["#f5f0e6", "#e8d8c5", "#d4c0a1"] },
-  { id: "forest", name: "Forest", colors: ["#a0b4a6", "#8ba6ac", "#6a8b9c"] }
+  { id: "theme-cozy", name: "Cozy", colors: ["#d4b483", "#a0b4a6", "#c6a1a8"] },
+  { id: "theme-minimal", name: "Minimal", colors: ["#71717a", "#fafafa", "#e4e4e7"] },
+  { id: "theme-paper", name: "Paper", colors: ["#f5f0e6", "#e8d8c5", "#d4c0a1"] },
+  { id: "theme-forest", name: "Forest", colors: ["#a0b4a6", "#8ba6ac", "#6a8b9c"] }
 ];
 
-// Background textures
-const textures = [
-  { id: "fabric", name: "Soft Fabric" },
-  { id: "paper", name: "Paper Grain" },
-  { id: "linen", name: "Linen Weave" },
-  { id: "white", name: "White" }
+// Background
+const backgrounds = [
+  { id: "bg-sand", name: "Sand", class: "bg-[#f4deb9]" },
+  { id: "bg-paper", name: "Grid Paper", class: "bg-[#eee9d6]" },
+  { id: "bg-sky-blue", name: "Sky Blue", class: "bg-[#92c1d3]" },
+  { id: "bg-off-white", name: "Off-White", class: "bg-zinc-50" }
 ];
 
 // Reset settings to defaults
@@ -40,8 +40,7 @@ const resetSettings = () => {
     <div class="md:hidden border-b border-zinc-300 p-4 bg-white">
       <div class="flex items-center justify-between">
         <h2 class="text-lg font-bold text-zinc-700">Settings</h2>
-        <select v-model="activeTab"
-          class="bg-white border border-zinc-300 rounded-lg px-3 py-2 text-zinc-700 focus:outline-none focus:ring-1 focus:ring-zinc-500">
+        <select v-model="activeTab" class="bg-white border border-zinc-300 rounded-lg px-3 py-2 text-zinc-700 focus:outline-none focus:ring-1 focus:ring-zinc-500">
           <option v-for="tab in tabs" :key="tab.id" :value="tab.id">
             {{ tab.label }}
           </option>
@@ -54,19 +53,22 @@ const resetSettings = () => {
       <div class="hidden md:flex flex-col md:w-48 bg-zinc-50/80 border-r border-zinc-300">
         <div class="p-4">
           <div class="text-xs text-zinc-500 mb-2 pl-2">SETTINGS CATEGORIES</div>
-          <button v-for="tab in tabs" :key="tab.id" @click="activeTab = tab.id"
-            class="w-full text-left p-2.5 pb-3 rounded-lg transition-all mb-1" :class="{
+          <button
+            v-for="tab in tabs"
+            :key="tab.id"
+            @click="activeTab = tab.id"
+            class="w-full text-left p-2.5 pb-3 rounded-lg transition-all mb-1"
+            :class="{
               'bg-zinc-500 text-zinc-50': activeTab === tab.id,
               'text-zinc-500 hover:bg-zinc-200': activeTab !== tab.id
-            }">
+            }"
+          >
             {{ tab.label }}
           </button>
         </div>
 
         <div class="mt-auto p-4 border-t border-zinc-300">
-          <button @click="resetSettings"
-            class="w-full text-left p-2.5 rounded-lg text-zinc-500 hover:bg-zinc-100 transition-colors">Reset to
-            Defaults</button>
+          <button @click="resetSettings" class="w-full text-left p-2.5 rounded-lg text-zinc-500 hover:bg-zinc-100 transition-colors">Reset to Defaults</button>
         </div>
       </div>
 
@@ -81,47 +83,25 @@ const resetSettings = () => {
             <div class="bg-zinc-50/90 backdrop-blur-sm rounded-xl border border-zinc-300 p-4">
               <h4 class="font-medium text-zinc-600 mb-4">Theme</h4>
               <div class="grid grid-cols-2 gap-2 md:gap-4">
-                <div v-for="theme in themes" :key="theme.id" @click="settings.theme = theme.id"
-                  class="border-2 rounded-xl p-4 cursor-pointer transition-all hover:scale-[1.02] text-zinc-600"
-                  :class="{ 'border-zinc-400': settings.theme === theme.id, 'border-transparent': settings.theme !== theme.id }">
+                <div v-for="theme in themes" :key="theme.id" @click="settings.theme = theme.id" class="border-2 rounded-xl p-4 cursor-pointer transition-all hover:scale-[1.02] text-zinc-600" :class="{ 'border-zinc-400': settings.theme === theme.id, 'border-transparent': settings.theme !== theme.id }">
                   <div class="font-medium text-center mb-2">{{ theme.name }}</div>
                   <div class="flex h-8 rounded-lg overflow-hidden shadow">
-                    <div v-for="(color, index) in theme.colors" :key="index" class="flex-1"
-                      :style="{ backgroundColor: color }"></div>
+                    <div v-for="(color, index) in theme.colors" :key="index" class="flex-1" :style="{ backgroundColor: color }"></div>
                   </div>
                 </div>
               </div>
             </div>
 
-            <!-- Background Texture -->
+            <!-- Background -->
             <div class="bg-zinc-50/90 backdrop-blur-sm rounded-xl border border-zinc-300 p-4">
               <h4 class="font-medium text-zinc-600 mb-4">Background</h4>
               <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div v-for="texture in textures" :key="texture.id" @click="settings.background = texture.id"
-                  class="border-2 rounded-lg px-4 pb-4 md:p-4 cursor-pointer transition-all hover:scale-[1.02] flex flex-col h-full"
-                  :class="{ 'border-zinc-400': settings.background === texture.id, 'border-transparent': settings.background !== texture.id }">
+                <div v-for="background in backgrounds" :key="background.id" @click="settings.background = background.id" class="border-2 rounded-lg px-4 pb-4 md:p-4 cursor-pointer transition-all hover:scale-[1.02] flex flex-col h-full" :class="{ 'border-zinc-400': settings.background === background.id, 'border-transparent': settings.background !== background.id }">
                   <!-- Fixed height text container with centered content -->
                   <div class="text-zinc-600 text-center mb-2 h-8 flex items-center justify-center">
-                    <span class="leading-tight text-sm">{{ texture.name }}</span>
+                    <span class="leading-tight text-sm">{{ background.name }}</span>
                   </div>
-                  <div class="h-16 rounded-md overflow-hidden relative shadow" :class="{
-                    'bg-[#e8e3d8]': texture.id === 'fabric',
-                    'bg-[#f5f0e6]': texture.id === 'paper',
-                    'bg-[#d8e3f0]': texture.id === 'linen',
-                    'bg-zinc-50': texture.id === 'white'
-                  }">
-                    <!-- Fabric texture -->
-                    <div v-if="texture.id === 'fabric'"
-                      class="absolute inset-0 opacity-20 bg-[url('/textures/fabric.png')]"></div>
-
-                    <!-- Paper texture -->
-                    <div v-if="texture.id === 'paper'"
-                      class="absolute inset-0 opacity-10 bg-[url('/textures/paper.png')]"></div>
-
-                    <!-- Linen texture -->
-                    <div v-if="texture.id === 'linen'"
-                      class="absolute inset-0 opacity-15 bg-[url('/textures/linen.png')]"></div>
-                  </div>
+                  <div class="h-14 rounded-md overflow-hidden relative shadow" :class="background.class"></div>
                 </div>
               </div>
             </div>
@@ -134,8 +114,7 @@ const resetSettings = () => {
                 <span class="text-sm text-zinc-600">Large</span>
               </div>
               <div class="relative pt-1">
-                <input type="range" min="1" max="3" v-model="settings.iconSize"
-                  class="w-full h-2 bg-zinc-300 rounded-lg appearance-none cursor-pointer accent-zinc-500" />
+                <input type="range" min="1" max="3" v-model="settings.iconSize" class="w-full h-2 bg-zinc-300 rounded-lg appearance-none cursor-pointer accent-zinc-500" />
                 <div class="flex justify-between text-xs px-1 mt-1">
                   <span :class="{ 'font-bold text-zinc-500': settings.iconSize === 'small' }">S</span>
                   <span :class="{ 'font-bold text-zinc-500': settings.iconSize === 'medium' }">M</span>
@@ -169,9 +148,7 @@ const resetSettings = () => {
             <!-- Custom CSS -->
             <div class="bg-zinc-50/90 rounded-xl border border-zinc-300 p-4">
               <h4 class="font-medium text-zinc-600 mb-4">Custom CSS</h4>
-              <textarea v-model="settings.customCSS"
-                class="w-full h-32 p-3 text-sm font-mono rounded-lg border border-zinc-300 focus:outline-none focus:ring-1 focus:ring-zinc-500"
-                placeholder="Add your custom CSS here..."></textarea>
+              <textarea v-model="settings.customCSS" class="w-full h-32 p-3 text-sm font-mono rounded-lg border border-zinc-300 focus:outline-none focus:ring-1 focus:ring-zinc-500" placeholder="Add your custom CSS here..."></textarea>
               <div class="text-xs text-zinc-500 mt-2">Use custom CSS to personalize your OS appearance</div>
             </div>
           </div>
@@ -180,8 +157,7 @@ const resetSettings = () => {
     </div>
 
     <!-- Status Bar -->
-    <div
-      class="flex items-center justify-between px-3 py-1 text-xs text-gray-500 bg-zinc-50/90 border-t border-zinc-300">
+    <div class="flex items-center justify-between px-3 py-1 text-xs text-gray-500 bg-zinc-50/90 border-t border-zinc-300">
       <div>Settings v1.0</div>
       <div>Changes saved automatically</div>
     </div>
