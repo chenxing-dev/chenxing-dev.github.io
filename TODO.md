@@ -3,8 +3,8 @@
   - Pokémon: Power Plant Escape
   - Color Blocks
   - Cozy Pet Simulator
-- 💻 **Code Projects** - GitHub projects with tech stack icons
-  - 
+- 💻 **Code Projects** - GitHub project cards with tech stack icons
+  - Todo List: Features include creating, editing, and deleting tasks, as well as filtering by status."
 - ⚙️ **Settings** - Customize the OS experience
   - Theme selection
   - Background textures

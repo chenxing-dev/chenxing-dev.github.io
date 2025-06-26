@@ -49,7 +49,8 @@ export const appConfigs: AppConfig[] = [
     icon: "💻",
     label: "Projects",
     title: "Code Projects",
-    component: defineAsyncComponent(() => import("../components/windows/ProjectsWindow.vue"))
+    component: defineAsyncComponent(() => import("../components/windows/ProjectsWindow.vue")),
+    height: 600,
   },
   {
     showOnDesktop: true,
