@@ -11,7 +11,7 @@
         :style="{ transform: `rotate(${minute * 6}deg)` }"></div>
       <!-- Center dot -->
       <div
-        class="center-dot absolute w-[180px] h-[180px] rounded-full bg-zinc-50 right-1/2 translate-x-1/2 top-1/2 -translate-y-1/2">
+        class="center-dot absolute w-[180px] h-[180px] rounded-full bg-primary right-1/2 translate-x-1/2 top-1/2 -translate-y-1/2">
       </div>
 
       <!-- Clock hands -->

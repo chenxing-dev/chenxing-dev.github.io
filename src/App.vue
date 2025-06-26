@@ -6,6 +6,9 @@ import WindowManager from "./components/WindowManager.vue";
 import useWindowManager from "./components/useWindowManager.ts";
 import { useStorage } from "@vueuse/core";
 import { getDesktopApps } from "./config/app.ts";
+import { useSettings } from "./components/useSettings.ts";
+
+const { settings } = useSettings();
 
 // Desktop apps configuration
 const desktopApps = getDesktopApps();
@@ -24,13 +27,15 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="relative w-screen h-dvh overflow-hidden select-none text-zinc-900">
+  <div :class="settings.theme" class="relative w-screen h-dvh overflow-hidden select-none text-secondary">
     <Wallpaper />
 
     <!-- Desktop Icons -->
     <div class="absolute top-0 left-0 w-full p-2 md:p-4">
-      <div ref="desktopIconsContainer" class="grid gap-2 md:gap-4 h-full items-start justify-items-center grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 2xl:grid-cols-12">
-        <DesktopIcon v-for="(app, index) in desktopApps" :key="index" :icon="app.icon" :label="app.label" :type="app.type" @open="openWindow" v-show="app.showOnDesktop" />
+      <div ref="desktopIconsContainer"
+        class="grid gap-2 md:gap-4 h-full items-start justify-items-center grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 2xl:grid-cols-12">
+        <DesktopIcon v-for="(app, index) in desktopApps" :key="index" :icon="app.icon" :label="app.label"
+          :type="app.type" @open="openWindow" v-show="app.showOnDesktop" />
       </div>
     </div>
 
@@ -45,52 +50,52 @@ onMounted(() => {
 
 :root {
   --font-serif: "Noto Serif SC", sans-serif;
-  --color-primary: #3b82f6;
-  --color-secondary: #60a5fa;
-  --color-background: #f3f4f6;
-  --color-text: #1f2937;
-  --color-border: #d1d5db;
 }
 
-.theme-dark {
-  --color-primary: #818cf8;
-  --color-secondary: #a5b4fc;
-  --color-background: #111827;
-  --color-text: #f9fafb;
-  --color-border: #374151;
+.theme-minimal {
+  --color-primary: #fafafa;
+  --color-secondary: #18181b;
+  --color-accent: #09090b;
 }
 
-.theme-blue {
-  --color-primary: #2563eb;
-  --color-secondary: #3b82f6;
-  --color-background: #dbeafe;
-  --color-text: #1e40af;
-  --color-border: #93c5fd;
+.theme-cozy {
+  --color-primary: #f1e9d6;
+  --color-secondary: #373426;
+  --color-accent: #645a46;
 }
 
-.theme-green {
-  --color-primary: #059669;
-  --color-secondary: #10b981;
-  --color-background: #d1fae5;
-  --color-text: #065f46;
-  --color-border: #a7f3d0;
+.theme-paper {
+  --color-primary: #f6f2ec;
+  --color-secondary: #4e4e4e;
+  --color-accent: #9c9b96;
+}
+
+.theme-pastel {
+  --color-primary: #f3d7d1;
+  --color-secondary: #2d1f22;
+  --color-accent: #5e524d;
 }
 
 .bg-primary {
   background-color: var(--color-primary) !important;
 }
 
-.text-primary {
-  color: var(--color-primary) !important;
+.bg-secondary {
+  background-color: var(--color-secondary) !important;
 }
 
-.border-primary {
-  border-color: var(--color-primary) !important;
+.bg-accent {
+  background-color: var(--color-accent) !important;
 }
 
-.border-main {
-  border-color: var(--color-border) !important;
+.text-secondary {
+  color: var(--color-secondary) !important;
 }
+
+.border-accent {
+  border-color: var(--color-accent) !important;
+}
+
 
 body {
   margin: 0;
