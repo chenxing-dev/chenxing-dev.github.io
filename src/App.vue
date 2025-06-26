@@ -45,6 +45,51 @@ onMounted(() => {
 
 :root {
   --font-serif: "Noto Serif SC", sans-serif;
+  --color-primary: #3b82f6;
+  --color-secondary: #60a5fa;
+  --color-background: #f3f4f6;
+  --color-text: #1f2937;
+  --color-border: #d1d5db;
+}
+
+.theme-dark {
+  --color-primary: #818cf8;
+  --color-secondary: #a5b4fc;
+  --color-background: #111827;
+  --color-text: #f9fafb;
+  --color-border: #374151;
+}
+
+.theme-blue {
+  --color-primary: #2563eb;
+  --color-secondary: #3b82f6;
+  --color-background: #dbeafe;
+  --color-text: #1e40af;
+  --color-border: #93c5fd;
+}
+
+.theme-green {
+  --color-primary: #059669;
+  --color-secondary: #10b981;
+  --color-background: #d1fae5;
+  --color-text: #065f46;
+  --color-border: #a7f3d0;
+}
+
+.bg-primary {
+  background-color: var(--color-primary) !important;
+}
+
+.text-primary {
+  color: var(--color-primary) !important;
+}
+
+.border-primary {
+  border-color: var(--color-primary) !important;
+}
+
+.border-main {
+  border-color: var(--color-border) !important;
 }
 
 body {
