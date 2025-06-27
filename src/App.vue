@@ -53,24 +53,28 @@ onMounted(() => {
   --color-primary: #fafafa;
   --color-secondary: #18181b;
   --color-accent: #09090b;
+  --color-title-bar: var(--color-primary);
 }
 
 .theme-cozy {
   --color-primary: #f1e9d6;
   --color-secondary: #373426;
   --color-accent: #645a46;
+  --color-title-bar: var(--color-primary);
 }
 
 .theme-paper {
   --color-primary: #f6f2ec;
   --color-secondary: #4e4e4e;
   --color-accent: #9c9b96;
+  --color-title-bar: var(--color-primary);
 }
 
 .theme-pastel {
   --color-primary: #f3d7d1;
   --color-secondary: #2d1f22;
   --color-accent: #5e524d;
+  --color-title-bar: #f7ede3;
 }
 
 .bg-primary {
@@ -91,6 +95,10 @@ onMounted(() => {
 
 .border-accent {
   border-color: var(--color-accent) !important;
+}
+
+.bg-title-bar {
+  background-color: var(--color-title-bar) !important;
 }
 
 body {

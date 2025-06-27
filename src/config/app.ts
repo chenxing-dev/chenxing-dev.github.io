@@ -56,6 +56,7 @@ export const appConfigs: AppConfig[] = [
     label: "Music Player",
     title: "Music Player",
     component: defineAsyncComponent(() => import("../components/windows/MusicPlayer.vue")),
+    height: 400,
     mobileSize: {
       height: 400
     }
