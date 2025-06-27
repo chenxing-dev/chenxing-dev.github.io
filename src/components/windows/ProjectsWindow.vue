@@ -3,8 +3,10 @@
     <!-- Main Content -->
     <div class="projects-window h-full p-4 md:p-6 flex-1 overflow-y-auto">
       <div class="projects-grid grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div v-for="(project, index) in projects" :key="index" class="project-card" :data-index="index" ref="projectCardRefs">
-          <div class="project-card-inner bg-zinc-50 rounded-xl border border-zinc-200 shadow-sm overflow-hidden transition-all hover:shadow-md h-full flex flex-col">
+        <div v-for="(project, index) in projects" :key="index" class="project-card" :data-index="index"
+          ref="projectCardRefs">
+          <div
+            class="project-card-inner bg-zinc-50 rounded-xl border border-zinc-200 shadow-sm overflow-hidden transition-all hover:shadow-md h-full flex flex-col">
             <div class="p-5 flex-1">
               <div class="flex justify-between items-start mb-4">
                 <div>
@@ -15,9 +17,11 @@
                     </span>
                   </div>
                 </div>
-                <a :href="project.url" target="_blank" class="text-zinc-500 hover:text-zinc-700 transition-colors p-1 -mt-1 -mr-1">
+                <a :href="project.url" target="_blank"
+                  class="text-zinc-500 hover:text-zinc-700 transition-colors p-1 -mt-1 -mr-1">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M19 19H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z" />
+                    <path
+                      d="M19 19H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z" />
                   </svg>
                 </a>
               </div>
@@ -25,10 +29,12 @@
               <p class="text-zinc-600 text-sm mb-4">{{ project.description }}</p>
 
               <div class="flex flex-wrap gap-2 mb-4">
-                <span v-for="topic in project.topics.slice(0, 4)" :key="topic" class="text-xs px-2 py-1 rounded-full bg-zinc-100 text-zinc-700">
+                <span v-for="topic in project.topics.slice(0, 4)" :key="topic"
+                  class="text-xs px-2 py-1 rounded-full bg-zinc-100 text-zinc-700">
                   {{ topic }}
                 </span>
-                <span v-if="project.topics.length > 4" class="text-xs px-2 py-1 rounded-full bg-zinc-100 text-zinc-700"> +{{ project.topics.length - 4 }} more </span>
+                <span v-if="project.topics.length > 4" class="text-xs px-2 py-1 rounded-full bg-zinc-100 text-zinc-700">
+                  +{{ project.topics.length - 4 }} more </span>
               </div>
             </div>
           </div>
@@ -37,7 +43,8 @@
     </div>
 
     <!-- Status Bar -->
-    <div class="flex items-center justify-between px-3 py-1 text-xs text-zinc-500 bg-zinc-50/90 border-t border-zinc-300">
+    <div
+      class="flex items-center justify-between px-3 py-1 text-xs text-zinc-500 bg-zinc-50/90 border-t border-zinc-300">
       <div>Showing {{ projects.length }} projects</div>
     </div>
   </div>

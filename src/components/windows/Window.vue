@@ -74,15 +74,25 @@ const contentComponent = computed(() => {
 </script>
 
 <template>
-  <VueDraggableResizable class="window bg-transparent max-w-dvw" :class="isMobile ? (window.mobileSize?.height ? '' : '!h-dvh !max-h-full') : ''" :draggable="!isMobile" :resizable="false" :drag-handle="'.drag-handle'" :x="isMobile ? 0 : window.position.x" :y="isMobile ? 0 : window.position.y" :w="window.size.width" :h="isMobile ? window.mobileSize?.height : window.size.height" :z="window.zIndex" @dragging="onDrag" @drag-stop="onDragStop" @activated="emit('focus', window.id)">
-    <div ref="windowRef" :class="settings.theme" class="bg-primary border-2 border-accent overflow-hidden flex flex-col md:w-full h-full p-0.5 m-2" @mousedown="emit('focus', window.id)">
+  <VueDraggableResizable class="window bg-transparent max-w-dvw"
+    :class="isMobile ? (window.mobileSize?.height ? '' : '!h-dvh !max-h-full') : ''" :draggable="!isMobile"
+    :resizable="false" :drag-handle="'.drag-handle'" :x="isMobile ? 0 : window.position.x"
+    :y="isMobile ? 0 : window.position.y" :w="window.size.width"
+    :h="isMobile ? window.mobileSize?.height : window.size.height" :z="window.zIndex" @dragging="onDrag"
+    @drag-stop="onDragStop" @activated="emit('focus', window.id)">
+    <div ref="windowRef" :class="settings.theme"
+      class="bg-zinc-50 bg-primary border-2 border-accent overflow-hidden flex flex-col md:w-full h-full p-0.5 m-2"
+      @mousedown="emit('focus', window.id)">
       <!-- Title Bar -->
-      <div class="title-bar drag-handle flex items-center justify-between md:cursor-grab border-2 border-b-0 border-accent h-6 bg-title-bar">
+      <div
+        class="title-bar drag-handle flex items-center justify-between md:cursor-grab border-2 border-b-0 border-accent h-6 bg-title-bar">
         <div class="flex items-center mx-auto">
           <span class="text-sm font-medium truncate max-w-[200px]">{{ title }}</span>
         </div>
         <div class="flex items-center border-l-2 border-accent h-full">
-          <button :class="settings.theme" class="close-btn w-5 h-5 flex items-center justify-center hover:bg-zinc-100/80 cursor-pointer" @click.stop="emit('close', window.id)">
+          <button :class="settings.theme"
+            class="close-btn w-5 h-5 flex items-center justify-center hover:bg-zinc-100/80 cursor-pointer"
+            @click.stop="emit('close', window.id)">
             <div class="w-3 h-0.5 bg-accent rotate-45 absolute"></div>
             <div class="w-3 h-0.5 bg-accent -rotate-45 absolute"></div>
           </button>

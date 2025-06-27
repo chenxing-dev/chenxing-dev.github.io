@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted, ref } from "vue";
+import { computed, nextTick, onMounted, onUnmounted, ref } from "vue";
 import { useSettings } from "../useSettings";
 import { getIconByType } from "../../config/app";
 import gsap from "gsap";
@@ -44,6 +44,32 @@ const createHoverTimeline = () => {
     }, "<0.1");
 };
 
+
+// Create vintage boot-up animation
+const animateIcons = async () => {
+  // Wait for DOM to update
+  await nextTick();
+
+  // Hide all icons initially
+  gsap.set(iconContainer.value, {
+    opacity: 0
+  });
+
+  // Animate icons in sequence
+  const tl = gsap.timeline({});
+
+  // Animate icons in sequence
+  tl.to(iconContainer.value, {
+    opacity: 0,
+    duration: gsap.utils.random(0, 2),
+    ease: "power2"
+  }).to(iconContainer.value, {
+    opacity: 1,
+    duration: gsap.utils.random(0, 0.4),
+    ease: "power2"
+  });
+}
+
 // Setup event listeners
 const setupEventListeners = () => {
   if (!iconContainer.value) return;
@@ -77,6 +103,7 @@ const openApp = () => {
 
 // Setup animations when component mounts
 onMounted(() => {
+  animateIcons()
   setupEventListeners();
 });
 

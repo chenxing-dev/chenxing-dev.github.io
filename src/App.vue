@@ -13,15 +13,17 @@ const { settings } = useSettings();
 // Desktop apps configuration
 const desktopApps = getDesktopApps();
 
-const { windows, openWindow, closeWindow, focusWindow, createWindow } = useWindowManager();
+const { windows, openWindow, closeWindow, focusWindow } = useWindowManager();
 
 onMounted(() => {
   // Initialize with terminal window on load
   const firstRun = useStorage("os-first-run", true);
 
   if (firstRun.value) {
-    windows.value = [createWindow("terminal")];
-    firstRun.value = false;
+    setTimeout(() => {
+      openWindow("terminal");
+      firstRun.value = false;
+    }, 2000);
   }
 });
 </script>
@@ -32,8 +34,10 @@ onMounted(() => {
 
     <!-- Desktop Icons -->
     <div class="absolute top-0 left-0 w-full p-2 md:p-12">
-      <div ref="desktopIconsContainer" class="grid gap-2 md:gap-4 h-full items-start justify-items-center grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 2xl:grid-cols-14">
-        <DesktopIcon v-for="(app, index) in desktopApps" :key="index" :label="app.label" :type="app.type" @open="openWindow" v-show="app.showOnDesktop" />
+      <div
+        class="grid gap-2 md:gap-4 h-full items-start justify-items-center grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 2xl:grid-cols-14">
+        <DesktopIcon v-for="(app, index) in desktopApps" :key="index" :label="app.label" :type="app.type"
+          @open="openWindow" v-show="app.showOnDesktop" />
       </div>
     </div>
 
@@ -43,12 +47,27 @@ onMounted(() => {
 </template>
 
 <style>
-@import url(https://fonts.bunny.net/css?family=noto-serif-sc:400,900);
-@import url(https://fonts.bunny.net/css?family=noto-sans-sc:400,900);
+@font-face {
+  font-family: 'Noto Sans SC';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  src: url(/fonts/noto-sans-sc-chinese-simplified-400-normal.woff2) format('woff2');
+}
+
+@font-face {
+  font-family: 'Noto Serif SC';
+  font-style: normal;
+  font-weight: 900;
+  font-stretch: 100%;
+  src: url(/fonts/noto-serif-sc-chinese-simplified-900-normal.woff2) format('woff2');
+}
+
 
 :root {
   --font-serif: "Noto Serif SC", sans-serif;
 }
+
 .theme-minimal {
   --color-primary: #fafafa;
   --color-secondary: #18181b;
