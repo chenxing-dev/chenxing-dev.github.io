@@ -54,6 +54,7 @@ onMounted(() => {
   --color-secondary: #18181b;
   --color-accent: #09090b;
   --color-title-bar: var(--color-primary);
+  --color-selected: #a1a1aa;
 }
 
 .theme-cozy {
@@ -61,6 +62,7 @@ onMounted(() => {
   --color-secondary: #373426;
   --color-accent: #645a46;
   --color-title-bar: var(--color-primary);
+  --color-selected: #c2a37a;
 }
 
 .theme-paper {
@@ -68,6 +70,7 @@ onMounted(() => {
   --color-secondary: #4e4e4e;
   --color-accent: #9c9b96;
   --color-title-bar: var(--color-primary);
+  --color-selected: var(--color-accent);
 }
 
 .theme-pastel {
@@ -75,6 +78,7 @@ onMounted(() => {
   --color-secondary: #2d1f22;
   --color-accent: #5e524d;
   --color-title-bar: #f7ede3;
+  --color-selected: #f58583;
 }
 
 .bg-primary {
@@ -99,6 +103,14 @@ onMounted(() => {
 
 .bg-title-bar {
   background-color: var(--color-title-bar) !important;
+}
+
+.bg-selected {
+  background-color: var(--color-selected) !important;
+}
+
+.text-selected {
+  color: var(--color-selected) !important;
 }
 
 body {

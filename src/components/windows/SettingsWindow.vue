@@ -14,10 +14,10 @@ const tabs = [
 
 // Preview themes
 const themes = [
-  { id: "theme-cozy", name: "Cozy", colors: ["#d4b483", "#a0b4a6", "#c6a1a8"] },
-  { id: "theme-minimal", name: "Minimal", colors: ["#71717a", "#fafafa", "#e4e4e7"] },
-  { id: "theme-paper", name: "Paper", colors: ["#f5f0e6", "#e8d8c5", "#d4c0a1"] },
-  { id: "theme-pastel", name: "Pastel", colors: ["#a0b4a6", "#8ba6ac", "#6a8b9c"] }
+  { id: "theme-cozy", name: "Cozy", colors: ["#f1e9d6", "#645a46", "#c2a37a"] },
+  { id: "theme-minimal", name: "Minimal", colors: ["#18181b", "#fafafa", "#a1a1aa"] },
+  { id: "theme-paper", name: "Paper", colors: ["#4e4e4e", "#f6f2ec", "#9c9b96"] },
+  { id: "theme-pastel", name: "Pastel", colors: ["#f3d7d1", "#f7ede3", "#f58583"] }
 ];
 
 // Background
