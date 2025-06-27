@@ -31,11 +31,9 @@ onMounted(() => {
     <Wallpaper />
 
     <!-- Desktop Icons -->
-    <div class="absolute top-0 left-0 w-full p-2 md:p-4">
-      <div ref="desktopIconsContainer"
-        class="grid gap-2 md:gap-4 h-full items-start justify-items-center grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 2xl:grid-cols-12">
-        <DesktopIcon v-for="(app, index) in desktopApps" :key="index" :icon="app.icon" :label="app.label"
-          :type="app.type" @open="openWindow" v-show="app.showOnDesktop" />
+    <div class="absolute top-0 left-0 w-full p-2 md:p-12">
+      <div ref="desktopIconsContainer" class="grid gap-2 md:gap-4 h-full items-start justify-items-center grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 2xl:grid-cols-14">
+        <DesktopIcon v-for="(app, index) in desktopApps" :key="index" :label="app.label" :type="app.type" @open="openWindow" v-show="app.showOnDesktop" />
       </div>
     </div>
 
@@ -51,7 +49,6 @@ onMounted(() => {
 :root {
   --font-serif: "Noto Serif SC", sans-serif;
 }
-
 .theme-minimal {
   --color-primary: #fafafa;
   --color-secondary: #18181b;
@@ -95,7 +92,6 @@ onMounted(() => {
 .border-accent {
   border-color: var(--color-accent) !important;
 }
-
 
 body {
   margin: 0;

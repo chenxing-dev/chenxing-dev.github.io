@@ -1,5 +1,8 @@
 <script lang="ts" setup>
 import { ref, watch, nextTick, computed } from "vue";
+import { useSettings } from "../useSettings";
+
+const { settings } = useSettings();
 
 // Define the output line type
 type TerminalOutputLine = { type: "command"; text: string; cwd: string } | { type: "output"; text: string } | { type: "file-list"; items: FileSystemItem[] };
@@ -92,11 +95,10 @@ const commands: Record<string, CommandFunction> = {
   neofetch: () => {
     return [
       { type: "output", text: "user@chenxing-dev.github.io" },
-      { type: "output", text: "---------------------------------------" },
-      { type: "output", text: "OS           陈刑OS v1.0" },
-      { type: "output", text: "Host       chenxing-dev.github.io" },
-      { type: "output", text: "Shell      vue-sh 3.5.13" },
-      { type: "output", text: "Theme  Cozy Minimalism" }
+      { type: "output", text: "os           陈刑OS v1.0" },
+      { type: "output", text: "host       chenxing-dev.github.io" },
+      { type: "output", text: "shell      vue-sh 3.5.13" },
+      { type: "output", text: `theme  ${settings.value.theme}` }
     ];
   },
   clear: () => {
@@ -166,7 +168,8 @@ const commands: Record<string, CommandFunction> = {
 };
 
 const executeCommand = () => {
-  if (!command.value.trim()) return;
+  const commandText = command.value.trim();
+  if (!commandText) return;
 
   // Capture current directory before executing command
   const cwdAtExecution = currentDir.value;
@@ -174,15 +177,18 @@ const executeCommand = () => {
   // Add the command to output with the current directory at execution time
   output.value.push({ type: "command", text: command.value, cwd: cwdAtExecution });
 
-  const [cmd, ...args] = command.value.split(" ");
+  const [firstWord, ...args] = commandText.split(" ");
 
-  if (commands[cmd]) {
-    const result = commands[cmd](args);
+  // Convert command to lowercase for matching, but preserve original for display
+  const cmdKey = firstWord.toLowerCase();
+
+  if (commands[cmdKey]) {
+    const result = commands[cmdKey](args);
     if (result) {
       output.value.push(...result);
     }
   } else {
-    output.value.push({ type: "output", text: `Command not found: ${cmd}.` });
+    output.value.push({ type: "output", text: `Command not found: ${firstWord}.` });
     output.value.push({ type: "output", text: 'Type "help" for commands.' });
   }
 
@@ -192,7 +198,7 @@ const executeCommand = () => {
 </script>
 
 <template>
-  <div class="terminal whitespace-pre overflow-auto h-full text-wrap break-all py-2 px-4" ref="terminalBody">
+  <div class="terminal whitespace-pre overflow-auto h-full text-wrap break-all py-2 px-4" ref="terminalBody" :class="settings.theme">
     <div v-for="(line, index) in output" :key="index" class="terminal-line">
       <p v-if="line.type === 'command'" class="inline text-nowrap">
         <span class="terminal-prompt mr-2 text-nowrap">{{ prompt(line.cwd) }}</span>
@@ -209,8 +215,7 @@ const executeCommand = () => {
     </div>
     <p class="terminal-line flex">
       <span class="terminal-prompt mr-2 text-nowrap">{{ prompt(currentDir) }}</span>
-      <input class="terminal-input bg-transparent outline-none flex-1" v-model="command" @keyup.enter="executeCommand"
-        ref="inputRef" autofocus />
+      <input class="terminal-input bg-transparent outline-none flex-1" v-model="command" @keyup.enter="executeCommand" ref="inputRef" autofocus />
     </p>
   </div>
 </template>
@@ -218,5 +223,10 @@ const executeCommand = () => {
 .terminal {
   scrollbar-color: #71717a #e4e4e7;
   scrollbar-width: thin;
+}
+.theme-paper {
+  .terminal-line {
+    border-bottom: 1px dashed var(--color-secondary);
+  }
 }
 </style>

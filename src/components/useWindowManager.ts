@@ -3,8 +3,8 @@ import { useStorage } from "@vueuse/core";
 import { getAppByType, type AppConfig } from "../config/app.ts";
 
 // Default window dimensions
-const DEFAULT_WIDTH = 600;
-const DEFAULT_HEIGHT = 400;
+const DEFAULT_WIDTH = 500;
+const DEFAULT_HEIGHT = 320;
 
 interface WindowPosition {
   x: number;
