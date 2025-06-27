@@ -31,6 +31,7 @@ export const appConfigs: AppConfig[] = [
     label: "Projects",
     title: "Code Projects",
     component: defineAsyncComponent(() => import("../components/windows/ProjectsWindow.vue")),
+    width: 720,
     height: 600
   },
   {

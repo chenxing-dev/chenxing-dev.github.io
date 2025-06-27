@@ -3,7 +3,7 @@
     <!-- Main Content -->
     <div class="projects-window h-full p-4 md:p-6 flex-1 overflow-y-auto">
       <div class="projects-grid grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div v-for="(project, index) in projects" :key="index" class="project-card" :data-index="index">
+        <div v-for="(project, index) in projects" :key="index" class="project-card" :data-index="index" ref="projectCardRefs">
           <div class="project-card-inner bg-zinc-50 rounded-xl border border-zinc-200 shadow-sm overflow-hidden transition-all hover:shadow-md h-full flex flex-col">
             <div class="p-5 flex-1">
               <div class="flex justify-between items-start mb-4">
@@ -44,12 +44,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, nextTick } from "vue";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-// Register GSAP plugins
-gsap.registerPlugin(ScrollTrigger);
 
 const projects = ref([
   {
@@ -97,13 +93,11 @@ const projects = ref([
 ]);
 
 // Initialize animations
-onMounted(() => {
-  // GSAP animations for project cards
-  const projectCards = document.querySelectorAll(".project-card");
+const projectCardRefs = ref<HTMLElement[]>([]);
 
-  projectCards.forEach(card => {
-    const index = parseInt(card.getAttribute("data-index") ?? "0") || 0;
-
+onMounted(async () => {
+  await nextTick();
+  projectCardRefs.value.forEach((card, index) => {
     // Set initial state
     gsap.set(card, {
       opacity: 0,
@@ -111,15 +105,7 @@ onMounted(() => {
     });
 
     // Create animation timeline
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: card,
-        start: "top 90%",
-        end: "bottom 60%",
-        toggleActions: "play none none none",
-        once: true
-      }
-    });
+    const tl = gsap.timeline({});
 
     // Animate card entry
     tl.to(card, {
