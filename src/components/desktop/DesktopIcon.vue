@@ -3,11 +3,6 @@ import { computed, onMounted, onUnmounted, ref } from "vue";
 import { useSettings } from "../useSettings";
 import { getIconByType } from "../../config/app";
 import gsap from "gsap";
-import { CSSPlugin } from "gsap/CSSPlugin";
-import { MotionPathPlugin } from "gsap/MotionPathPlugin";
-
-// Register CSSPlugin to enable rotation and other CSS properties
-gsap.registerPlugin(CSSPlugin, MotionPathPlugin);
 
 const { settings } = useSettings();
 const props = defineProps<{
@@ -31,108 +26,78 @@ const iconComponent = computed(() => {
 const iconContainer = ref<HTMLElement | null>(null);
 const iconElement = ref<HTMLElement | null>(null);
 const iconLabel = ref<HTMLElement | null>(null);
-let hoverAnimation: gsap.core.Timeline | null = null;
+let hoverTimeline: gsap.core.Timeline | null = null;
 
-// GSAP animations
-const setupAnimations = () => {
-  if (!iconContainer.value || !iconElement.value || !iconLabel.value) return;
+// Create hover animation timeline
+const createHoverTimeline = () => {
+  if (!iconContainer.value || !iconElement.value || !iconLabel.value) return null;
 
-  // Clean up any existing animations
-  if (hoverAnimation) hoverAnimation.kill();
-
-  // Hover animation timeline
-  hoverAnimation = gsap
-    .timeline({ paused: true })
+  return gsap.timeline({ paused: true })
     .to(iconContainer.value, {
-      scale: 1.2,
-      duration: 0.3,
-      ease: "back.out(1.7)",
-      yoyo: true,
-      repeat: 1
+      scale: 1.15,
+      duration: 0.4,
+      ease: "back.out(1.7)"
     })
-    .to(
-      iconElement.value,
-      {
-        duration: 0.2,
-        yoyo: true,
-        repeat: 1,
-        ease: "sine.inOut"
-      },
-      "<"
-    )
-    .to(
-      iconLabel.value,
-      {
-        backgroundColor: "rgba(255, 255, 255, 0.3)",
-        duration: 0.2
-      },
-      "<"
-    );
+    .to(iconElement.value, {
+      duration: 0.2,
+      ease: "sine.inOut"
+    }, "<0.1");
+};
 
-  // Event listeners
-  iconContainer.value.addEventListener("mouseenter", () => {
-    hoverAnimation?.play();
+// Setup event listeners
+const setupEventListeners = () => {
+  if (!iconContainer.value) return;
+
+  iconContainer.value.addEventListener('mouseenter', () => {
+    // Create a new timeline for each hover
+    hoverTimeline = createHoverTimeline();
+
+    if (hoverTimeline) {
+      hoverTimeline.play();
+    }
   });
 
-  iconContainer.value.addEventListener("mouseleave", () => {});
+  iconContainer.value.addEventListener('mouseleave', () => {
+    if (hoverTimeline) {
+      // Reverse to initial state
+      hoverTimeline.reverse();
+
+      // Destroy timeline after reverse completes
+      hoverTimeline.eventCallback("onReverseComplete", () => {
+        hoverTimeline?.kill();
+        hoverTimeline = null;
+      });
+    }
+  })
 };
 
 const openApp = () => {
-  if (!iconContainer.value || !iconElement.value) return;
-
-  // Create a bounce animation when opening
-  const tl = gsap.timeline();
-
-  tl.to(iconContainer.value, {
-    scale: 1.5,
-    duration: 0.1,
-    ease: "power2.out"
-  })
-    .to(iconContainer.value, {
-      scale: 0.8,
-      duration: 0.2,
-      ease: "bounce.out"
-    })
-    .to(iconContainer.value, {
-      scale: 1,
-      duration: 0.2,
-      ease: "elastic.out(1, 0.5)",
-      onComplete: () => {
-        emit("open", props.type);
-      }
-    });
-
-  // Add icon wobble effect
-  if (iconElement.value) {
-    gsap.to(iconElement.value, {
-      duration: 0.8,
-      ease: "back.out(1.7)"
-    });
-  }
+  emit("open", props.type);
 };
 
 // Setup animations when component mounts
 onMounted(() => {
-  // Wait for next tick to ensure elements are rendered
-  setTimeout(setupAnimations, 100);
+  setupEventListeners();
 });
 
 // Clean up animations
 onUnmounted(() => {
-  if (hoverAnimation) hoverAnimation.kill();
+  if (hoverTimeline) hoverTimeline.kill();
 
   if (iconContainer.value) {
-    iconContainer.value.removeEventListener("mouseenter", () => {});
-    iconContainer.value.removeEventListener("mouseleave", () => {});
+    iconContainer.value.removeEventListener('mouseenter', () => { });
+    iconContainer.value.removeEventListener('mouseleave', () => { });
   }
 });
 </script>
 <template>
-  <div class="desktop-icon group flex flex-col items-center p-2 w-16 cursor-pointer" @dblclick="openApp">
-    <div ref="iconContainer" class="icon-container mb-1 w-12 h-12 flex items-center justify-center rounded-lg">
-      <component :is="iconComponent" v-if="iconComponent" ref="iconElement" class="text-6xl bg-transparent" />
+  <div ref="iconContainer" class="desktop-icon group flex flex-col items-center p-2 w-16 cursor-pointer"
+    @dblclick="openApp">
+    <div ref="iconElement" class="icon-container mb-1 w-12 h-12 flex items-center justify-center rounded-lg">
+      <component :is="iconComponent" v-if="iconComponent" class="text-6xl bg-transparent" />
     </div>
-    <span ref="iconLabel" class="text-sm text-zinc-500 px-1 py-0.5 rounded text-center text-shadow-lg text-secondary" :class="settings.background + settings.theme">
+    <span ref="iconLabel" class="text-sm text-zinc-500 px-1 py-0.5 rounded text-center text-shadow-lg text-secondary"
+      :class="settings.background + settings.theme">
       {{ label }}
     </span>
   </div>
