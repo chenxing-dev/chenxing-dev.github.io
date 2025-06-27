@@ -68,7 +68,9 @@ export const appConfigs: AppConfig[] = [
     icon: defineAsyncComponent(() => import("../icons/FluentEmojiFlatFramedPicture.vue")),
     label: "Pictures",
     title: "Pictures",
-    component: defineAsyncComponent(() => import("../components/windows/PicturesWindow.vue"))
+    component: defineAsyncComponent(() => import("../components/windows/PicturesWindow.vue")),
+    width: 600,
+    height: 540
   },
   {
     showOnDesktop: true,

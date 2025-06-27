@@ -116,6 +116,10 @@ onMounted(() => {
   color: var(--color-secondary) !important;
 }
 
+.border-primary {
+  border-color: var(--color-primary) !important;
+}
+
 .border-accent {
   border-color: var(--color-accent) !important;
 }

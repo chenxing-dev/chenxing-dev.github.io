@@ -6,8 +6,6 @@
 - 💻 **Code Projects** - GitHub project cards with tech stack icons
   - Smart Calculator
 
-- [GSAP](https://greensock.com/gsap/) - Professional JavaScript Animation
-
 | 👤 Pictures    |                    |
 | ✉️ Weather  |                        |
 
