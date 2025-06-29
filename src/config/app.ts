@@ -22,7 +22,10 @@ export const appConfigs: AppConfig[] = [
     icon: defineAsyncComponent(() => import("../icons/TwemojiVideoGame.vue")),
     label: "Games",
     title: "Gaming Library",
-    component: defineAsyncComponent(() => import("../components/windows/GamingWindow.vue"))
+    component: defineAsyncComponent(() => import("../components/windows/GamingWindow.vue")),
+    height: 360,
+    width: 640
+
   },
   {
     showOnDesktop: true,
@@ -48,7 +51,8 @@ export const appConfigs: AppConfig[] = [
     icon: defineAsyncComponent(() => import("../icons/TwemojiSunBehindCloud.vue")),
     label: "Weather",
     title: "Weather",
-    component: defineAsyncComponent(() => import("../components/windows/WeatherWindow.vue"))
+    component: defineAsyncComponent(() => import("../components/windows/WeatherWindow.vue")),
+    height: 320
   },
   {
     showOnDesktop: true,
