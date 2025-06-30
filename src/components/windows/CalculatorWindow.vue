@@ -15,14 +15,14 @@
       <div
         v-for="(btn, index) in buttons"
         :key="index"
-        class="calc-btn h-8 text-xl bg-zinc-50/50 border border-secondary transition-all duration-200 font-medium flex items-center justify-center cursor-pointer select-none"
+        class="calc-btn h-8 text-xl bg-zinc-50/50 border border-secondary transition-all duration-200 font-medium flex items-center justify-center cursor-pointer select-none hover:bg-zinc-200/50"
         :class="{
           operator: ['+', '-', '×', '÷'].includes(btn),
           number: !isNaN(Number(btn)) || btn === '.',
           function: ['C', 'CE', '⌫', '+/-', '%'].includes(btn),
           equals: btn === '='
         }"
-        @click="handleButtonClick(btn, $event)"
+        @click="handleButtonClick(btn)"
       >
         {{ btn }}
       </div>
@@ -32,7 +32,7 @@
 
 <script setup lang="ts">
 import { ref, computed } from "vue";
-import gsap from "gsap";
+import Decimal from "decimal.js";
 
 // Calculator state
 const currentValue = ref("0");
@@ -56,10 +56,7 @@ const historyDisplay = computed(() => {
 });
 
 // Handle button clicks
-const handleButtonClick = (value: string, event: MouseEvent) => {
-  // Animate button press
-  gsap.to(event.target, { scale: 0.9, duration: 0.15, yoyo: true, repeat: 1, ease: "power1.out" });
-
+const handleButtonClick = (value: string) => {
   if (!isNaN(Number(value)) || value === ".") {
     handleNumberInput(value);
   } else if (value === "C") {
@@ -108,35 +105,58 @@ const handleOperator = (op: string) => {
   shouldResetDisplay.value = true;
 };
 
+const formatResult = (result: Decimal) => {
+  const num = result.toNumber();
+
+  // Handle repeating decimals
+  if (result.isInteger() === false) {
+    // Truncate the decimal part if too long
+    const str = result.toString();
+    if (str.includes(".") && str.length > 15) {
+      const [intPart, decPart] = str.split(".");
+      return `${intPart}.${decPart.substring(0, 15)}`;
+    }
+  }
+  // Handle large numbers
+  if (Math.abs(num) > 1e16 || Math.abs(num) < 1e-15) {
+    return num
+      .toExponential(10)
+      .replace(/(\.\d*?)0+e/, "$1e")
+      .replace(/\.e/, "e");
+  }
+
+  return result.toString();
+};
+
 // Calculate result
 const calculateResult = () => {
   if (operator.value === null || shouldResetDisplay.value) {
     return;
   }
 
-  const prev = parseFloat(previousValue.value ?? "0");
-  const current = parseFloat(currentValue.value);
-  let result;
+  const prev = new Decimal(previousValue.value ?? 0);
+  const current = new Decimal(currentValue.value);
+  let result: Decimal;
 
   switch (operator.value) {
     case "+":
-      result = prev + current;
+      result = prev.plus(current);
       break;
     case "-":
-      result = prev - current;
+      result = prev.minus(current);
       break;
     case "×":
-      result = prev * current;
+      result = prev.times(current);
       break;
     case "÷":
-      result = prev / current;
+      result = prev.dividedBy(current);
       break;
     default:
       return;
   }
 
-  // Update display
-  currentValue.value = result.toString();
+  // Format result and update display
+  currentValue.value = formatResult(result);
   operator.value = null;
   previousValue.value = null;
   shouldResetDisplay.value = true;
