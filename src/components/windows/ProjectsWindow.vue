@@ -58,6 +58,22 @@ import gsap from "gsap";
 
 const projects = ref([
   {
+    description: "Discover which Linux distribution is right for you with this interactive quiz. Answer a series of questions to find your ideal distro match.",
+    name: "Linux Distro Quiz",
+    topics: ["linux", "quiz", "web-app", "react", "typescript"],
+    url: "https://github.com/chenxing-dev/linux-distro-quiz",
+    demoUrl: "https://chenxing-dev.github.io/linux-distro-quiz/",
+    language: "TypeScript"
+  },
+  {
+    description: "A personal blog built with Astro and TypeScript, featuring articles on Arch Linux, web development, and more.",
+    name: "陈刑's Blog",
+    topics: ["blog", "astro", "typescript", "tailwindcss", "web-development"],
+    url: "https://github.com/chenxing-dev/blog",
+    demoUrl: "https://chenxing-dev.github.io/blog/",
+    language: "TypeScript"
+  },
+  {
     name: "陈刑OS",
     description: "A cozy minimalist OS-styled personal website built with Vue.js and TypeScript featuring a clean design, smooth animations, and a focus on simplicity.",
     url: "https://github.com/chenxing-dev/chenxing-os",
@@ -73,34 +89,11 @@ const projects = ref([
     topics: ["todo", "alpinejs", "productivity", "web-app"]
   },
   {
-    description: "A personal blog built with Astro and TypeScript, featuring articles on Arch Linux, web development, and more.",
-    name: "陈刑's Blog",
-    topics: ["blog", "astro", "typescript", "tailwindcss", "web-development"],
-    url: "https://github.com/chenxing-dev/blog",
-    demoUrl: "https://chenxing-dev.github.io/blog/",
-    language: "TypeScript"
-  },
-  {
-    language: "TypeScript",
-    description: "Calculator app with scientific functions, history, and unit conversion built with React and TypeScript. Features include a clean UI, keyboard shortcuts, and responsive design.",
-    name: "Calculator",
-    url: "https://github.com/chenxing-dev/calculator",
-    topics: ["calculator", "typescript", "web-app", "utilities"]
-  },
-  {
     language: "Bash",
     description: "a dotfiles repository for my Arch Linux setup, featuring a customized Qtile window manager, archinstall configuration, an automated setup script, and more.",
     name: "Arch Linux Dotfiles",
     topics: ["archlinux", "dotfiles", "qtile", "bash", "linux"],
     url: "https://github.com/chenxing-dev/dotfiles"
-  },
-  {
-    description: "Discover which Linux distribution is right for you with this interactive quiz. Answer a series of questions to find your ideal distro match.",
-    name: "Linux Distro Quiz",
-    topics: ["linux", "quiz", "web-app", "react", "typescript"],
-    url: "https://github.com/chenxing-dev/linux-distro-quiz",
-    demoUrl: "https://chenxing-dev.github.io/linux-distro-quiz/",
-    language: "TypeScript"
   }
 ]);
 

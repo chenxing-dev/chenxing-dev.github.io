@@ -25,7 +25,6 @@ export const appConfigs: AppConfig[] = [
     component: defineAsyncComponent(() => import("../components/windows/GamingWindow.vue")),
     height: 360,
     width: 640
-
   },
   {
     showOnDesktop: true,
@@ -68,13 +67,13 @@ export const appConfigs: AppConfig[] = [
   },
   {
     showOnDesktop: true,
-    type: "pictures",
-    icon: defineAsyncComponent(() => import("../icons/FluentEmojiFlatFramedPicture.vue")),
-    label: "Pictures",
-    title: "Pictures",
-    component: defineAsyncComponent(() => import("../components/windows/PicturesWindow.vue")),
-    width: 600,
-    height: 540
+    type: "calculator",
+    icon: defineAsyncComponent(() => import("../icons/GameIconsCalculator.vue")),
+    label: "Calculator",
+    title: "Calculator",
+    component: defineAsyncComponent(() => import("../components/windows/CalculatorWindow.vue")),
+    width: 340,
+    height: 360
   },
   {
     showOnDesktop: true,

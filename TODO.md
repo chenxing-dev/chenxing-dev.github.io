@@ -3,8 +3,3 @@
   - Pokémon: Power Plant Escape
   - Color Blocks
   - Cozy Pet Simulator
-- 💻 **Code Projects** - GitHub project cards with tech stack icons
-  - Smart Calculator
-- **Calculator**
-
-
