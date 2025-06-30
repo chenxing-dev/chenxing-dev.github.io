@@ -4,18 +4,14 @@ import { useStorage } from "@vueuse/core";
 interface Settings {
   theme: string;
   background: string;
-  iconSize: "small" | "medium" | "large";
   clockFormat: "12h" | "24h";
-  customCSS: string;
 }
 
 // Default settings
 export const defaultSettings: Settings = {
   theme: "theme-minimal",
   background: "bg-off-white",
-  iconSize: "medium",
-  clockFormat: "24h",
-  customCSS: ""
+  clockFormat: "24h"
 };
 
 export const useSettings = () => {

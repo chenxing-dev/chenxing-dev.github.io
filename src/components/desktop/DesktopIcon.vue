@@ -119,7 +119,7 @@ onUnmounted(() => {
 </script>
 <template>
   <div ref="iconContainer" class="desktop-icon group flex flex-col items-center p-2 w-16 cursor-pointer"
-    @dblclick="openApp">
+    @click="openApp">
     <div ref="iconElement" class="icon-container mb-1 w-12 h-12 flex items-center justify-center rounded-lg">
       <component :is="iconComponent" v-if="iconComponent" class="text-6xl bg-transparent" />
     </div>

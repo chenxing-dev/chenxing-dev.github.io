@@ -105,23 +105,6 @@ const resetSettings = () => {
                 </div>
               </div>
             </div>
-
-            <!-- Icon Size -->
-            <div class="bg-zinc-50/90 backdrop-blur-sm rounded-xl border border-zinc-300 p-4">
-              <h4 class="font-medium text-zinc-600 mb-4">Icon Size</h4>
-              <div class="flex items-center justify-between mb-2">
-                <span class="text-sm text-zinc-600">Small</span>
-                <span class="text-sm text-zinc-600">Large</span>
-              </div>
-              <div class="relative pt-1">
-                <input type="range" min="1" max="3" v-model="settings.iconSize" class="w-full h-2 bg-zinc-300 rounded-lg appearance-none cursor-pointer accent-zinc-500" />
-                <div class="flex justify-between text-xs px-1 mt-1">
-                  <span :class="{ 'font-bold text-zinc-500': settings.iconSize === 'small' }">S</span>
-                  <span :class="{ 'font-bold text-zinc-500': settings.iconSize === 'medium' }">M</span>
-                  <span :class="{ 'font-bold text-zinc-500': settings.iconSize === 'large' }">L</span>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
 
@@ -143,13 +126,6 @@ const resetSettings = () => {
                   <span class="text-zinc-500">12-hour format (2:30 PM)</span>
                 </label>
               </div>
-            </div>
-
-            <!-- Custom CSS -->
-            <div class="bg-zinc-50/90 rounded-xl border border-zinc-300 p-4">
-              <h4 class="font-medium text-zinc-600 mb-4">Custom CSS</h4>
-              <textarea v-model="settings.customCSS" class="w-full h-32 p-3 text-sm font-mono rounded-lg border border-zinc-300 focus:outline-none focus:ring-1 focus:ring-zinc-500" placeholder="Add your custom CSS here..."></textarea>
-              <div class="text-xs text-zinc-500 mt-2">Use custom CSS to personalize your OS appearance</div>
             </div>
           </div>
         </div>

@@ -73,7 +73,10 @@ export const appConfigs: AppConfig[] = [
     title: "Calculator",
     component: defineAsyncComponent(() => import("../components/windows/CalculatorWindow.vue")),
     width: 340,
-    height: 360
+    height: 360,
+    mobileSize: {
+      height: 360
+    }
   },
   {
     showOnDesktop: true,
