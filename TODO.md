@@ -5,7 +5,6 @@
   - Cozy Pet Simulator
 - 💻 **Code Projects** - GitHub project cards with tech stack icons
   - Smart Calculator
-- **Weather**
 - **Calculator**
 
 
