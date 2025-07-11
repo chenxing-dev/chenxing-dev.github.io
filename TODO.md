@@ -1,4 +1,3 @@
 - Gaming portfolio with playable projects
-  - Piggy Runner is an endless runner game where you control an adorable pig character jumping over rocks and collecting coins. 
   - Color Blocks
   - Cozy Pet Simulator

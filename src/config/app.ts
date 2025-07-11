@@ -18,16 +18,6 @@ export interface AppConfig {
 export const appConfigs: AppConfig[] = [
   {
     showOnDesktop: true,
-    type: "gaming",
-    icon: defineAsyncComponent(() => import("../icons/TwemojiVideoGame.vue")),
-    label: "Games",
-    title: "Gaming Library",
-    component: defineAsyncComponent(() => import("../components/windows/GamingWindow.vue")),
-    height: 360,
-    width: 640
-  },
-  {
-    showOnDesktop: true,
     type: "code_projects",
     icon: defineAsyncComponent(() => import("../icons/FluentEmojiFlatFileFolder.vue")),
     label: "Projects",
@@ -67,6 +57,19 @@ export const appConfigs: AppConfig[] = [
   },
   {
     showOnDesktop: true,
+    type: "analogClock",
+    icon: defineAsyncComponent(() => import("../icons/FluentEmojiFlatNineOclock.vue")),
+    label: "Analog Clock",
+    title: "Analog Clock",
+    component: defineAsyncComponent(() => import("../components/windows/AnalogClock.vue")),
+    width: 240,
+    height: 240,
+    mobileSize: {
+      height: 240
+    }
+  },
+  {
+    showOnDesktop: true,
     type: "calculator",
     icon: defineAsyncComponent(() => import("../icons/GameIconsCalculator.vue")),
     label: "Calculator",
@@ -80,6 +83,16 @@ export const appConfigs: AppConfig[] = [
   },
   {
     showOnDesktop: true,
+    type: "gaming",
+    icon: defineAsyncComponent(() => import("../icons/TwemojiVideoGame.vue")),
+    label: "Games",
+    title: "Gaming Library",
+    component: defineAsyncComponent(() => import("../components/windows/GamingWindow.vue")),
+    height: 360,
+    width: 640
+  },
+  {
+    showOnDesktop: true,
     type: "digitalClock",
     icon: defineAsyncComponent(() => import("../icons/MdiClockDigital.vue")),
     label: "Digital Clock",
@@ -89,19 +102,6 @@ export const appConfigs: AppConfig[] = [
     height: 80,
     mobileSize: {
       height: 80
-    }
-  },
-  {
-    showOnDesktop: true,
-    type: "analogClock",
-    icon: defineAsyncComponent(() => import("../icons/FluentEmojiFlatNineOclock.vue")),
-    label: "Analog Clock",
-    title: "Analog Clock",
-    component: defineAsyncComponent(() => import("../components/windows/AnalogClock.vue")),
-    width: 240,
-    height: 240,
-    mobileSize: {
-      height: 240
     }
   },
   {
