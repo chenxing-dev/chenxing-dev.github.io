@@ -21,7 +21,7 @@ onMounted(() => {
 
   if (firstRun.value) {
     setTimeout(() => {
-      openWindow("terminal");
+      openWindow("about_me");
       firstRun.value = false;
     }, 2000);
   }
@@ -116,6 +116,10 @@ onMounted(() => {
   color: var(--color-secondary) !important;
 }
 
+.text-selected {
+  color: var(--color-selected) !important;
+}
+
 .border-primary {
   border-color: var(--color-primary) !important;
 }
@@ -130,10 +134,6 @@ onMounted(() => {
 
 .bg-selected {
   background-color: var(--color-selected) !important;
-}
-
-.text-selected {
-  color: var(--color-selected) !important;
 }
 
 body {

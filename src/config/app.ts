@@ -18,6 +18,16 @@ export interface AppConfig {
 export const appConfigs: AppConfig[] = [
   {
     showOnDesktop: true,
+    type: "about_me",
+    icon: defineAsyncComponent(() => import("../icons/FluentEmojiFlatWomanTechnologistLight.vue")),
+    label: "About Me",
+    title: "About Me",
+    component: defineAsyncComponent(() => import("../components/windows/AboutMe.vue")),
+    width: 720,
+    height: 600
+  },
+  {
+    showOnDesktop: true,
     type: "code_projects",
     icon: defineAsyncComponent(() => import("../icons/FluentEmojiFlatFileFolder.vue")),
     label: "Projects",
