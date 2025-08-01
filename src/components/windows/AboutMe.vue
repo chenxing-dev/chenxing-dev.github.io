@@ -91,8 +91,8 @@
           </div>
           <div>
             <div class="text-sm text-neutral-500">{{ contact.label }}</div>
-            <div class="text-sm md:text-base font-medium text-neutral-800 group-hover:text-neutral-700">{{ contact.value
-              }}</div>
+            <div class="text-sm md:text-base font-medium text-neutral-800 group-hover:text-neutral-700">
+              {{ contact.value }}</div>
           </div>
         </a>
       </div>
