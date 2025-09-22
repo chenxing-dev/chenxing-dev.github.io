@@ -14,32 +14,36 @@
 
     <!-- Info Grid -->
     <div class="grid grid-cols-1 gap-8 mb-4 md:mb-8">
-      <!-- Skills -->
+      <!-- Skills / Tech Stack -->
       <div class="bg-white/80 p-4 pb-6 rounded-xl shadow-sm border border-neutral-100">
         <h3 class="text-xl font-bold text-neutral-800 mb-4 flex items-center">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-secondary" fill="none" viewBox="0 0 24 24"
-            stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-          </svg>
-          Technical Skills
+          🛠️ Tech Stack
         </h3>
-        <div class="grid grid-cols-2 gap-4">
-          <div v-for="(skill, index) in skills" :key="index">
-            <div class="flex justify-between mb-1">
-              <span class="font-medium text-neutral-700 text-nowrap overflow-hidden text-ellipsis">
-                {{ skill.name }}</span>
-              <span class="text-neutral-500 text-sm">{{ skill.level }}%</span>
-            </div>
-            <div class="h-2 bg-neutral-200 rounded-full">
-              <div class="h-full rounded-full bg-secondary progress" :style="{ width: `${skill.level}%` }"></div>
-            </div>
+        <div>
+          <div class="mb-2 font-semibold text-neutral-700">Frontend:</div>
+          <div class="flex flex-wrap gap-2">
+            <span v-for="(tech, _) in frontendStack" :key="tech"
+              class="px-3 py-1 rounded-full font-medium text-sm text-white cursor-pointer" :style="{
+                backgroundColor: badgeColors[tech]?.bg || '#888',
+                color: badgeColors[tech]?.text || '#fff'
+              }">
+              {{ tech }}
+            </span>
+          </div>
+          <div class="mt-4 mb-2 font-semibold text-neutral-700">Tools & Platforms:</div>
+          <div class="flex flex-wrap gap-2">
+            <span v-for="(tool, _) in toolsStack" :key="tool"
+              class="px-3 py-1 rounded-full font-medium text-sm text-white shadow cursor-pointer" :style="{
+                backgroundColor: badgeColors[tool]?.bg || '#888',
+                color: badgeColors[tool]?.text || '#fff'
+              }">
+              {{ tool }}
+            </span>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Unprofessional Experience -->
     <div class="mb-4 md:mb-12">
       <h3 class="text-xl md:text-2xl mb-4 md:mb-6 font-bold text-neutral-800 flex items-center">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-secondary" fill="none" viewBox="0 0 24 24"
@@ -47,16 +51,20 @@
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
             d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
         </svg>
-        Unprofessional Experience
+        Learning Journey
       </h3>
 
-      <div class="relative pl-8 border-l-2 border-accent space-y-6 md:space-y-8">
-        <div v-for="(item, index) in unprofessionalExperience" :key="index" class="relative">
-          <div class="absolute -left-11 w-8 h-8 rounded-full bg-secondary flex items-center justify-center">
-            <div class="w-4 h-4 bg-white rounded-full"></div>
+      <div class="relative pl-8 border-l-2 border-neutral-400/50 space-y-6 md:space-y-8">
+        <div v-for="(item, index) in unprofessionalExperience" :key="index" class="relative group">
+          <!-- Timeline Dot with Icon -->
+          <div
+            class="absolute rounded-full bg-linear-to-br from-neutral-50 to-neutral-100 flex items-center justify-center border-1 border-accent text-white shadow-md px-1 pb-1 -left-13 top-4 w-8 h-8 md:w-10 md:h-10">
+            <span v-if="item.icon" class="text-xl">{{ item.icon }}</span>
+            <span v-else class="w-4 h-4 bg-white rounded-full"></span>
           </div>
-          <div class="bg-white/90 p-5 rounded-xl shadow-sm border border-neutral-100">
-            <span class="text-sm font-medium text-secondary bg-primary px-2 py-1 rounded">
+          <div
+            class="bg-white/90 p-5 rounded-xl shadow-sm border border-neutral-100 transition-all group-hover:shadow-md">
+            <span class="text-xs font-semibold text-secondary bg-primary/10 py-1 rounded tracking-wide">
               {{ item.period }}
             </span>
             <h4 class="text-xl font-bold mt-2 mb-1">{{ item.title }}</h4>
@@ -64,7 +72,11 @@
             <p class="text-neutral-600 my-2 md:my-3 text-sm md:text-base">{{ item.description }}</p>
             <div class="flex flex-wrap gap-2">
               <span v-for="(tech, techIndex) in item.tags" :key="techIndex"
-                class="text-xs px-2 py-1 bg-neutral-100 text-neutral-700">
+                class="text-xs px-2 pb-1 bg-neutral-100 text-neutral-700 rounded-lg shadow-sm cursor-pointer hover:bg-neutral-200 transition"
+                :style="{
+                  backgroundColor: badgeColors[tech]?.bg || '#eee',
+                  color: badgeColors[tech]?.text || '#333'
+                }">
                 {{ tech }}
               </span>
             </div>
@@ -106,13 +118,31 @@ import { gsap } from "gsap";
 
 const contentContainer = ref<HTMLElement | null>(null);
 
-// Skills data
-const skills = ref([
-  { name: "TypeScript", level: 90 },
-  { name: "Vue.js", level: 95 },
-  { name: "TailwindCSS", level: 92 },
-  { name: "React", level: 75 }
-]);
+const frontendStack = [
+  "JavaScript", "TypeScript", "React", "Vue", "Svelte", "Astro", "Preact", "Alpine.js", "TailwindCSS"
+];
+const toolsStack = [
+  "Python", "Node.js", "Arduino", "Arch Linux", "C++", "Lua"
+];
+const badgeColors: Record<string, { bg: string; text: string }> = {
+  "JavaScript": { bg: "#F7DF1E", text: "#222" },
+  "TypeScript": { bg: "#3178C6", text: "#fff" },
+  "React": { bg: "#61DAFB", text: "#222" },
+  "Vue": { bg: "#42B883", text: "#fff" },
+  "Vue.js": { bg: "#42B883", text: "#fff" },
+  "Svelte": { bg: "#FF3E00", text: "#fff" },
+  "Astro": { bg: "#FF5D01", text: "#fff" },
+  "Preact": { bg: "#673AB8", text: "#fff" },
+  "Alpine.js": { bg: "#8BC0D0", text: "#fff" },
+  "Python": { bg: "#3776AB", text: "#fff" },
+  "Node.js": { bg: "#339933", text: "#fff" },
+  "Arduino": { bg: "#00878F", text: "#fff" },
+  "Arch Linux": { bg: "#1793D1", text: "#fff" },
+  "TailwindCSS": { bg: "#38B2AC", text: "#fff" },
+  "Lua": { bg: "#000080", text: "#fff" },
+  "PyTorch": { bg: "#EE4C2C", text: "#fff" },
+  "C++": { bg: "#00599C", text: "#fff" },
+};
 
 // Unprofessional Experience
 const unprofessionalExperience = ref([
@@ -120,29 +150,33 @@ const unprofessionalExperience = ref([
     period: "2024 - Present",
     title: "Frontend Development",
     subtitle: "Self-Taught Coder",
-    description: "Transitioned to modern frontend development. Currently focused on building creative web applications with TypeScript, Vue 3, and TailwindCSS.",
-    tags: ["JavaScript", "TypeScript", "Vue.js", "TailwindCSS"]
+    description: "Building creative web apps with TypeScript, Vue 3, and TailwindCSS. ",
+    tags: ["JavaScript", "TypeScript", "Vue.js", "TailwindCSS"],
+    icon: "💻"
   },
   {
     period: "2022 - 2023",
     title: "Game Modding Experience",
     subtitle: "Morrowind Mod Developer",
-    description: "Created game mods using MWSE-Lua scripting. Built custom gameplay mechanics, UI enhancements, and content expansions for The Elder Scrolls III: Morrowind.",
-    tags: ["Lua", "MWSE", "Game Development", "Modding"]
+    description: "Crafted mods with MWSE-Lua scripting. Designed new and immersive gameplay mechanics for The Elder Scrolls III: Morrowind.",
+    tags: ["Lua", "MWSE", "Game Development", "Modding"],
+    icon: "🎮"
   },
   {
     period: "2022 - 2023",
     title: "Deep Learning Research",
     subtitle: "Thesis Project: Handwritten Math Formula Recognitions",
-    description: "Research on a deep learning model using PyTorch to recognize and interpret handwritten mathematical formulas.",
-    tags: ["Python", "PyTorch", "CNN", "Deep Learning"]
+    description: "Research on a deep learning model using PyTorch to interpret handwritten math formulas. Learned a ton about neural networks and data science.",
+    tags: ["Python", "PyTorch", "CNN", "Deep Learning"],
+    icon: "🧠"
   },
   {
     period: "2019 - 2022",
     title: "Math Education",
     subtitle: "Programming Courses",
-    description: "Completed foundational courses including Programming Fundamentals, Data Structures, and Database Systems.",
-    tags: ["Python", "C++", "Algorithms", "Data Structures"]
+    description: "Completed courses in Programming Fundamentals, Data Structures, and Database Systems.",
+    tags: ["Python", "C++", "Algorithms", "Data Structures"],
+    icon: "📚"
   }
 ]);
 
@@ -162,33 +196,31 @@ const contacts = markRaw([
   }
 ]);
 
+const animateContent = () => {
+  if (!contentContainer.value) return;
+
+  console.log("Animating content");
+  // Set initial state for main sections
+  gsap.set(contentContainer.value.children, { opacity: 0, y: 20 });
+
+  // Create timeline
+  const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+
+  tl.to(
+    contentContainer.value.children,
+    {
+      opacity: 1,
+      y: 0,
+      stagger: 0.1,
+      duration: 0.5
+    },
+    0.2
+  );
+}
+
 // GSAP animations
 onMounted(() => {
-  if (contentContainer.value) {
-    // Set initial state
-    gsap.set(contentContainer.value.children, { opacity: 0, y: 20 });
-
-    // Create timeline
-    const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
-
-    tl.to(
-      contentContainer.value.children,
-      {
-        opacity: 1,
-        y: 0,
-        stagger: 0.1,
-        duration: 0.5
-      },
-      0.2
-    );
-
-    // Animate progress bars
-    skills.value.forEach((_, i) => {
-      const bars = document.querySelectorAll(".progress");
-      if (bars[i]) {
-        tl.fromTo(bars[i], { width: 0 }, { width: `${skills.value[i].level}%`, duration: 1.5 }, "<0.2");
-      }
-    });
-  }
+  // Animate main container
+  animateContent();
 });
 </script>

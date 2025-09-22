@@ -21,6 +21,7 @@ onMounted(() => {
 
   if (firstRun.value) {
     setTimeout(() => {
+      openWindow("projects");
       openWindow("about_me");
       firstRun.value = false;
     }, 2000);

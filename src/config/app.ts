@@ -28,7 +28,7 @@ export const appConfigs: AppConfig[] = [
   },
   {
     showOnDesktop: true,
-    type: "code_projects",
+    type: "projects",
     icon: defineAsyncComponent(() => import("../icons/FluentEmojiFlatFileFolder.vue")),
     label: "Projects",
     title: "Code Projects",

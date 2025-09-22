@@ -1,3 +1,0 @@
-- Gaming portfolio with playable projects
-  - Color Blocks
-  - Cozy Pet Simulator
