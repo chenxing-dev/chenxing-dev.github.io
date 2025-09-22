@@ -199,7 +199,6 @@ const contacts = markRaw([
 const animateContent = () => {
   if (!contentContainer.value) return;
 
-  console.log("Animating content");
   // Set initial state for main sections
   gsap.set(contentContainer.value.children, { opacity: 0, y: 20 });
 
