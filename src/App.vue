@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { onMounted } from "vue";
-import Wallpaper from "./components/desktop/Wallpaper.vue";
-import DesktopIcon from "./components/desktop/DesktopIcon.vue";
-import WindowManager from "./components/WindowManager.vue";
-import useWindowManager from "./composables/useWindowManager.ts";
 import { useStorage } from "@vueuse/core";
-import { getDesktopApps } from "./config/app.ts";
-import { useSettings } from "./composables/useSettings.ts";
+import Wallpaper from "@/components/desktop/Wallpaper.vue";
+import DesktopIcon from "@/components/desktop/DesktopIcon.vue";
+import WindowManager from "@/components/WindowManager.vue";
+import { useSettings } from "@/composables/useSettings";
+import useWindowManager from "@/composables/useWindowManager";
+import { getDesktopApps } from "@/config/app.ts";
+
 
 const { settings } = useSettings();
 

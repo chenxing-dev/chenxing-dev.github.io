@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { computed, nextTick, onMounted, onUnmounted, ref } from "vue";
-import { useSettings } from "../../composables/useSettings";
-import { getIconByType } from "../../config/app";
 import gsap from "gsap";
+import { useSettings } from "@/composables/useSettings";
+import { getIconByType } from "@/config/app";
+
 
 const { settings } = useSettings();
 const props = defineProps<{

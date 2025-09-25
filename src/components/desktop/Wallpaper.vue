@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useSettings } from "../../composables/useSettings";
+import { useSettings } from "@/composables/useSettings";
 
 const { settings } = useSettings();
 </script>

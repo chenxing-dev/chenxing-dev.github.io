@@ -1,6 +1,6 @@
 import { ref } from "vue";
 import { useStorage } from "@vueuse/core";
-import { getAppByType, type AppConfig } from "../config/app.ts";
+import { getAppByType, type AppConfig } from "@/config/app.ts";
 
 // Default window dimensions
 const DEFAULT_WIDTH = 500;

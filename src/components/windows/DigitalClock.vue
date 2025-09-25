@@ -4,8 +4,7 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
 import { useIntervalFn } from "@vueuse/core";
-
-import { useSettings } from "../../composables/useSettings";
+import { useSettings } from "@/composables/useSettings";
 
 const { settings } = useSettings();
 

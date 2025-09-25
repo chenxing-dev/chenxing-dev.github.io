@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { ref, watch, nextTick, computed } from "vue";
-import { useSettings } from "../../composables/useSettings";
+import { useSettings } from "@/composables/useSettings";
 
 const { settings } = useSettings();
 

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 
-import { defaultSettings, useSettings } from "../../composables/useSettings";
+import { defaultSettings, useSettings } from "@/composables/useSettings";
 
 const { settings } = useSettings();
 
@@ -40,7 +40,8 @@ const resetSettings = () => {
     <div class="md:hidden border-b border-zinc-300 p-4 bg-white">
       <div class="flex items-center justify-between">
         <h2 class="text-lg font-bold text-zinc-700">Settings</h2>
-        <select v-model="activeTab" class="bg-white border border-zinc-300 rounded-lg px-3 py-2 text-zinc-700 focus:outline-none focus:ring-1 focus:ring-zinc-500">
+        <select v-model="activeTab"
+          class="bg-white border border-zinc-300 rounded-lg px-3 py-2 text-zinc-700 focus:outline-none focus:ring-1 focus:ring-zinc-500">
           <option v-for="tab in tabs" :key="tab.id" :value="tab.id">
             {{ tab.label }}
           </option>
@@ -53,22 +54,19 @@ const resetSettings = () => {
       <div class="hidden md:flex flex-col md:w-48 bg-zinc-50/80 border-r border-zinc-300">
         <div class="p-4">
           <div class="text-xs text-zinc-500 mb-2 pl-2">SETTINGS CATEGORIES</div>
-          <button
-            v-for="tab in tabs"
-            :key="tab.id"
-            @click="activeTab = tab.id"
-            class="w-full text-left p-2.5 pb-3 rounded-lg transition-all mb-1"
-            :class="{
+          <button v-for="tab in tabs" :key="tab.id" @click="activeTab = tab.id"
+            class="w-full text-left p-2.5 pb-3 rounded-lg transition-all mb-1" :class="{
               'bg-zinc-500 text-zinc-50': activeTab === tab.id,
               'text-zinc-500 hover:bg-zinc-200': activeTab !== tab.id
-            }"
-          >
+            }">
             {{ tab.label }}
           </button>
         </div>
 
         <div class="mt-auto p-4 border-t border-zinc-300">
-          <button @click="resetSettings" class="w-full text-left p-2.5 rounded-lg text-zinc-500 hover:bg-zinc-100 transition-colors">Reset to Defaults</button>
+          <button @click="resetSettings"
+            class="w-full text-left p-2.5 rounded-lg text-zinc-500 hover:bg-zinc-100 transition-colors">Reset to
+            Defaults</button>
         </div>
       </div>
 
@@ -83,10 +81,13 @@ const resetSettings = () => {
             <div class="bg-zinc-50/90 backdrop-blur-sm rounded-xl border border-zinc-300 p-4">
               <h4 class="font-medium text-zinc-600 mb-4">Theme</h4>
               <div class="grid grid-cols-2 gap-2 md:gap-4">
-                <div v-for="theme in themes" :key="theme.id" @click="settings.theme = theme.id" class="border-2 rounded-xl p-4 cursor-pointer transition-all hover:scale-[1.02] text-zinc-600" :class="{ 'border-zinc-400': settings.theme === theme.id, 'border-transparent': settings.theme !== theme.id }">
+                <div v-for="theme in themes" :key="theme.id" @click="settings.theme = theme.id"
+                  class="border-2 rounded-xl p-4 cursor-pointer transition-all hover:scale-[1.02] text-zinc-600"
+                  :class="{ 'border-zinc-400': settings.theme === theme.id, 'border-transparent': settings.theme !== theme.id }">
                   <div class="font-medium text-center mb-2">{{ theme.name }}</div>
                   <div class="flex h-8 rounded-lg overflow-hidden shadow">
-                    <div v-for="(color, index) in theme.colors" :key="index" class="flex-1" :style="{ backgroundColor: color }"></div>
+                    <div v-for="(color, index) in theme.colors" :key="index" class="flex-1"
+                      :style="{ backgroundColor: color }"></div>
                   </div>
                 </div>
               </div>
@@ -96,7 +97,9 @@ const resetSettings = () => {
             <div class="bg-zinc-50/90 backdrop-blur-sm rounded-xl border border-zinc-300 p-4">
               <h4 class="font-medium text-zinc-600 mb-4">Background</h4>
               <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div v-for="background in backgrounds" :key="background.id" @click="settings.background = background.id" class="border-2 rounded-lg px-4 pb-4 md:p-4 cursor-pointer transition-all hover:scale-[1.02] flex flex-col h-full" :class="{ 'border-zinc-400': settings.background === background.id, 'border-transparent': settings.background !== background.id }">
+                <div v-for="background in backgrounds" :key="background.id" @click="settings.background = background.id"
+                  class="border-2 rounded-lg px-4 pb-4 md:p-4 cursor-pointer transition-all hover:scale-[1.02] flex flex-col h-full"
+                  :class="{ 'border-zinc-400': settings.background === background.id, 'border-transparent': settings.background !== background.id }">
                   <!-- Fixed height text container with centered content -->
                   <div class="text-zinc-600 text-center mb-2 h-8 flex items-center justify-center">
                     <span class="leading-tight text-sm">{{ background.name }}</span>
@@ -133,7 +136,8 @@ const resetSettings = () => {
     </div>
 
     <!-- Status Bar -->
-    <div class="flex items-center justify-between px-3 py-1 text-xs text-gray-500 bg-zinc-50/90 border-t border-zinc-300">
+    <div
+      class="flex items-center justify-between px-3 py-1 text-xs text-gray-500 bg-zinc-50/90 border-t border-zinc-300">
       <div>Settings v1.0</div>
       <div>Changes saved automatically</div>
     </div>
