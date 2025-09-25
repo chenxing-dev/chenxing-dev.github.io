@@ -1,34 +1,33 @@
 <script lang="ts" setup>
-import { computed, onMounted, ref, watch } from "vue";
+import { computed, ref, onMounted, watch } from "vue";
 import { useFocus } from "@vueuse/core";
 import VueDraggableResizable from "vue-draggable-resizable";
 import "vue-draggable-resizable/style.css";
-import gsap from "gsap";
 import useDesktop, { type WindowItem } from "@/composables/useDesktop";
 import { useMobileDetector } from "@/composables/useMobileDetector.ts";
 import { useSettings } from "@/composables/useSettings.ts";
+import { useWindowAnimations } from "@/composables/useWindowAnimations.ts";
 import { getComponentByType } from "@/config/app.ts";
 
-const { settings } = useSettings();
 
-const props = defineProps<{
-  window: WindowItem;
-}>();
-
+const props = defineProps<{ window: WindowItem }>();
 const emit = defineEmits<{
   (e: "close", id: number): void;
   (e: "focus", id: number): void;
 }>();
 
-const { isMobile } = useMobileDetector();
-
-const { updateWindowState } = useDesktop();
+const windowRef = ref<HTMLElement | null>(null);
 
 // Local state for drag position
 const position = ref({
   x: props.window.position.x,
   y: props.window.position.y
 });
+
+const { settings } = useSettings();
+const { isMobile } = useMobileDetector();
+const { updateWindowState } = useDesktop();
+const { openAnimation, closeAnimation } = useWindowAnimations(windowRef);
 
 // Handle drag events
 const onDrag = (x: number, y: number) => {
@@ -41,7 +40,6 @@ const onDragStop = () => {
 };
 
 // Focus management
-const windowRef = ref<HTMLElement | null>(null);
 const { focused } = useFocus(windowRef, { initialValue: true });
 
 watch(focused, isFocused => {
@@ -51,14 +49,13 @@ watch(focused, isFocused => {
 });
 
 // Animation on mount
-onMounted(() => {
-  gsap.from(windowRef.value, {
-    scale: 0.1,
-    opacity: 0,
-    duration: 0.3,
-    ease: "back.out(1.7)"
-  });
-});
+onMounted(() => { openAnimation(); });
+
+// Handle window close
+const handleClose = async () => {
+  await closeAnimation(); // Wait for animation to finish
+  emit('close', props.window.id); // Emit close event
+};
 
 // Window title
 const title = props.window.app.title || "Untitled Window";
@@ -92,7 +89,7 @@ const contentComponent = computed(() => {
         <div class="flex items-center border-l-2 border-accent h-full">
           <button :class="settings.theme"
             class="close-btn w-5 h-5 flex items-center justify-center hover:bg-zinc-100/80 cursor-pointer"
-            @click.stop="emit('close', window.id)">
+            @click.stop="handleClose">
             <div class="w-3 h-0.5 bg-accent rotate-45 absolute"></div>
             <div class="w-3 h-0.5 bg-accent -rotate-45 absolute"></div>
           </button>
