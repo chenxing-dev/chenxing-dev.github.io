@@ -5,7 +5,7 @@ import Wallpaper from "@/components/desktop/Wallpaper.vue";
 import DesktopIcon from "@/components/desktop/DesktopIcon.vue";
 import WindowManager from "@/components/WindowManager.vue";
 import { useSettings } from "@/composables/useSettings";
-import useWindowManager from "@/composables/useWindowManager";
+import useDesktop from "@/composables/useDesktop";
 import { getDesktopApps } from "@/config/app.ts";
 
 
@@ -14,7 +14,7 @@ const { settings } = useSettings();
 // Desktop apps configuration
 const desktopApps = getDesktopApps();
 
-const { windows, openWindow, closeWindow, focusWindow } = useWindowManager();
+const { windows, openWindow, closeWindow, focusWindow } = useDesktop();
 
 onMounted(() => {
   // Initialize with terminal window on load

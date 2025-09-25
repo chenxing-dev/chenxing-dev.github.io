@@ -4,7 +4,7 @@ import { useFocus } from "@vueuse/core";
 import VueDraggableResizable from "vue-draggable-resizable";
 import "vue-draggable-resizable/style.css";
 import gsap from "gsap";
-import useWindowManager, { type WindowItem } from "@/composables/useWindowManager.ts";
+import useDesktop, { type WindowItem } from "@/composables/useDesktop";
 import { useMobileDetector } from "@/composables/useMobileDetector.ts";
 import { useSettings } from "@/composables/useSettings.ts";
 import { getComponentByType } from "@/config/app.ts";
@@ -22,7 +22,7 @@ const emit = defineEmits<{
 
 const { isMobile } = useMobileDetector();
 
-const { updateWindowState } = useWindowManager();
+const { updateWindowState } = useDesktop();
 
 // Local state for drag position
 const position = ref({
@@ -61,11 +61,11 @@ onMounted(() => {
 });
 
 // Window title
-const title = props.window.title || "Untitled Window";
+const title = props.window.app.title || "Untitled Window";
 
 // Current window content
 const contentComponent = computed(() => {
-  const component = getComponentByType(props.window.type);
+  const component = getComponentByType(props.window.app.type);
   if (component) {
     return component;
   }
@@ -75,10 +75,10 @@ const contentComponent = computed(() => {
 
 <template>
   <VueDraggableResizable class="window bg-transparent max-w-dvw"
-    :class="isMobile ? (window.mobileSize?.height ? '' : '!h-dvh !max-h-full') : ''" :draggable="!isMobile"
+    :class="isMobile ? (window.app.mobileSize?.height ? '' : '!h-dvh !max-h-full') : ''" :draggable="!isMobile"
     :resizable="false" :drag-handle="'.drag-handle'" :x="isMobile ? 0 : window.position.x"
-    :y="isMobile ? 0 : window.position.y" :w="window.size.width"
-    :h="isMobile ? window.mobileSize?.height : window.size.height" :z="window.zIndex" @dragging="onDrag"
+    :y="isMobile ? 0 : window.position.y" :w="window.app.size.width"
+    :h="isMobile ? window.app.mobileSize?.height : window.app.size.height" :z="window.zIndex" @dragging="onDrag"
     @drag-stop="onDragStop" @activated="emit('focus', window.id)">
     <div ref="windowRef" :class="settings.theme"
       class="bg-zinc-50 bg-primary border-2 border-accent overflow-hidden flex flex-col md:w-full h-full p-0.5 m-2"
@@ -101,7 +101,7 @@ const contentComponent = computed(() => {
 
       <!-- Window Content -->
       <div class="window-content flex-1 overflow-auto border-2 border-accent">
-        <component :is="contentComponent" v-if="contentComponent" :type="window.type" />
+        <component :is="contentComponent" v-if="contentComponent" :type="window.app.type" />
         <div v-else class="h-full flex items-center justify-center text-zinc-400">Window content not available</div>
       </div>
     </div>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Window from '@/components/windows/Window.vue'
-import { type WindowItem } from '@/composables/useWindowManager'
+import { type WindowItem } from '@/composables/useDesktop'
 
 defineProps<{
     windows: WindowItem[]
