@@ -11,7 +11,6 @@
 - 🖥️ **Desktop Interface**
   - 🪟 **Window Management System**: Vue-powered draggable windows with z-index management
   - 💾 **Persistent State** - Window positions saved between sessions
-- 🎮 **Gaming Library** - Showcase of game projects and favorites
 - 🐧 **Terminal Emulator** with common Linux commands
 - 💻 **Code Projects** - GitHub projects with tech stack icons
 - ⚙️ **Settings** - Customize the OS experience
@@ -90,7 +89,6 @@ chenxing-dev.github.io/
 
 | App        | Description                                            |
 | ---------- | ------------------------------------------------------ |
-| 🎮 Gaming   | Showcases game development projects                    |
 | 🐧 Terminal | Interactive terminal emulator with Linux-like commands |
 | 💻 Projects | GitHub project cards with tech stack information       |
 | 🕒 Clock    | Live time and date display                             |

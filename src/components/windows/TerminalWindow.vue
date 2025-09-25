@@ -33,15 +33,28 @@ const fileSystem = ref<FileSystemItem>({
   name: "~",
   type: "dir",
   children: [
-    { name: "about.txt", type: "file", content: "陈刑OS is a personal desktop environment built with Vue.js" },
-    { name: "contact.txt", type: "file", content: "微博: @陈刑很刑" },
+    {
+      name: "readme.md",
+      type: "file",
+      content: [
+        "# ChenXing OS ~",
+        "A handcrafted personal web desktop built with Vue 3 + Vite.",
+        "",
+        "Try: `help`, `ls`, `cd projects`, `cat about.txt`.",
+        "Have fun hacking around."
+      ].join("\n")
+    },
+    { name: "about.txt", type: "file", content: "陈刑OS is a personal web desktop. Built with Vue 3, curiosity, and caffeine." },
+    { name: "contact.txt", type: "file", content: "微博: @陈刑很刑\nGitHub: chenxing-dev" },
     {
       name: "projects",
       type: "dir",
-      children: [{ name: "game-dev", type: "dir", children: [] }]
+      children: [
+        { name: "arduino.txt", type: "file", content: "Arduino RGB Lighting Controller\nStack: C++ / Arduino\nLink: https://github.com/chenxing-dev/arduino-rbg-light" },
+        { name: "blog.txt", type: "file", content: "Personal Blog (Astro + Markdown). Drafting long-form thoughts on learning & tools.\nLink: https://blog.chenxing.dev" },
+      ]
     },
-    { name: "documents", type: "dir", children: [{ name: "ideas.md", type: "file", content: "# Future Features\n\n- Notepad application\n- Calculator" }] },
-    { name: "readme.md", type: "file", content: "# Welcome to 陈刑OS\nThis is a personal desktop environment with a cozy minimalist theme." }
+    { name: "stars.txt", type: "file", content: "★ ✦ ✧ ✺ ✹ ✸ ✶ ✵ ✷" },
   ]
 });
 
@@ -126,8 +139,12 @@ const commands: Record<string, CommandFunction> = {
     const contents = getCurrentDirContents();
     const file = contents.find(item => item.name === filename && item.type === "file");
 
-    if (file && file.content) {
-      return [{ type: "output", text: file.content }];
+    if (file) {
+      if (file.content) {
+        return [{ type: "output", text: file.content }];
+      } else {
+        return [{ type: "output", text: "" }]
+      }
     }
 
     return [{ type: "output", text: `cat: ${filename}: No such file or directory` }];
@@ -198,7 +215,8 @@ const executeCommand = () => {
 </script>
 
 <template>
-  <div class="terminal whitespace-pre overflow-auto h-full text-wrap break-all py-2 px-4" ref="terminalBody" :class="settings.theme">
+  <div class="terminal whitespace-pre overflow-y-auto overflow-x-hidden h-full text-wrap break-all py-2 px-4"
+    ref="terminalBody" :class="settings.theme">
     <div v-for="(line, index) in output" :key="index" class="terminal-line">
       <p v-if="line.type === 'command'" class="inline text-nowrap">
         <span class="terminal-prompt mr-2 text-nowrap">{{ prompt(line.cwd) }}</span>
@@ -215,7 +233,8 @@ const executeCommand = () => {
     </div>
     <p class="terminal-line flex">
       <span class="terminal-prompt mr-2 text-nowrap">{{ prompt(currentDir) }}</span>
-      <input class="terminal-input bg-transparent outline-none flex-1" v-model="command" @keyup.enter="executeCommand" ref="inputRef" autofocus />
+      <input class="terminal-input bg-transparent outline-none flex-1" v-model="command" @keyup.enter="executeCommand"
+        ref="inputRef" autofocus />
     </p>
   </div>
 </template>
@@ -224,6 +243,7 @@ const executeCommand = () => {
   scrollbar-color: #71717a #e4e4e7;
   scrollbar-width: thin;
 }
+
 .theme-paper {
   .terminal-line {
     border-bottom: 1px dashed var(--color-secondary);

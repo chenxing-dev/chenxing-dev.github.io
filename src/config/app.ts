@@ -1,5 +1,4 @@
 import { defineAsyncComponent } from "vue";
-import { games } from "./games";
 
 export interface AppConfig {
   showOnDesktop: boolean; // Whether the app should be shown on the desktop
@@ -93,16 +92,6 @@ export const appConfigs: AppConfig[] = [
   },
   {
     showOnDesktop: true,
-    type: "gaming",
-    icon: defineAsyncComponent(() => import("../icons/TwemojiVideoGame.vue")),
-    label: "Games",
-    title: "Gaming Library",
-    component: defineAsyncComponent(() => import("../components/windows/GamingWindow.vue")),
-    height: 360,
-    width: 640
-  },
-  {
-    showOnDesktop: true,
     type: "digitalClock",
     icon: defineAsyncComponent(() => import("../icons/MdiClockDigital.vue")),
     label: "Digital Clock",
@@ -123,17 +112,7 @@ export const appConfigs: AppConfig[] = [
     component: defineAsyncComponent(() => import("../components/windows/SettingsWindow.vue")),
     width: 720,
     height: 540
-  },
-  ...games.value.map(game => ({
-    showOnDesktop: false, // Games are not shown on desktop by default
-    type: game.id,
-    icon: defineAsyncComponent(() => import("../icons/FluentEmojiFlatFileFolder.vue")),
-    label: game.title,
-    title: game.title,
-    component: defineAsyncComponent(() => import("../components/windows/GamePlayerWindow.vue")),
-    width: 800,
-    height: 600
-  }))
+  }
 ];
 
 // Helper functions for accessing app config
