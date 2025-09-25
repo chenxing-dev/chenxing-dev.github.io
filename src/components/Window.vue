@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script setup lang="ts">
 import VueDraggableResizable from "vue-draggable-resizable";
 import "vue-draggable-resizable/style.css";
 
@@ -61,7 +61,7 @@ const height = computed(() => isMobile.value ? (props.window.app.mobileSize?.hei
 
       <!-- Window Content -->
       <div class="window-content flex-1 overflow-auto border-2 border-accent">
-        <component :is="contentComponent" v-if="contentComponent" :type="window.app.type" />
+        <component :is="contentComponent" v-if="contentComponent" :type="window.app.id" />
         <div v-else class="h-full flex items-center justify-center text-zinc-400">Window content not available</div>
       </div>
     </div>

@@ -1,6 +1,6 @@
 import { ref, computed } from "vue";
 import { useStorage } from "@vueuse/core";
-import { getAppByType, type AppConfig } from "@/config/app.ts";
+import { getAppById, type AppConfig } from "@/config/apps-registry";
 
 // Default window dimensions
 const DEFAULT_WIDTH = 500;
@@ -26,7 +26,7 @@ export interface WindowItem {
 
 // Define app interface
 interface AppItem {
-  type: string;
+  id: string;
   title: string;
   icon: string;
   size: WindowSize;
@@ -60,13 +60,13 @@ export default function useDesktop() {
     };
   }
 
-  const openWindow = (type: string, appConfig?: AppConfig) => {
-    appConfig = appConfig || getAppByType(type);
+  const openWindow = (id: string, appConfig?: AppConfig) => {
+    appConfig = appConfig || getAppById(id);
     if (!appConfig) {
-      throw new Error(`No app configuration found for type: ${type}`);
+      throw new Error(`No app configuration found for: ${id}`);
     }
     const newWindow = createWindow({
-      type: appConfig.type,
+      id: appConfig.id,
       title: appConfig.title,
       icon: appConfig.icon,
       size: {

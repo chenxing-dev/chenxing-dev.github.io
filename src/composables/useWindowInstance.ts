@@ -1,5 +1,5 @@
 import { ref, computed, onMounted, type Ref } from "vue";
-import { getComponentByType } from "@/config/app.ts";
+import { getComponentById } from "@/config/apps-registry";
 import useDesktop, { type WindowItem } from "@/composables/useDesktop";
 import { useWindowAnimations } from "@/composables/useWindowAnimations";
 
@@ -19,7 +19,7 @@ export function useWindowInstance(window: WindowItem, emit: EmitFn) {
 
     const title = window.app.title || "Untitled Window";
 
-    const contentComponent = computed(() => getComponentByType(window.app.type) || null);
+    const contentComponent = computed(() => getComponentById(window.app.id) || null);
 
     // Drag handlers
     const onDrag = (x: number, y: number) => {

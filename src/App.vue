@@ -6,7 +6,7 @@ import DesktopIcon from "@/components/desktop/DesktopIcon.vue";
 import WindowManager from "@/components/WindowManager.vue";
 import { useSettings } from "@/composables/useSettings";
 import useDesktop from "@/composables/useDesktop";
-import { getDesktopApps } from "@/config/app.ts";
+import { getDesktopApps } from "@/config/apps-registry";
 
 
 const { settings } = useSettings();
@@ -38,7 +38,7 @@ onMounted(() => {
     <div class="absolute top-0 left-0 w-full p-2 md:p-12">
       <div
         class="grid gap-2 md:gap-4 h-full items-start justify-items-center grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 2xl:grid-cols-14">
-        <DesktopIcon v-for="(app, index) in desktopApps" :key="index" :label="app.label" :type="app.type"
+        <DesktopIcon v-for="(app, index) in desktopApps" :key="index" :label="app.label" :type="app.id"
           @open="openWindow" v-show="app.showOnDesktop" />
       </div>
     </div>

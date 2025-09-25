@@ -2,7 +2,7 @@
 import { computed, nextTick, onMounted, onUnmounted, ref } from "vue";
 import gsap from "gsap";
 import { useSettings } from "@/composables/useSettings";
-import { getIconByType } from "@/config/app";
+import { getIconById } from "@/config/apps-registry";
 
 
 const { settings } = useSettings();
@@ -16,7 +16,7 @@ const emit = defineEmits<{
 }>();
 
 const iconComponent = computed(() => {
-  const component = getIconByType(props.type);
+  const component = getIconById(props.type);
   if (component) {
     return component;
   }
