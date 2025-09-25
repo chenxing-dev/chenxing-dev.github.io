@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type WindowItem } from './useWindowManager'
+import { type WindowItem } from '../composables/useWindowManager'
 import Window from './windows/Window.vue'
 
 defineProps<{

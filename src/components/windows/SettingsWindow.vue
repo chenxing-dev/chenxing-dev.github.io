@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 
-import { defaultSettings, useSettings } from "../useSettings";
+import { defaultSettings, useSettings } from "../../composables/useSettings";
 
 const { settings } = useSettings();
 

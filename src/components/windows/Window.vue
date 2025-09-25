@@ -4,10 +4,10 @@ import VueDraggableResizable from "vue-draggable-resizable";
 import "vue-draggable-resizable/style.css";
 import gsap from "gsap";
 import { useFocus } from "@vueuse/core";
-import useWindowManager, { type WindowItem } from "../useWindowManager.ts";
+import useWindowManager, { type WindowItem } from "../../composables/useWindowManager.ts";
 import { getComponentByType } from "../../config/app.ts";
-import { useMobileDetector } from "../useMobileDetector";
-import { useSettings } from "../useSettings";
+import { useMobileDetector } from "../../composables/useMobileDetector.ts";
+import { useSettings } from "../../composables/useSettings.ts";
 
 const { settings } = useSettings();
 

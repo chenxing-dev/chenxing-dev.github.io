@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, nextTick, onMounted, onUnmounted, ref } from "vue";
-import { useSettings } from "../useSettings";
+import { useSettings } from "../../composables/useSettings";
 import { getIconByType } from "../../config/app";
 import gsap from "gsap";
 
