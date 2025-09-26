@@ -1,7 +1,8 @@
 import { ref, computed, onMounted, type Ref } from "vue";
 import { getComponentById } from "@/config/apps-registry";
-import useDesktop, { type WindowItem } from "@/composables/useDesktop";
+import useDesktop from "@/composables/useDesktop";
 import { useWindowAnimations } from "@/composables/useWindowAnimations";
+import type { WindowItem } from "@/types";
 
 export type EmitFn = {
     (e: "close", id: number): void;

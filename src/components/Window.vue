@@ -6,7 +6,7 @@ import { computed } from "vue";
 import { useMobileDetector } from "@/composables/useMobileDetector.ts";
 import { useSettings } from "@/composables/useSettings.ts";
 import { useWindowInstance } from "@/composables/useWindowInstance";
-import { type WindowItem } from "@/composables/useDesktop";
+import type { WindowItem } from "@/types";
 
 const props = defineProps<{ window: WindowItem }>();
 const emit = defineEmits<{
