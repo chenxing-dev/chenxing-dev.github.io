@@ -1,48 +1,73 @@
 import { ref, computed } from "vue";
 import { useStorage } from "@vueuse/core";
-import { getAppById, type AppConfig } from "@/config/apps-registry";
+import { getAppById } from "@/config/apps-registry";
+import type { AppConfig, AppItem, StoredWindow, WindowItem, WindowPosition } from "@/types";
 
 // Default window dimensions
 const DEFAULT_WIDTH = 500;
 const DEFAULT_HEIGHT = 320;
 
-interface WindowPosition {
-  x: number;
-  y: number;
+// Clamp helpers
+const clamp = (n: number, min: number, max: number) => {
+  return Math.min(Math.max(n, min), max);
 }
 
-interface WindowSize {
-  width: number;
-  height: number;
+// Convert persisted window to full window object
+export const sanitizeAndRehydrate = (stored: StoredWindow[] | unknown): WindowItem[] => {
+  const list = Array.isArray(stored) ? stored : [];
+
+  const mapped: WindowItem[] = [];
+  for (const item of list) {
+    const app = getAppById(item.appId);
+    if (!app) continue; // Skip if app no longer exists
+
+    // Sanitize position
+    const position = {
+      x: clamp(item.position.x, 0, window.innerWidth - (app.width || DEFAULT_WIDTH)),
+      y: clamp(item.position.y, 0, window.innerHeight - (app.height || DEFAULT_HEIGHT))
+    };
+
+    mapped.push({
+      id: item.id,
+      app: {
+        id: app.id,
+        title: app.title,
+        icon: app.icon,
+        size: {
+          width: app.width || DEFAULT_WIDTH,
+          height: app.height || DEFAULT_HEIGHT
+        },
+        mobileSize: app.mobileSize,
+      },
+      position,
+      zIndex: item.zIndex
+    });
+  }
+
+  mapped.sort((a, b) => a.zIndex - b.zIndex);
+  return mapped;
 }
 
-// Define window interface
-export interface WindowItem {
-  id: number;
-  app: AppItem;
-  position: WindowPosition;
-  zIndex: number;
-}
+// Persistent storage for open windows
+const windows = useStorage<WindowItem[]>("os-windows", []);
 
-// Define app interface
-interface AppItem {
-  id: string;
-  title: string;
-  icon: string;
-  size: WindowSize;
-  mobileSize?: {
-    height: number;
-  };
-}
+// Make bootstrap idempotent aka only run once
+let bootstrapped = false;
+
+// Z-index and active refs
+const zIndexCounter = ref(1);
+const activeWindowId = ref<number | null>(null);
 
 export default function useDesktop() {
-  // Persistent storage for open windows
-  const windows = useStorage<WindowItem[]>("os-windows", []);
+  // Bootstrap once per module load
+  if (!bootstrapped) {
+    windows.value = sanitizeAndRehydrate(windows.value as unknown as StoredWindow[]) || [];
+    zIndexCounter.value = Math.max(1, ...windows.value.map(w => w.zIndex)) + 1;
+    activeWindowId.value = windows.value.length ? windows.value[windows.value.length - 1].id : null;
+    bootstrapped = true;
+  }
 
-  // Z-index counter to manage window stacking order
-  const zIndexCounter = ref(1);
-  const activeWindowId = ref<number | null>(null);
-
+  // Computed active window
   const activeWindow = computed(() =>
     windows.value.slice().sort((a, b) => b.zIndex - a.zIndex)[0] || null
   );

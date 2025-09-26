@@ -5,12 +5,11 @@ import { useStorage } from "@vueuse/core";
 import useDesktop from "@/composables/useDesktop";
 import Desktop from "@/components/Desktop.vue";
 
-const { openWindow, } = useDesktop();
+const { openWindow } = useDesktop();
 
 onMounted(() => {
   // First run logic
   const firstRun = useStorage("os-first-run", true);
-
   if (firstRun.value) {
     setTimeout(() => {
       openWindow("projects");

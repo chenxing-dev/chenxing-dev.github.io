@@ -1,18 +1,6 @@
 import { defineAsyncComponent } from "vue";
 
-export interface AppConfig {
-  id: string; // Unique app type identifier
-  label: string; // Icon label
-  title: string; // Window title
-  component: any;
-  icon: any;
-  width?: number;
-  height?: number;
-  mobileSize?: {
-    height: number;
-  };
-  showOnDesktop: boolean; // Whether the app should be shown on the desktop
-}
+import type { AppConfig } from "@/types";
 
 export const APPS: AppConfig[] = [
   {

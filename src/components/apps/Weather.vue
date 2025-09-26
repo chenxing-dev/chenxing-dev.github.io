@@ -10,10 +10,12 @@
         </div>
       </div>
       <div class="mt-2 flex items-center">
-        <input v-model="searchLocation" type="text" placeholder="Search location..." class="flex-grow bg-zinc-50/80 rounded-lg px-4 py-1 outline-none" @keyup.enter="fetchWeather" />
+        <input v-model="searchLocation" type="text" placeholder="Search location..."
+          class="flex-grow bg-zinc-50/80 rounded-lg px-4 py-1 outline-none" @keyup.enter="fetchWeather" />
         <button @click="fetchWeather" class="ml-2 cursor-pointer hover:bg-zinc-50/50 p-1 rounded">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
         </button>
       </div>
@@ -21,18 +23,22 @@
 
     <!-- Loading state -->
     <div v-if="loading" class="p-8 flex flex-col items-center justify-center">
-      <div class="weather-loader w-16 h-16 border-4 border-zinc-400/50 border-t-transparent rounded-full animate-spin mb-4"></div>
+      <div
+        class="weather-loader w-16 h-16 border-4 border-zinc-400/50 border-t-transparent rounded-full animate-spin mb-4">
+      </div>
       <p class="text-zinc-600 font-medium">Fetching weather data...</p>
     </div>
 
     <!-- Error state -->
     <div v-else-if="error" class="p-4 flex flex-col items-center justify-center text-red-500">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
       </svg>
       <p class="text-xl font-bold mb-2">Error fetching weather data</p>
       <p class="text-center mb-4">{{ error }}</p>
-      <button @click="fetchWeather" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition">Try Again</button>
+      <button @click="fetchWeather" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition">Try
+        Again</button>
     </div>
 
     <!-- Main weather display -->
@@ -88,33 +94,7 @@
 import { ref, onMounted, computed } from "vue";
 import gsap from "gsap";
 
-interface WeatherData {
-  current_condition: {
-    temp_C: string;
-    FeelsLikeC: string;
-    humidity: string;
-    windspeedKmph: string;
-    pressure: string;
-    weatherDesc: { value: string }[];
-    weatherCode: string;
-  }[];
-  nearest_area: {
-    areaName: { value: string }[];
-    region: { value: string }[];
-  }[];
-  weather: {
-    date: string;
-    avgtempC: string;
-    mintempC: string;
-    maxtempC: string;
-    hourly: {
-      time: string;
-      tempC: string;
-      weatherDesc: { value: string }[];
-      weatherCode: string;
-    }[];
-  }[];
-}
+import type { WeatherData } from "@/types";
 
 // Reactive data
 const weatherData = ref<WeatherData | null>(null);

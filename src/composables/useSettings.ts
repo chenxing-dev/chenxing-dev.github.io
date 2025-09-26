@@ -1,11 +1,6 @@
 import { useStorage } from "@vueuse/core";
 
-// Define the settings interface
-interface Settings {
-  theme: string;
-  background: string;
-  clockFormat: "12h" | "24h";
-}
+import type { Settings } from "@/types";
 
 // Default settings
 export const defaultSettings: Settings = {
