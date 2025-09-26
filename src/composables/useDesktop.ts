@@ -19,7 +19,7 @@ export const sanitizeAndRehydrate = (stored: StoredWindow[] | unknown): WindowIt
   const mapped: WindowItem[] = [];
   for (const item of list) {
     const app = getAppById(item.appId);
-    if (!app) continue; // Skip if app no longer exists
+    if (!app) continue; // Clean out invalid apps
 
     // Sanitize position
     const position = {
