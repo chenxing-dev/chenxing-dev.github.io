@@ -18,13 +18,13 @@
       </div>
 
       <!-- Empty State -->
-      <div v-else-if="!loading && repos.length === 0" class="flex flex-col items-center justify-center h-full text-zinc-600">
+      <div v-else-if="!loading && repos.length === 0"
+        class="flex flex-col items-center justify-center h-full text-zinc-600">
         <h3>No pinned projects found</h3>
       </div>
 
       <div class="projects-grid grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div v-for="repo in repos" :key="repo.id" class="project-card" :data-index="repo.id" ref="projectCardRefs"
-          @click="openRepo(repo.html_url)">
+        <div v-for="repo in repos" :key="repo.id" class="project-card" :data-index="repo.id" ref="projectCardRefs">
           <div
             class="project-card-inner bg-zinc-50 rounded-xl border border-zinc-200 shadow-sm overflow-hidden transition-all hover:shadow-md h-full flex flex-col">
             <div class="p-5 flex-1">
@@ -92,7 +92,7 @@ interface Repository {
   description: string;
   topics: string[];
   html_url: string;
-  homepage?: string;
+  homepage?: string | null;
   language?: string;
 }
 
@@ -111,15 +111,18 @@ const fetchRepos = async () => {
 
   try {
     // Use GitHub REST API to fetch user repositories
-    const response = await fetch("https://api.github.com/users/chenxing-dev/repos?sort_updated&per_page=20");
+    const response = await fetch("https://api.github.com/users/chenxing-dev/repos?sort=updated&per_page=20");
     if (!response.ok) {
       throw new Error(`Error: ${response.status} ${response.statusText}`);
     }
     let data = await response.json();
-    // Filter to only include pinned repositories
+
+    // Filter to only include the manually defined pinned repos
     data = data.filter((repo: Repository) => pinnedRepoNames.includes(repo.name));
+
     // Map to include only necessary fields
-    data = data.map((repo: Repository) => ({
+    console.log(data);
+    repos.value = data.map((repo: Repository) => ({
       id: repo.id,
       name: repo.name,
       description: repo.description,
@@ -128,18 +131,11 @@ const fetchRepos = async () => {
       homepage: repo.homepage,
       language: repo.language
     }));
-
-    repos.value = data;
   } catch (err: any) {
     error.value = err.message || "An unknown error occurred.";
   } finally {
     loading.value = false;
   }
-};
-
-// Open repository URL in a new tab
-const openRepo = (url: string) => {
-  window.open(url, "_blank");
 };
 
 // Initialize animations

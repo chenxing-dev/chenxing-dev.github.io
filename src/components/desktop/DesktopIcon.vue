@@ -8,15 +8,15 @@ import { getIconById } from "@/config/apps-registry";
 const { settings } = useSettings();
 const props = defineProps<{
   label: string;
-  type: string;
+  id: string;
 }>();
 
 const emit = defineEmits<{
-  (e: "open", type: string): void;
+  (e: "open", id: string): void;
 }>();
 
 const iconComponent = computed(() => {
-  const component = getIconById(props.type);
+  const component = getIconById(props.id);
   if (component) {
     return component;
   }
@@ -99,7 +99,7 @@ const setupEventListeners = () => {
 };
 
 const openApp = () => {
-  emit("open", props.type);
+  emit("open", props.id);
 };
 
 // Setup animations when component mounts

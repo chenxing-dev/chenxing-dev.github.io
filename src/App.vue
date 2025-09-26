@@ -1,23 +1,14 @@
 <script setup lang="ts">
 import { onMounted } from "vue";
 import { useStorage } from "@vueuse/core";
-import Wallpaper from "@/components/desktop/Wallpaper.vue";
-import DesktopIcon from "@/components/desktop/DesktopIcon.vue";
-import WindowManager from "@/components/WindowManager.vue";
-import { useSettings } from "@/composables/useSettings";
+
 import useDesktop from "@/composables/useDesktop";
-import { getDesktopApps } from "@/config/apps-registry";
+import Desktop from "@/components/Desktop.vue";
 
-
-const { settings } = useSettings();
-
-// Desktop apps configuration
-const desktopApps = getDesktopApps();
-
-const { windows, openWindow, closeWindow, focusWindow } = useDesktop();
+const { openWindow, } = useDesktop();
 
 onMounted(() => {
-  // Initialize with terminal window on load
+  // First run logic
   const firstRun = useStorage("os-first-run", true);
 
   if (firstRun.value) {
@@ -31,21 +22,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div :class="settings.theme" class="relative w-screen h-dvh overflow-hidden select-none text-secondary">
-    <Wallpaper />
-
-    <!-- Desktop Icons -->
-    <div class="absolute top-0 left-0 w-full p-2 md:p-12">
-      <div
-        class="grid gap-2 md:gap-4 h-full items-start justify-items-center grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 2xl:grid-cols-14">
-        <DesktopIcon v-for="(app, index) in desktopApps" :key="index" :label="app.label" :type="app.id"
-          @open="openWindow" v-show="app.showOnDesktop" />
-      </div>
-    </div>
-
-    <!-- Window Manager -->
-    <WindowManager :windows="windows" @close="closeWindow" @focus="focusWindow" />
-  </div>
+  <Desktop />
 </template>
 
 <style>
