@@ -2,15 +2,11 @@ import { ref, computed } from "vue";
 import { useStorage } from "@vueuse/core";
 import { getAppById } from "@/config/apps-registry";
 import type { AppConfig, AppItem, StoredWindow, WindowItem, WindowPosition } from "@/types";
+import { clamp } from "@/lib/number";
 
 // Default window dimensions
 const DEFAULT_WIDTH = 500;
 const DEFAULT_HEIGHT = 320;
-
-// Clamp helpers
-const clamp = (n: number, min: number, max: number) => {
-  return Math.min(Math.max(n, min), max);
-}
 
 // Convert persisted window to full window object
 export const sanitizeAndRehydrate = (stored: StoredWindow[] | unknown): WindowItem[] => {
