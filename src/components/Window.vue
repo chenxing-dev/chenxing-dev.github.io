@@ -36,12 +36,13 @@ const height = computed(() => isMobile.value ? (props.window.app.mobileSize?.hei
 </script>
 
 <template>
-  <VueDraggableResizable class="window max-w-dvw"
-    :class="isMobile ? (window.app.mobileSize?.height ? '' : '!h-dvh !max-h-full') : ''" :draggable="!isMobile"
-    :resizable="false" :drag-handle="'.drag-handle'" :x="isMobile ? 0 : position.x" :y="isMobile ? 0 : position.y"
-    :w="width" :h="height" :z="window.zIndex" @dragging="onDrag" @drag-stop="onDragStop" @activated="focus">
-    <div ref="windowRef" :class="settings.theme"
-      class="bg-zinc-50 bg-primary border-2 border-accent overflow-hidden flex flex-col md:w-full h-full p-0.5 m-2"
+  <VueDraggableResizable class="window max-w-dvw bg-transparent"
+    :class="[settings.theme, isMobile ? (window.app.mobileSize?.height ? '' : '!h-dvh !max-h-full') : '']"
+    :draggable="!isMobile" :resizable="false" :drag-handle="'.drag-handle'" :x="isMobile ? 0 : position.x"
+    :y="isMobile ? 0 : position.y" :w="width" :h="height" :z="window.zIndex" @activated="focus" @dragging="onDrag"
+    @drag-stop="onDragStop">
+    <div ref="windowRef" :class="settings.theme" class="window-container
+       bg-primary border-2 border-accent overflow-hidden flex flex-col md:w-full h-full p-0.5 m-2"
       @mousedown="onMousedown">
       <!-- Title Bar -->
       <div
@@ -69,6 +70,12 @@ const height = computed(() => isMobile.value ? (props.window.app.mobileSize?.hei
 </template>
 
 <style>
+/* Paint the window background and title bar with theme colors */
+.window-container {
+  background-color: var(--color-primary, #fff);
+  /* Fallback to white if not set */
+}
+
 /* Make sure draggable areas are interactive */
 .vdr {
   pointer-events: auto;
