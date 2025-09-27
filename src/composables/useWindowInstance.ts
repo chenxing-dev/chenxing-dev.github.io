@@ -1,4 +1,4 @@
-import { ref, computed, onMounted, type Ref } from "vue";
+import { ref, reactive, onMounted, type Ref, markRaw, type Component } from "vue";
 import { getComponentById } from "@/config/apps-registry";
 import useDesktop from "@/composables/useDesktop";
 import { useWindowAnimations } from "@/composables/useWindowAnimations";
@@ -13,21 +13,25 @@ export function useWindowInstance(window: WindowItem, emit: EmitFn) {
     const windowRef: Ref<HTMLElement | null> = ref(null);
 
     // Local (live) drag position (initial from persisted state)
-    const position = ref({ x: window.position.x, y: window.position.y });
+    // Use reactive + field mutation to avoid creating a new object on each drag event
+    const position = reactive({ x: window.position.x, y: window.position.y });
 
     const { updateWindowState } = useDesktop();
     const { openAnimation, closeAnimation } = useWindowAnimations(windowRef);
 
     const title = window.app.title || "Untitled Window";
 
-    const contentComponent = computed(() => getComponentById(window.app.id) || null);
+    // Component is stable for the lifetime of the window; avoid reactive tracking/proxying
+    const contentComponent = markRaw(getComponentById(window.app.id) || null) as Component | null;
 
     // Drag handlers
     const onDrag = (x: number, y: number) => {
-        position.value = { x, y };
+        position.x = x;
+        position.y = y;
     };
     const onDragStop = () => {
-        updateWindowState(window.id, position.value);
+        // Persist position to store
+        updateWindowState(window.id, { x: position.x, y: position.y });
     };
 
     // Focus helpers

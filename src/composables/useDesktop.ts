@@ -16,19 +16,20 @@ const clamp = (n: number, min: number, max: number) => {
 export const sanitizeAndRehydrate = (stored: StoredWindow[] | unknown): WindowItem[] => {
   const list = Array.isArray(stored) ? stored : [];
 
-  const mapped: WindowItem[] = [];
-  for (const item of list) {
-    const app = getAppById(item.appId);
-    if (!app) continue; // Clean out invalid apps
+  return list.map(item => {
+    const app = getAppById(item.app.id);
+    if (!app) {
+      return null;
+    }
 
-    // Sanitize position
+    // Clamp position to viewport
     const position = {
       x: clamp(item.position.x, 0, window.innerWidth - (app.width || DEFAULT_WIDTH)),
       y: clamp(item.position.y, 0, window.innerHeight - (app.height || DEFAULT_HEIGHT))
     };
 
-    mapped.push({
-      id: item.id,
+    return {
+      ...item,
       app: {
         id: app.id,
         title: app.title,
@@ -39,13 +40,9 @@ export const sanitizeAndRehydrate = (stored: StoredWindow[] | unknown): WindowIt
         },
         mobileSize: app.mobileSize,
       },
-      position,
-      zIndex: item.zIndex
-    });
-  }
-
-  mapped.sort((a, b) => a.zIndex - b.zIndex);
-  return mapped;
+      position
+    };
+  }).filter((w): w is WindowItem => w !== null);
 }
 
 // Persistent storage for open windows
