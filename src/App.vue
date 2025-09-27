@@ -21,15 +21,24 @@ onMounted(() => {
 </script>
 
 <template>
-  <Desktop />
+  <div v-cloak>
+    <Desktop />
+  </div>
 </template>
 
 <style>
+/* v-cloak to prevent flash of unstyled content */
+[v-cloak] {
+  display: none;
+}
+
+/* Font loading to avoid FOUT */
 @font-face {
   font-family: 'Noto Sans SC';
   font-style: normal;
   font-weight: 400;
   font-stretch: 100%;
+  font-display: swap;
   src: url(/fonts/noto-sans-sc-chinese-simplified-400-normal.woff2) format('woff2');
 }
 
@@ -38,9 +47,9 @@ onMounted(() => {
   font-style: normal;
   font-weight: 900;
   font-stretch: 100%;
+  font-display: swap;
   src: url(/fonts/noto-serif-sc-chinese-simplified-900-normal.woff2) format('woff2');
 }
-
 
 :root {
   --font-serif: "Noto Serif SC", sans-serif;
@@ -79,7 +88,7 @@ onMounted(() => {
 }
 
 .bg-primary {
-  background-color: var(--color-primary) !important;
+  background-color: var(--color-primary, #fff) !important;
 }
 
 .bg-secondary {
@@ -107,7 +116,7 @@ onMounted(() => {
 }
 
 .bg-title-bar {
-  background-color: var(--color-title-bar) !important;
+  background-color: var(--color-title-bar, #fafafa) !important;
 }
 
 .bg-selected {

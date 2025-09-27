@@ -10,5 +10,8 @@ export default defineConfig({
     alias: {
       "@": "/src"
     }
+  },
+  build: {
+    cssCodeSplit: false, // fewer CSS chunks
   }
 });

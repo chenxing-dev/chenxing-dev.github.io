@@ -1,4 +1,4 @@
-import { ref, reactive, onMounted, type Ref, markRaw, type Component } from "vue";
+import { ref, reactive, onMounted, markRaw, type Ref, type Component } from "vue";
 import { getComponentById } from "@/config/apps-registry";
 import useDesktop from "@/composables/useDesktop";
 import { useWindowAnimations } from "@/composables/useWindowAnimations";
@@ -45,7 +45,14 @@ export function useWindowInstance(window: WindowItem, emit: EmitFn) {
     };
 
     onMounted(() => {
-        openAnimation();
+        const run = () => requestAnimationFrame(() => openAnimation());
+        if (document.readyState === "complete") {
+            run();
+        } else {
+            if (windowRef.value) {
+                windowRef.value.addEventListener("load", run, { once: true });
+            }
+        }
     });
 
     return {

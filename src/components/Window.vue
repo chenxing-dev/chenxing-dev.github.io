@@ -70,12 +70,6 @@ const height = computed(() => isMobile.value ? (props.window.app.mobileSize?.hei
 </template>
 
 <style>
-/* Paint the window background and title bar with theme colors */
-.window-container {
-  background-color: var(--color-primary, #fff);
-  /* Fallback to white if not set */
-}
-
 /* Make sure draggable areas are interactive */
 .vdr {
   pointer-events: auto;
