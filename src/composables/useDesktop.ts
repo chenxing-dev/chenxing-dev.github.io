@@ -13,9 +13,14 @@ export const sanitizeAndRehydrate = (stored: StoredWindow[] | unknown): WindowIt
   const list = Array.isArray(stored) ? stored : [];
 
   return list.map(item => {
+    // Validate app exists
+    if (!item.app || !item.app.id) {
+      return null; // Outdated or invalid entry
+    }
+
     const app = getAppById(item.app.id);
     if (!app) {
-      return null;
+      return null; // App not found
     }
 
     // Clamp position to viewport

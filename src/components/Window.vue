@@ -36,7 +36,7 @@ const height = computed(() => isMobile.value ? (props.window.app.mobileSize?.hei
 </script>
 
 <template>
-  <VueDraggableResizable class="window bg-transparent max-w-dvw"
+  <VueDraggableResizable class="window max-w-dvw"
     :class="isMobile ? (window.app.mobileSize?.height ? '' : '!h-dvh !max-h-full') : ''" :draggable="!isMobile"
     :resizable="false" :drag-handle="'.drag-handle'" :x="isMobile ? 0 : position.x" :y="isMobile ? 0 : position.y"
     :w="width" :h="height" :z="window.zIndex" @dragging="onDrag" @drag-stop="onDragStop" @activated="focus">
