@@ -4,7 +4,7 @@ import VueDraggableResizable from "vue-draggable-resizable";
 import "vue-draggable-resizable/style.css";
 
 import { computed } from "vue";
-import { useSettings } from "@/composables/useSettings.ts";
+import { useSettings } from "@/composables/useSettings";
 import { useWindowInstance } from "@/composables/useWindowInstance";
 import type { WindowItem } from "@/types";
 
