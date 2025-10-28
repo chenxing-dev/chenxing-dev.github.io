@@ -14,34 +14,39 @@ const clamp = (n: number, min: number, max: number) => {
 
 // Convert persisted window to full window object
 export const sanitizeAndRehydrate = (stored: StoredWindow[] | unknown): WindowItem[] => {
-  const list = Array.isArray(stored) ? stored : [];
+  const list: StoredWindow[] = Array.isArray(stored) ? stored : [];
 
   return list.map(item => {
-    const app = getAppById(item.app.id);
+    const app = getAppById(item.appId);
     if (!app) {
       return null;
     }
 
     // Clamp position to viewport
-    const position = {
-      x: clamp(item.position.x, 0, window.innerWidth - (app.width || DEFAULT_WIDTH)),
-      y: clamp(item.position.y, 0, window.innerHeight - (app.height || DEFAULT_HEIGHT))
+    const position: WindowPosition = {
+      x: clamp(item.position.x, 0, (typeof window !== 'undefined' ? window.innerWidth : app.width || DEFAULT_WIDTH) - (app.width || DEFAULT_WIDTH)),
+      y: clamp(item.position.y, 0, (typeof window !== 'undefined' ? window.innerHeight : app.height || DEFAULT_HEIGHT) - (app.height || DEFAULT_HEIGHT))
     };
 
-    return {
-      ...item,
-      app: {
-        id: app.id,
-        title: app.title,
-        icon: app.icon,
-        size: {
-          width: app.width || DEFAULT_WIDTH,
-          height: app.height || DEFAULT_HEIGHT
-        },
-        mobileSize: app.mobileSize,
+    const rehydratedApp: AppItem = {
+      id: app.id,
+      title: app.title,
+      icon: app.icon,
+      size: {
+        width: app.width || DEFAULT_WIDTH,
+        height: app.height || DEFAULT_HEIGHT
       },
+      mobileSize: app.mobileSize,
+    };
+
+    const windowItem: WindowItem = {
+      id: item.id,
+      zIndex: item.zIndex,
+      app: rehydratedApp,
       position
     };
+
+    return windowItem;
   }).filter((w): w is WindowItem => w !== null);
 }
 
