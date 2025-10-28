@@ -40,8 +40,8 @@ export interface AppConfig {
     id: string; // Unique app type identifier
     label: string; // Icon label
     title: string; // Window title
-    component: any;
-    icon: any;
+    component: unknown; // async component
+    icon: unknown; // async component
     width?: number;
     height?: number;
     mobileSize?: {

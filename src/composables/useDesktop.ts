@@ -14,10 +14,11 @@ const clamp = (n: number, min: number, max: number) => {
 
 // Convert persisted window to full window object
 export const sanitizeAndRehydrate = (stored: StoredWindow[] | unknown): WindowItem[] => {
-  const list: StoredWindow[] = Array.isArray(stored) ? stored : [];
+  const list = Array.isArray(stored) ? stored : [];
 
-  return list.map(item => {
-    const app = getAppById(item.appId);
+  return list.map((item: any) => {
+    const appId = item.appId ?? item.app?.id;
+    const app = appId ? getAppById(appId) : undefined;
     if (!app) {
       return null;
     }
@@ -50,8 +51,34 @@ export const sanitizeAndRehydrate = (stored: StoredWindow[] | unknown): WindowIt
   }).filter((w): w is WindowItem => w !== null);
 }
 
-// Persistent storage for open windows
-const windows = useStorage<WindowItem[]>("os-windows", []);
+// Persistent storage for open windows using a serializer
+// Store only a lightweight snapshot in localStorage and rehydrate to full WindowItem[] in app
+const windows = useStorage<WindowItem[]>(
+  "os-windows",
+  [],
+  undefined,
+  {
+    serializer: {
+      read: (v: string): WindowItem[] => {
+        try {
+          const parsed = v ? JSON.parse(v) as unknown : [];
+          return sanitizeAndRehydrate(parsed as StoredWindow[]);
+        } catch {
+          return [];
+        }
+      },
+      write: (value: WindowItem[]): string => {
+        const snapshots: StoredWindow[] = value.map((w) => ({
+          id: w.id,
+          appId: w.app.id,
+          position: w.position,
+          zIndex: w.zIndex,
+        }));
+        return JSON.stringify(snapshots);
+      },
+    },
+  }
+);
 
 // Make bootstrap idempotent aka only run once
 let bootstrapped = false;
@@ -63,7 +90,6 @@ const activeWindowId = ref<number | null>(null);
 export default function useDesktop() {
   // Bootstrap once per module load
   if (!bootstrapped) {
-    windows.value = sanitizeAndRehydrate(windows.value as unknown as StoredWindow[]) || [];
     zIndexCounter.value = Math.max(1, ...windows.value.map(w => w.zIndex)) + 1;
     activeWindowId.value = windows.value.length ? windows.value[windows.value.length - 1].id : null;
     bootstrapped = true;
