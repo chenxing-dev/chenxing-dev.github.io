@@ -22,7 +22,7 @@ export function useWindowInstance(window: WindowItem, emit: EmitFn) {
     const title = window.app.title || "Untitled Window";
 
     // Component is stable for the lifetime of the window; avoid reactive tracking/proxying
-    const contentComponent = markRaw(getComponentById(window.app.id) || null) as Component | null;
+    const contentComponent = markRaw<Component>(getComponentById(window.app.id));
 
     // Drag handlers
     const onDrag = (x: number, y: number) => {

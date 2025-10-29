@@ -1,3 +1,4 @@
+import type { Component } from 'vue';
 
 export interface WindowPosition {
     x: number;
@@ -29,7 +30,6 @@ export interface StoredWindow {
 export interface AppItem {
     id: string;
     title: string;
-    icon: string;
     size: WindowSize;
     mobileSize?: {
         height: number;
@@ -40,8 +40,8 @@ export interface AppConfig {
     id: string; // Unique app type identifier
     label: string; // Icon label
     title: string; // Window title
-    component: unknown; // async component
-    icon: unknown; // async component
+    component: Component; // async component returned by defineAsyncComponent
+    icon: Component; // async component returned by defineAsyncComponent
     width?: number;
     height?: number;
     mobileSize?: {

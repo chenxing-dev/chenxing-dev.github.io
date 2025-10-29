@@ -20,6 +20,10 @@ export const sanitizeAndRehydrate = (stored: StoredWindow[] | unknown): WindowIt
     const appId = item.appId ?? item.app?.id;
     const app = appId ? getAppById(appId) : undefined;
     if (!app) {
+      if (appId) {
+        // Guard: unknown app persisted in storage, skip it gracefully
+        console.warn(`[os-windows] Unknown app id in storage: ${String(appId)} — skipping window ${item?.id}`);
+      }
       return null;
     }
 
@@ -32,7 +36,6 @@ export const sanitizeAndRehydrate = (stored: StoredWindow[] | unknown): WindowIt
     const rehydratedApp: AppItem = {
       id: app.id,
       title: app.title,
-      icon: app.icon,
       size: {
         width: app.width || DEFAULT_WIDTH,
         height: app.height || DEFAULT_HEIGHT
@@ -121,7 +124,6 @@ export default function useDesktop() {
     const newWindow = createWindow({
       id: appConfig.id,
       title: appConfig.title,
-      icon: appConfig.icon,
       size: {
         // Use configured dimensions or defaults
         width: appConfig.width || DEFAULT_WIDTH,
