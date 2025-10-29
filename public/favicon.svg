@@ -1,15 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <defs>
-    <linearGradient id="g" x1="0" x2="0" y1="0" y2="1">
-      <stop offset="0%" stop-color="#f6f2ec"/>
-      <stop offset="100%" stop-color="#c2a37a"/>
-    </linearGradient>
-  </defs>
-  <rect width="64" height="64" rx="12" fill="url(#g)"/>
-  <g transform="translate(8,8)">
-    <rect x="6" y="10" width="36" height="26" rx="3" fill="#373426"/>
-    <rect x="9" y="13" width="30" height="20" rx="2" fill="#f1e9d6"/>
-    <circle cx="45" cy="41" r="5" fill="#373426"/>
-    <rect x="8" y="40" width="28" height="2" rx="1" fill="#373426"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title" width="64" height="64">
+  <title id="title">Asterisk favicon</title>
+  <!-- Green rounded rectangle background -->
+  <rect x="6" y="6" width="52" height="52" rx="12" ry="12" fill="#22C55E"/>
+  <!-- Lime asterisk, thick strokes for favicon clarity -->
+  <g stroke="#A3E635" stroke-width="6" stroke-linecap="round">
+    <line x1="32" y1="18" x2="32" y2="46"/>
+    <line x1="18" y1="32" x2="46" y2="32"/>
+    <line x1="21" y1="21" x2="43" y2="43"/>
+    <line x1="43" y1="21" x2="21" y2="43"/>
   </g>
 </svg>
