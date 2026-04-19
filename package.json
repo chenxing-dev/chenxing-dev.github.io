@@ -8,7 +8,9 @@
     "preview": "vite preview",
     "deploy": "gh-pages -d dist",
     "lint": "oxlint",
-    "lint:fix": "oxlint --fix"
+    "lint:fix": "oxlint --fix",
+    "fmt": "oxfmt",
+    "fmt:check": "oxfmt --check"
   },
   "dependencies": {
     "@vueuse/core": "^13.4.0",
@@ -23,6 +25,7 @@
     "@vitejs/plugin-vue": "^5.2.3",
     "@vue/tsconfig": "^0.7.0",
     "gh-pages": "^6.3.0",
+    "oxfmt": "^0.45.0",
     "oxlint": "^1.60.0",
     "typescript": "~5.8.3",
     "unocss": "^66.2.3",
