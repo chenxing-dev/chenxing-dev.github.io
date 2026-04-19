@@ -4,6 +4,7 @@
 
 陈刑OS is a personal portfolio website designed to mimic an operating system interface. Built with Vue.js and TypeScript, it features draggable windows, a terminal emulator, and interactive apps that showcase my projects in a cozy desktop environment.
 
+![陈刑OS GIF](./demo.gif)
 ![陈刑OS Screenshot](./screenshot.png)
 
 ## ✨ Features
