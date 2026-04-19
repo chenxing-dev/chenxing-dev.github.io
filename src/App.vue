@@ -12,10 +12,13 @@ onMounted(() => {
   const firstRun = useStorage("os-first-run", true);
   if (firstRun.value) {
     setTimeout(() => {
-      openWindow("projects");
-      openWindow("about_me");
-      firstRun.value = false;
-    }, 2000);
+      // Open first window, then open the second after a short delay
+      openWindow("projects", undefined, { x: 432, y: 48 });
+      setTimeout(() => {
+        openWindow("about_me", undefined, { x: 60, y: 144 });
+        firstRun.value = false;
+      }, 2500);
+    }, 1000);
   }
 });
 </script>

@@ -24,7 +24,6 @@ export function useWindowInstance(window: WindowItem, emit: EmitFn) {
   // Component is stable for the lifetime of the window; avoid reactive tracking/proxying
   const contentComponent = markRaw<Component>(getComponentById(window.app.id));
 
-  // Drag handlers
   const onDrag = (x: number, y: number) => {
     position.x = x;
     position.y = y;

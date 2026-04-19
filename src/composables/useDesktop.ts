@@ -7,6 +7,8 @@ import { clamp } from "@/lib/number";
 // Default window dimensions
 const DEFAULT_WIDTH = 500;
 const DEFAULT_HEIGHT = 320;
+// Safety margin to account for window borders, shadows, and UI chrome
+const START_POSITION_MARGIN = 16;
 
 // Convert persisted window to full window object
 export const sanitizeAndRehydrate = (stored: StoredWindow[] | unknown): WindowItem[] => {
@@ -32,13 +34,15 @@ export const sanitizeAndRehydrate = (stored: StoredWindow[] | unknown): WindowIt
           item.position.x,
           0,
           (typeof window !== "undefined" ? window.innerWidth : app.width || DEFAULT_WIDTH) -
-            (app.width || DEFAULT_WIDTH),
+            (app.width || DEFAULT_WIDTH) -
+            START_POSITION_MARGIN,
         ),
         y: clamp(
           item.position.y,
           0,
           (typeof window !== "undefined" ? window.innerHeight : app.height || DEFAULT_HEIGHT) -
-            (app.height || DEFAULT_HEIGHT),
+            (app.height || DEFAULT_HEIGHT) -
+            START_POSITION_MARGIN,
         ),
       };
 
@@ -108,11 +112,20 @@ export default function useDesktop() {
     () => windows.value.slice().sort((a, b) => b.zIndex - a.zIndex)[0] || null,
   );
 
-  function createWindow(app: AppItem): WindowItem {
-    const position = {
-      x: Math.random() * (window.innerWidth - (app.size.width || DEFAULT_WIDTH)),
-      y: Math.random() * (window.innerHeight - (app.size.height || DEFAULT_HEIGHT)),
-    };
+  function createWindow(app: AppItem, startPosition?: WindowPosition): WindowItem {
+    const position: WindowPosition =
+      startPosition ??
+      (() => {
+        const maxX = Math.max(
+          0,
+          window.innerWidth - (app.size.width || DEFAULT_WIDTH) - START_POSITION_MARGIN,
+        );
+        const maxY = Math.max(
+          0,
+          window.innerHeight - (app.size.height || DEFAULT_HEIGHT) - START_POSITION_MARGIN,
+        );
+        return { x: Math.random() * maxX, y: Math.random() * maxY };
+      })();
     return {
       id: Date.now(),
       app,
@@ -121,21 +134,24 @@ export default function useDesktop() {
     };
   }
 
-  const openWindow = (id: string, appConfig?: AppConfig) => {
+  const openWindow = (id: string, appConfig?: AppConfig, startPosition?: WindowPosition) => {
     appConfig = appConfig || getAppById(id);
     if (!appConfig) {
       throw new Error(`No app configuration found for: ${id}`);
     }
-    const newWindow = createWindow({
-      id: appConfig.id,
-      title: appConfig.title,
-      size: {
-        // Use configured dimensions or defaults
-        width: appConfig.width || DEFAULT_WIDTH,
-        height: appConfig.height || DEFAULT_HEIGHT,
+    const newWindow = createWindow(
+      {
+        id: appConfig.id,
+        title: appConfig.title,
+        size: {
+          // Use configured dimensions or defaults
+          width: appConfig.width || DEFAULT_WIDTH,
+          height: appConfig.height || DEFAULT_HEIGHT,
+        },
+        mobileSize: appConfig.mobileSize,
       },
-      mobileSize: appConfig.mobileSize,
-    });
+      startPosition,
+    );
     windows.value.push(newWindow);
     focusWindow(newWindow.id);
     return newWindow.id;

@@ -9,8 +9,8 @@ export const APPS: AppConfig[] = [
     title: "About Me",
     component: defineAsyncComponent(() => import("@/components/apps/AboutMe.vue")),
     icon: defineAsyncComponent(() => import("@/icons/FluentEmojiFlatWomanTechnologistLight.vue")),
-    width: 720,
-    height: 600,
+    width: 600,
+    height: 640,
     showOnDesktop: true,
   },
   {
