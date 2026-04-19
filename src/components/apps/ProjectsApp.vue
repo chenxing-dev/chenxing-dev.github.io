@@ -39,7 +39,7 @@
                 </div>
                 <!-- Link Container -->
                 <div class="flex gap-1 -mr-1">
-                  <a v-if="repo.html_url" :href="repo.html_url" target="_blank"
+                  <a v-if="repo.html_url" :href="repo.html_url" target="_blank" rel="noopener noreferrer"
                     class="text-zinc-500 hover:text-zinc-700 transition-colors p-1 -mr-1" title="GitHub Repository">
                     <svg v-once xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24"
                       fill="currentColor">
@@ -48,7 +48,7 @@
                     </svg>
                   </a>
                   <!-- Demo Link -->
-                  <a v-if="repo.homepage" :href="repo.homepage" target="_blank"
+                  <a v-if="repo.homepage" :href="repo.homepage" target="_blank" rel="noopener noreferrer"
                     class="text-zinc-500 hover:text-zinc-700 transition-colors p-1" title="Live Demo">
                     <svg v-once xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24"
                       fill="currentColor">

@@ -1,10 +1,11 @@
+import type { Component } from 'vue';
 
-interface WindowPosition {
+export interface WindowPosition {
     x: number;
     y: number;
 }
 
-interface WindowSize {
+export interface WindowSize {
     width: number;
     height: number;
 }
@@ -18,7 +19,7 @@ export interface WindowItem {
 }
 
 // Lightweight, storage-friendly snapshot (what we persist)
-interface StoredWindow {
+export interface StoredWindow {
     id: number;
     appId: string;
     position: WindowPosition;
@@ -26,10 +27,9 @@ interface StoredWindow {
 }
 
 // Define app interface
-interface AppItem {
+export interface AppItem {
     id: string;
     title: string;
-    icon: string;
     size: WindowSize;
     mobileSize?: {
         height: number;
@@ -40,8 +40,8 @@ export interface AppConfig {
     id: string; // Unique app type identifier
     label: string; // Icon label
     title: string; // Window title
-    component: any;
-    icon: any;
+    component: Component; // async component returned by defineAsyncComponent
+    icon: Component; // async component returned by defineAsyncComponent
     width?: number;
     height?: number;
     mobileSize?: {
@@ -51,7 +51,7 @@ export interface AppConfig {
 }
 
 // Define the Repository interface
-interface Repository {
+export interface Repository {
     id: number;
     name: string;
     description: string;
@@ -62,7 +62,7 @@ interface Repository {
 }
 
 
-interface WeatherData {
+export interface WeatherData {
     current_condition: {
         temp_C: string;
         FeelsLikeC: string;
@@ -91,7 +91,7 @@ interface WeatherData {
 }
 
 // Define the settings interface
-interface Settings {
+export interface Settings {
     theme: string;
     background: string;
     clockFormat: "12h" | "24h";
