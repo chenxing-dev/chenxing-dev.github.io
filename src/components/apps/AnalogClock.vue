@@ -53,28 +53,19 @@
 import { ref, computed } from "vue";
 import { useIntervalFn } from "@vueuse/core";
 
-const now = ref(new Date());
+// Seed from current wall-clock time so the hands start at the right position.
+// Using a monotonically-increasing counter means rotations never wrap back to 0,
+// which prevents the CSS transition from animating the wrong (backwards) direction
+// when a hand crosses the 12 o'clock position.
+const _now = new Date();
+const totalSeconds = ref(_now.getHours() * 3600 + _now.getMinutes() * 60 + _now.getSeconds());
 
-// Update time every second
-const updateTime = () => {
-  now.value = new Date();
-};
+useIntervalFn(() => {
+  totalSeconds.value++;
+}, 1000);
 
-useIntervalFn(updateTime, 1000);
-updateTime();
-
-// Calculate rotation angles
-const hourRotation = computed(() => {
-  const hours = now.value.getHours() % 12;
-  const minutes = now.value.getMinutes();
-  return hours * 30 + minutes * 0.5; // 30° per hour + 0.5° per minute
-});
-
-const minuteRotation = computed(() => {
-  return now.value.getMinutes() * 6; // 6° per minute
-});
-
-const secondRotation = computed(() => {
-  return now.value.getSeconds() * 6; // 6° per second
-});
+// All angles derived from the ever-growing totalSeconds — never reset
+const secondRotation = computed(() => totalSeconds.value * 6);
+const minuteRotation = computed(() => (totalSeconds.value / 60) * 6);
+const hourRotation = computed(() => (totalSeconds.value / 3600) * 30);
 </script>
