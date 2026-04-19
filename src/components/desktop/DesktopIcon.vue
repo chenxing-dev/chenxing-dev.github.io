@@ -74,28 +74,33 @@ const animateIcons = async () => {
 // Setup event listeners
 const setupEventListeners = () => {
   if (!iconContainer.value) return;
-
-  iconContainer.value.addEventListener('mouseenter', () => {
-    // Create a new timeline for each hover
+  // Named handlers so we can remove them later
+  const onMouseEnter = () => {
     hoverTimeline = createHoverTimeline();
 
     if (hoverTimeline) {
       hoverTimeline.play();
     }
-  });
+  };
 
-  iconContainer.value.addEventListener('mouseleave', () => {
+  const onMouseLeave = () => {
     if (hoverTimeline) {
-      // Reverse to initial state
       hoverTimeline.reverse();
 
-      // Destroy timeline after reverse completes
       hoverTimeline.eventCallback("onReverseComplete", () => {
         hoverTimeline?.kill();
         hoverTimeline = null;
       });
     }
-  })
+  };
+
+  iconContainer.value.addEventListener('mouseenter', onMouseEnter);
+  iconContainer.value.addEventListener('mouseleave', onMouseLeave);
+
+  // Expose handlers for removal in onUnmounted by attaching to the element
+  // (avoid creating reactive refs for these simple functions)
+  (iconContainer.value as any).__desktopOnMouseEnter = onMouseEnter;
+  (iconContainer.value as any).__desktopOnMouseLeave = onMouseLeave;
 };
 
 const openApp = () => {
@@ -113,8 +118,16 @@ onUnmounted(() => {
   if (hoverTimeline) hoverTimeline.kill();
 
   if (iconContainer.value) {
-    iconContainer.value.removeEventListener('mouseenter', () => { });
-    iconContainer.value.removeEventListener('mouseleave', () => { });
+    // Retrieve the same handler references we attached when setting up listeners
+    const onMouseEnter = (iconContainer.value as any).__desktopOnMouseEnter as EventListener | undefined;
+    const onMouseLeave = (iconContainer.value as any).__desktopOnMouseLeave as EventListener | undefined;
+
+    if (onMouseEnter) iconContainer.value.removeEventListener('mouseenter', onMouseEnter);
+    if (onMouseLeave) iconContainer.value.removeEventListener('mouseleave', onMouseLeave);
+
+    // Clean up attached properties
+    delete (iconContainer.value as any).__desktopOnMouseEnter;
+    delete (iconContainer.value as any).__desktopOnMouseLeave;
   }
 });
 </script>
