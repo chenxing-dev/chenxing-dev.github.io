@@ -105,11 +105,11 @@ export const APPS: AppConfig[] = [
 
 // Helper function to get app configuration by id
 export const getAppById = (id: string) => {
-  return APPS.find(app => app.id === id);
+  return APPS.find((app) => app.id === id);
 };
 
 export const getDesktopApps = () => {
-  return APPS.filter(app => app.showOnDesktop);
+  return APPS.filter((app) => app.showOnDesktop);
 };
 
 export const getIconById = (id: string) => {

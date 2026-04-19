@@ -18,7 +18,6 @@
   - Background textures
 - 🕒 **Live Clock** - Current time and date display
 
-
 ## 🚀 Live Demo
 
 Experience 陈刑OS directly in your browser:  
@@ -29,17 +28,20 @@ Experience 陈刑OS directly in your browser:
 To run locally:
 
 1. Clone the repository:
+
    ```bash
    git clone https://github.com/chenxing-dev/chenxing-dev.github.io.git
    cd chenxing-dev.github.io
    ```
 
 2. Install dependencies:
+
    ```bash
    npm install
    ```
 
 3. Start the development server:
+
    ```bash
    npm run dev
    ```
@@ -87,8 +89,8 @@ chenxing-dev.github.io/
 
 ## 🪟 Window Apps
 
-| App        | Description                                            |
-| ---------- | ------------------------------------------------------ |
+| App         | Description                                            |
+| ----------- | ------------------------------------------------------ |
 | 🐧 Terminal | Interactive terminal emulator with Linux-like commands |
 | 💻 Projects | GitHub project cards with tech stack information       |
 | 🕒 Clock    | Live time and date display                             |

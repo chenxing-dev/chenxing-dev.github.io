@@ -5,7 +5,10 @@ import { useSettings } from "@/composables/useSettings";
 const { settings } = useSettings();
 
 // Define the output line type
-type TerminalOutputLine = { type: "command"; text: string; cwd: string } | { type: "output"; text: string } | { type: "file-list"; items: FileSystemItem[] };
+type TerminalOutputLine =
+  | { type: "command"; text: string; cwd: string }
+  | { type: "output"; text: string }
+  | { type: "file-list"; items: FileSystemItem[] };
 type FileSystemItem = {
   name: string;
   type: "file" | "dir";
@@ -16,7 +19,7 @@ type FileSystemItem = {
 const command = ref("");
 const output = ref<TerminalOutputLine[]>([
   { type: "output", text: "Welcome to 陈刑OS Terminal!" },
-  { type: "output", text: 'Type "help" for available commands' }
+  { type: "output", text: 'Type "help" for available commands' },
 ]);
 const terminalBody = ref<HTMLElement | null>(null);
 const inputRef = ref<HTMLInputElement | null>(null);
@@ -41,21 +44,35 @@ const fileSystem = ref<FileSystemItem>({
         "A handcrafted personal web desktop built with Vue 3 + Vite.",
         "",
         "Try: `help`, `ls`, `cd projects`, `cat about.txt`.",
-        "Have fun hacking around."
-      ].join("\n")
+        "Have fun hacking around.",
+      ].join("\n"),
     },
-    { name: "about.txt", type: "file", content: "陈刑OS is a personal web desktop. Built with Vue 3, curiosity, and caffeine." },
+    {
+      name: "about.txt",
+      type: "file",
+      content: "陈刑OS is a personal web desktop. Built with Vue 3, curiosity, and caffeine.",
+    },
     { name: "contact.txt", type: "file", content: "微博: @陈刑很刑\nGitHub: chenxing-dev" },
     {
       name: "projects",
       type: "dir",
       children: [
-        { name: "arduino.txt", type: "file", content: "Arduino RGB Lighting Controller\nStack: C++ / Arduino\nLink: https://github.com/chenxing-dev/arduino-rbg-light" },
-        { name: "blog.txt", type: "file", content: "Personal Blog (Astro + Markdown). Drafting long-form thoughts on learning & tools.\nLink: https://blog.chenxing.dev" },
-      ]
+        {
+          name: "arduino.txt",
+          type: "file",
+          content:
+            "Arduino RGB Lighting Controller\nStack: C++ / Arduino\nLink: https://github.com/chenxing-dev/arduino-rbg-light",
+        },
+        {
+          name: "blog.txt",
+          type: "file",
+          content:
+            "Personal Blog (Astro + Markdown). Drafting long-form thoughts on learning & tools.\nLink: https://blog.chenxing.dev",
+        },
+      ],
     },
     { name: "stars.txt", type: "file", content: "★ ✦ ✧ ✺ ✹ ✸ ✶ ✵ ✷" },
-  ]
+  ],
 });
 
 // Helper to get current directory contents
@@ -64,7 +81,9 @@ const getCurrentDirContents = (): FileSystemItem[] => {
 
   // Traverse through the current path segments
   for (const segment of currentPath.value) {
-    const dir = current.find(item => item.name === segment && item.type === "dir" && item.children);
+    const dir = current.find(
+      (item) => item.name === segment && item.type === "dir" && item.children,
+    );
 
     if (dir && dir.children) {
       current = dir.children;
@@ -90,7 +109,7 @@ watch(
   () => {
     scrollToBottom();
   },
-  { deep: true }
+  { deep: true },
 );
 
 watch([terminalBody, inputRef], () => {
@@ -111,7 +130,7 @@ const commands: Record<string, CommandFunction> = {
       { type: "output", text: "os           陈刑OS v1.0" },
       { type: "output", text: "host       chenxing-dev.github.io" },
       { type: "output", text: "shell      vue-sh 3.5.13" },
-      { type: "output", text: `theme  ${settings.value.theme}` }
+      { type: "output", text: `theme  ${settings.value.theme}` },
     ];
   },
   clear: () => {
@@ -137,13 +156,13 @@ const commands: Record<string, CommandFunction> = {
 
     const filename = args[0];
     const contents = getCurrentDirContents();
-    const file = contents.find(item => item.name === filename && item.type === "file");
+    const file = contents.find((item) => item.name === filename && item.type === "file");
 
     if (file) {
       if (file.content) {
         return [{ type: "output", text: file.content }];
       } else {
-        return [{ type: "output", text: "" }]
+        return [{ type: "output", text: "" }];
       }
     }
 
@@ -168,7 +187,7 @@ const commands: Record<string, CommandFunction> = {
 
     // Check if directory exists
     const contents = getCurrentDirContents();
-    const dirExists = contents.some(item => item.name === target && item.type === "dir");
+    const dirExists = contents.some((item) => item.name === target && item.type === "dir");
 
     if (dirExists) {
       // Enter the directory
@@ -181,7 +200,7 @@ const commands: Record<string, CommandFunction> = {
   // pwd command to show current directory
   pwd: () => {
     return [{ type: "output", text: currentDir.value }];
-  }
+  },
 };
 
 const executeCommand = () => {
@@ -215,8 +234,11 @@ const executeCommand = () => {
 </script>
 
 <template>
-  <div class="terminal whitespace-pre overflow-y-auto overflow-x-hidden h-full text-wrap break-all py-2 px-4"
-    ref="terminalBody" :class="settings.theme">
+  <div
+    class="terminal whitespace-pre overflow-y-auto overflow-x-hidden h-full text-wrap break-all py-2 px-4"
+    ref="terminalBody"
+    :class="settings.theme"
+  >
     <div v-for="(line, index) in output" :key="index" class="terminal-line">
       <p v-if="line.type === 'command'" class="inline text-nowrap">
         <span class="terminal-prompt mr-2 text-nowrap">{{ prompt(line.cwd) }}</span>
@@ -233,8 +255,13 @@ const executeCommand = () => {
     </div>
     <p class="terminal-line flex">
       <span class="terminal-prompt mr-2 text-nowrap">{{ prompt(currentDir) }}</span>
-      <input class="terminal-input bg-transparent outline-none flex-1" v-model="command" @keyup.enter="executeCommand"
-        ref="inputRef" autofocus />
+      <input
+        class="terminal-input bg-transparent outline-none flex-1"
+        v-model="command"
+        @keyup.enter="executeCommand"
+        ref="inputRef"
+        autofocus
+      />
     </p>
   </div>
 </template>

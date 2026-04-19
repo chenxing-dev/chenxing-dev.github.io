@@ -10,12 +10,27 @@
         </div>
       </div>
       <div class="mt-2 flex items-center">
-        <input v-model="searchLocation" type="text" placeholder="Search location..."
-          class="flex-grow bg-zinc-50/80 rounded-lg px-4 py-1 outline-none" @keyup.enter="fetchWeather" />
+        <input
+          v-model="searchLocation"
+          type="text"
+          placeholder="Search location..."
+          class="flex-grow bg-zinc-50/80 rounded-lg px-4 py-1 outline-none"
+          @keyup.enter="fetchWeather"
+        />
         <button @click="fetchWeather" class="ml-2 cursor-pointer hover:bg-zinc-50/50 p-1 rounded">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            />
           </svg>
         </button>
       </div>
@@ -24,27 +39,44 @@
     <!-- Loading state -->
     <div v-if="loading" class="p-8 flex flex-col items-center justify-center">
       <div
-        class="weather-loader w-16 h-16 border-4 border-zinc-400/50 border-t-transparent rounded-full animate-spin mb-4">
-      </div>
+        class="weather-loader w-16 h-16 border-4 border-zinc-400/50 border-t-transparent rounded-full animate-spin mb-4"
+      ></div>
       <p class="text-zinc-600 font-medium">Fetching weather data...</p>
     </div>
 
     <!-- Error state -->
     <div v-else-if="error" class="p-4 flex flex-col items-center justify-center text-red-500">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-          d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-16 w-16"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+        />
       </svg>
       <p class="text-xl font-bold mb-2">Error fetching weather data</p>
       <p class="text-center mb-4">{{ error }}</p>
-      <button @click="fetchWeather" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition">Try
-        Again</button>
+      <button
+        @click="fetchWeather"
+        class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition"
+      >
+        Try Again
+      </button>
     </div>
 
     <!-- Main weather display -->
     <div v-else-if="weatherData" class="weather-content px-4 pb-4">
       <!-- Current weather -->
-      <div ref="currentWeather" class="current-weather bg-zinc-50/80 rounded-xl shadow-md px-6 py-4 mb-4">
+      <div
+        ref="currentWeather"
+        class="current-weather bg-zinc-50/80 rounded-xl shadow-md px-6 py-4 mb-4"
+      >
         <div class="flex flex-row justify-between">
           <div class="flex items-center">
             <div class="text-4xl font-bold text-zinc-700">{{ currentTemp }}°</div>
@@ -58,10 +90,17 @@
       </div>
 
       <!-- Hourly forecast -->
-      <div ref="hourlyForecast" class="hourly-forecast bg-zinc-50/80 rounded-xl shadow-lg px-6 py-4 mb-4">
+      <div
+        ref="hourlyForecast"
+        class="hourly-forecast bg-zinc-50/80 rounded-xl shadow-lg px-6 py-4 mb-4"
+      >
         <h2 class="text-xl font-bold text-zinc-800 mb-4">Hourly Forecast</h2>
         <div class="flex overflow-x-auto pb-2">
-          <div v-for="(hour, index) in hourlyData" :key="index" class="flex flex-col items-center pr-2 py-2 min-w-max">
+          <div
+            v-for="(hour, index) in hourlyData"
+            :key="index"
+            class="flex flex-col items-center pr-2 py-2 min-w-max"
+          >
             <div class="text-zinc-500 font-medium">{{ hour.time }}</div>
             <div class="hour-icon my-2 w-16 h-16" v-html="getWeatherIcon(hour.weatherCode)"></div>
             <div class="font-bold text-zinc-700">{{ hour.temp }}°</div>
@@ -73,7 +112,11 @@
       <div ref="dailyForecast" class="daily-forecast bg-zinc-50/80 rounded-xl shadow-lg px-6 py-4">
         <h2 class="text-xl font-bold text-zinc-800 mb-4">3-Day Forecast</h2>
         <div class="space-y-1">
-          <div v-for="(day, index) in dailyData" :key="index" class="flex items-center justify-between">
+          <div
+            v-for="(day, index) in dailyData"
+            :key="index"
+            class="flex items-center justify-between"
+          >
             <div class="font-medium text-zinc-700 w-24">{{ day.date }}</div>
             <div class="flex items-center w-16 justify-center">
               <div class="day-icon w-16 h-16" v-html="getWeatherIcon(day.weatherCode)"></div>
@@ -115,14 +158,14 @@ const formattedDate = computed(() => {
     weekday: "long",
     year: "numeric",
     month: "long",
-    day: "numeric"
+    day: "numeric",
   });
 });
 
 const formattedTime = computed(() => {
   return now.toLocaleTimeString("en-US", {
     hour: "2-digit",
-    minute: "2-digit"
+    minute: "2-digit",
   });
 });
 
@@ -151,11 +194,11 @@ const hourlyData = computed(() => {
   const today = weatherData.value.weather[0].hourly;
   return today
     .filter((_, i) => i % 2 === 0) // Take every 2nd hour
-    .map(hour => ({
+    .map((hour) => ({
       time: hour.time.padStart(4, "0").replace(/(\d{2})(\d{2})/, "$1:$2"),
       temp: hour.tempC,
       condition: hour.weatherDesc[0].value,
-      weatherCode: hour.weatherCode
+      weatherCode: hour.weatherCode,
     }));
 });
 
@@ -163,14 +206,14 @@ const hourlyData = computed(() => {
 const dailyData = computed(() => {
   if (!weatherData.value) return [];
 
-  return weatherData.value.weather.slice(0, 5).map(day => {
+  return weatherData.value.weather.slice(0, 5).map((day) => {
     const date = new Date(day.date);
     return {
       date: date.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" }),
       minTemp: day.mintempC,
       maxTemp: day.maxtempC,
       condition: day.hourly[0].weatherDesc[0].value,
-      weatherCode: day.hourly[0].weatherCode
+      weatherCode: day.hourly[0].weatherCode,
     };
   });
 });
@@ -225,7 +268,7 @@ const getWeatherIcon = (code: string) => {
     "386": thunderIcon, // Thunderstorm
     "389": thunderIcon, // Heavy thunderstorm
     "392": thunderSnowIcon, // Patchy thunderstorm with snow
-    "395": thunderSnowIcon // Heavy thunderstorm with snow
+    "395": thunderSnowIcon, // Heavy thunderstorm with snow
   };
 
   return iconMap[code] || unknownIcon;
@@ -325,7 +368,7 @@ const animateContent = () => {
     // Reset positions
     gsap.set([currentWeather.value, hourlyForecast.value, dailyForecast.value], {
       opacity: 0,
-      y: 20
+      y: 20,
     });
 
     // Animate in sequence
@@ -333,7 +376,7 @@ const animateContent = () => {
       opacity: 1,
       y: 0,
       duration: 0.6,
-      ease: "power2.out"
+      ease: "power2.out",
     });
 
     gsap.to(hourlyForecast.value, {
@@ -341,7 +384,7 @@ const animateContent = () => {
       y: 0,
       duration: 0.6,
       ease: "power2.out",
-      delay: 0.2
+      delay: 0.2,
     });
 
     gsap.to(dailyForecast.value, {
@@ -349,7 +392,7 @@ const animateContent = () => {
       y: 0,
       duration: 0.6,
       ease: "power2.out",
-      delay: 0.4
+      delay: 0.4,
     });
   }
 };

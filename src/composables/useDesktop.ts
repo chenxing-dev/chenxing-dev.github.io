@@ -12,72 +12,81 @@ const DEFAULT_HEIGHT = 320;
 export const sanitizeAndRehydrate = (stored: StoredWindow[] | unknown): WindowItem[] => {
   const list = Array.isArray(stored) ? stored : [];
 
-  return list.map((item: any) => {
-    const appId = item.appId ?? item.app?.id;
-    const app = appId ? getAppById(appId) : undefined;
-    if (!app) {
-      if (appId) {
-        // Guard: unknown app persisted in storage, skip it gracefully
-        console.warn(`[os-windows] Unknown app id in storage: ${String(appId)} — skipping window ${item?.id}`);
+  return list
+    .map((item: any) => {
+      const appId = item.appId ?? item.app?.id;
+      const app = appId ? getAppById(appId) : undefined;
+      if (!app) {
+        if (appId) {
+          // Guard: unknown app persisted in storage, skip it gracefully
+          console.warn(
+            `[os-windows] Unknown app id in storage: ${String(appId)} — skipping window ${item?.id}`,
+          );
+        }
+        return null;
       }
-      return null;
-    }
 
-    // Clamp position to viewport
-    const position: WindowPosition = {
-      x: clamp(item.position.x, 0, (typeof window !== 'undefined' ? window.innerWidth : app.width || DEFAULT_WIDTH) - (app.width || DEFAULT_WIDTH)),
-      y: clamp(item.position.y, 0, (typeof window !== 'undefined' ? window.innerHeight : app.height || DEFAULT_HEIGHT) - (app.height || DEFAULT_HEIGHT))
-    };
+      // Clamp position to viewport
+      const position: WindowPosition = {
+        x: clamp(
+          item.position.x,
+          0,
+          (typeof window !== "undefined" ? window.innerWidth : app.width || DEFAULT_WIDTH) -
+            (app.width || DEFAULT_WIDTH),
+        ),
+        y: clamp(
+          item.position.y,
+          0,
+          (typeof window !== "undefined" ? window.innerHeight : app.height || DEFAULT_HEIGHT) -
+            (app.height || DEFAULT_HEIGHT),
+        ),
+      };
 
-    const rehydratedApp: AppItem = {
-      id: app.id,
-      title: app.title,
-      size: {
-        width: app.width || DEFAULT_WIDTH,
-        height: app.height || DEFAULT_HEIGHT
-      },
-      mobileSize: app.mobileSize,
-    };
+      const rehydratedApp: AppItem = {
+        id: app.id,
+        title: app.title,
+        size: {
+          width: app.width || DEFAULT_WIDTH,
+          height: app.height || DEFAULT_HEIGHT,
+        },
+        mobileSize: app.mobileSize,
+      };
 
-    const windowItem: WindowItem = {
-      id: item.id,
-      zIndex: item.zIndex,
-      app: rehydratedApp,
-      position
-    };
+      const windowItem: WindowItem = {
+        id: item.id,
+        zIndex: item.zIndex,
+        app: rehydratedApp,
+        position,
+      };
 
-    return windowItem;
-  }).filter((w): w is WindowItem => w !== null);
-}
+      return windowItem;
+    })
+    .filter((w): w is WindowItem => w !== null);
+};
 
 // Persistent storage for open windows using a serializer
 // Store only a lightweight snapshot in localStorage and rehydrate to full WindowItem[] in app
-const windows = useStorage<WindowItem[]>(
-  "os-windows",
-  [],
-  undefined,
-  {
-    serializer: {
-      read: (v: string): WindowItem[] => {
-        try {
-          const parsed = v ? JSON.parse(v) as unknown : [];
-          return sanitizeAndRehydrate(parsed as StoredWindow[]);
-        } catch {
-          return [];
-        }
-      },
-      write: (value: WindowItem[]): string => {
-        const snapshots: StoredWindow[] = value.map((w) => ({
-          id: w.id,
-          appId: w.app.id,
-          position: w.position,
-          zIndex: w.zIndex,
-        }));
-        return JSON.stringify(snapshots);
-      },
+const windows = useStorage<WindowItem[]>("os-windows", [], undefined, {
+  serializer: {
+    read: (v: string): WindowItem[] => {
+      try {
+        const parsed = v ? (JSON.parse(v) as unknown) : [];
+        return sanitizeAndRehydrate(parsed as StoredWindow[]);
+      } catch {
+        return [];
+      }
     },
-  }
-);
+    write: (value: WindowItem[]): string => {
+      const snapshots: StoredWindow[] = value.map((w) => ({
+        id: w.id,
+        appId: w.app.id,
+        position: w.position,
+        zIndex: w.zIndex,
+      }));
+      return JSON.stringify(snapshots);
+    },
+  },
+});
 
 // Make bootstrap idempotent aka only run once
 let bootstrapped = false;
@@ -89,21 +98,21 @@ const activeWindowId = ref<number | null>(null);
 export default function useDesktop() {
   // Bootstrap once per module load
   if (!bootstrapped) {
-    zIndexCounter.value = Math.max(1, ...windows.value.map(w => w.zIndex)) + 1;
+    zIndexCounter.value = Math.max(1, ...windows.value.map((w) => w.zIndex)) + 1;
     activeWindowId.value = windows.value.length ? windows.value[windows.value.length - 1].id : null;
     bootstrapped = true;
   }
 
   // Computed active window
-  const activeWindow = computed(() =>
-    windows.value.slice().sort((a, b) => b.zIndex - a.zIndex)[0] || null
+  const activeWindow = computed(
+    () => windows.value.slice().sort((a, b) => b.zIndex - a.zIndex)[0] || null,
   );
 
   function createWindow(app: AppItem): WindowItem {
     const position = {
       x: Math.random() * (window.innerWidth - (app.size.width || DEFAULT_WIDTH)),
-      y: Math.random() * (window.innerHeight - (app.size.height || DEFAULT_HEIGHT))
-    }
+      y: Math.random() * (window.innerHeight - (app.size.height || DEFAULT_HEIGHT)),
+    };
     return {
       id: Date.now(),
       app,
@@ -123,7 +132,7 @@ export default function useDesktop() {
       size: {
         // Use configured dimensions or defaults
         width: appConfig.width || DEFAULT_WIDTH,
-        height: appConfig.height || DEFAULT_HEIGHT
+        height: appConfig.height || DEFAULT_HEIGHT,
       },
       mobileSize: appConfig.mobileSize,
     });
@@ -133,9 +142,9 @@ export default function useDesktop() {
   };
 
   const closeWindow = (id: number) => {
-    windows.value = windows.value.filter(w => w.id !== id);
+    windows.value = windows.value.filter((w) => w.id !== id);
     if (activeWindowId.value === id) {
-      // If the closed window was active, 
+      // If the closed window was active,
       // set activeWindowId to the next topmost window
       const topWindow = activeWindow.value;
       activeWindowId.value = topWindow ? topWindow.id : null;
@@ -144,7 +153,7 @@ export default function useDesktop() {
 
   const focusWindow = (id: number) => {
     // Bring to front by updating zIndex
-    windows.value.forEach(w => {
+    windows.value.forEach((w) => {
       if (w.id === id) {
         w.zIndex = zIndexCounter.value++;
         activeWindowId.value = id;
@@ -154,11 +163,11 @@ export default function useDesktop() {
 
   //update window position and size
   const updateWindowState = (id: number, position: WindowPosition) => {
-    windows.value = windows.value.map(window => {
+    windows.value = windows.value.map((window) => {
       if (window.id === id) {
         return {
           ...window,
-          position
+          position,
         };
       }
       return window;
@@ -174,6 +183,6 @@ export default function useDesktop() {
     createWindow,
     updateWindowState,
     activeWindowId,
-    activeWindow
+    activeWindow,
   };
 }

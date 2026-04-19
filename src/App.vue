@@ -34,21 +34,21 @@ onMounted(() => {
 
 /* Font loading to avoid FOUT */
 @font-face {
-  font-family: 'Noto Sans SC';
+  font-family: "Noto Sans SC";
   font-style: normal;
   font-weight: 400;
   font-stretch: 100%;
   font-display: swap;
-  src: url(/fonts/noto-sans-sc-chinese-simplified-400-normal.woff2) format('woff2');
+  src: url(/fonts/noto-sans-sc-chinese-simplified-400-normal.woff2) format("woff2");
 }
 
 @font-face {
-  font-family: 'Noto Serif SC';
+  font-family: "Noto Serif SC";
   font-style: normal;
   font-weight: 900;
   font-stretch: 100%;
   font-display: swap;
-  src: url(/fonts/noto-serif-sc-chinese-simplified-900-normal.woff2) format('woff2');
+  src: url(/fonts/noto-serif-sc-chinese-simplified-900-normal.woff2) format("woff2");
 }
 
 :root {

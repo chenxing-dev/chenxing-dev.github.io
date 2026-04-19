@@ -3,7 +3,7 @@ import { ref, computed, onMounted, onUnmounted, type Ref } from "vue";
 
 // Audio file paths
 const audioFiles = {
-  gymnopedie1: "/audio/gymnopedie_no1.mp3"
+  gymnopedie1: "/audio/gymnopedie_no1.mp3",
 };
 
 type Song = {
@@ -23,8 +23,8 @@ const playlist: Ref<Song[]> = ref([
     artist: "Erik Satie, Eric Billingsley",
     duration: "3:32",
     color: "#3f3f46",
-    file: audioFiles.gymnopedie1
-  }
+    file: audioFiles.gymnopedie1,
+  },
 ]);
 
 const currentTrackIndex = ref(0);
@@ -43,7 +43,7 @@ const togglePlay = () => {
   if (isPlaying.value) {
     audioRef.value.pause();
   } else {
-    audioRef.value.play().catch(error => {
+    audioRef.value.play().catch((error) => {
       console.error("Audio playback failed:", error);
     });
   }
@@ -67,7 +67,8 @@ const nextTrack = () => {
 };
 
 const prevTrack = () => {
-  currentTrackIndex.value = (currentTrackIndex.value - 1 + playlist.value.length) % playlist.value.length;
+  currentTrackIndex.value =
+    (currentTrackIndex.value - 1 + playlist.value.length) % playlist.value.length;
   progress.value = 0;
   if (audioRef.value) {
     audioRef.value.currentTime = 0;
@@ -134,7 +135,13 @@ onUnmounted(() => {
   <div class="flex flex-col w-full h-full">
     <div class="w-full h-full flex flex-col justify-center px-2">
       <!-- Audio element -->
-      <audio ref="audioRef" :src="currentTrack.file" @timeupdate="onTimeUpdate" @loadedmetadata="onLoadedMetadata" @ended="onEnded"></audio>
+      <audio
+        ref="audioRef"
+        :src="currentTrack.file"
+        @timeupdate="onTimeUpdate"
+        @loadedmetadata="onLoadedMetadata"
+        @ended="onEnded"
+      ></audio>
 
       <!-- Track Info -->
       <div class="px-4">
@@ -149,12 +156,17 @@ onUnmounted(() => {
             <span>{{ formatTime(currentTime) }}</span>
             <span>{{ currentTrack.duration }}</span>
           </div>
-          <div class="h-1.5 bg-selected rounded-full overflow-hidden cursor-pointer" @click="setProgress" @mousedown="isSeeking = true" @mouseup="isSeeking = false">
+          <div
+            class="h-1.5 bg-selected rounded-full overflow-hidden cursor-pointer"
+            @click="setProgress"
+            @mousedown="isSeeking = true"
+            @mouseup="isSeeking = false"
+          >
             <div
               class="h-full transition-all duration-300"
               :style="{
                 width: progress + '%',
-                backgroundColor: currentTrack.color
+                backgroundColor: currentTrack.color,
               }"
             ></div>
           </div>
@@ -163,24 +175,49 @@ onUnmounted(() => {
         <!-- Controls -->
         <div class="flex items-center justify-center space-x-8 mb-4 text-selected">
           <button class="w-10 h-10 hover:scale-110 transition-all" @click="prevTrack">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" viewBox="0 0 24 24" fill="currentColor">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-10 w-10"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+            >
               <polygon points="14,6 4,13 14,20" />
               <polygon points="23,6 13,13 23,20" />
             </svg>
           </button>
 
-          <button class="w-10 h-10 flex items-center justify-center transition-all hover:scale-105" @click="togglePlay">
-            <svg v-if="!isPlaying" xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" viewBox="0 0 24 24" fill="currentColor">
+          <button
+            class="w-10 h-10 flex items-center justify-center transition-all hover:scale-105"
+            @click="togglePlay"
+          >
+            <svg
+              v-if="!isPlaying"
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-10 w-10"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+            >
               <polygon points="6,2 24,12 6,22" />
             </svg>
-            <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" viewBox="0 0 24 24" fill="currentColor">
+            <svg
+              v-else
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-12 w-12"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+            >
               <rect x="5" y="3" width="6" height="18" rx="1" />
               <rect x="13" y="3" width="6" height="18" rx="1" />
             </svg>
           </button>
 
           <button class="w-10 h-10 hover:scale-110 transition-all" @click="nextTrack">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" viewBox="0 0 24 24" fill="currentColor">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-10 w-10"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+            >
               <polygon points="3,5 13,13 3,21" />
               <polygon points="12,5 22,13 12,21" />
             </svg>
@@ -200,7 +237,10 @@ onUnmounted(() => {
             if (isPlaying) audioRef?.play();
           "
         >
-          <div class="w-10 h-10 mr-2 flex items-center justify-center" :style="{ backgroundColor: track.color + '20' }">
+          <div
+            class="w-10 h-10 mr-2 flex items-center justify-center"
+            :style="{ backgroundColor: track.color + '20' }"
+          >
             <div v-if="currentTrackIndex === index && isPlaying" class="flex space-x-1">
               <div class="w-1 h-3 bg-zinc-500 animate-pulse" style="animation-delay: 0ms"></div>
               <div class="w-1 h-3 bg-zinc-500 animate-pulse" style="animation-delay: 300ms"></div>
@@ -217,7 +257,20 @@ onUnmounted(() => {
       </div>
     </div>
     <!-- Keyboard Hint -->
-    <div class="bg-zinc-100 p-2 text-center text-xs text-zinc-500 border-t border-zinc-300"><span class="inline-block bg-zinc-50 border border-zinc-300 px-2 py-1 rounded mr-2 shadow">Space</span> Play/Pause <span class="inline-block bg-zinc-50 border border-zinc-300 px-2 py-1 rounded mx-2 shadow">←</span> Rewind <span class="inline-block bg-zinc-50 border border-zinc-300 px-2 py-1 rounded ml-2 shadow">→</span> Forward</div>
+    <div class="bg-zinc-100 p-2 text-center text-xs text-zinc-500 border-t border-zinc-300">
+      <span class="inline-block bg-zinc-50 border border-zinc-300 px-2 py-1 rounded mr-2 shadow"
+        >Space</span
+      >
+      Play/Pause
+      <span class="inline-block bg-zinc-50 border border-zinc-300 px-2 py-1 rounded mx-2 shadow"
+        >←</span
+      >
+      Rewind
+      <span class="inline-block bg-zinc-50 border border-zinc-300 px-2 py-1 rounded ml-2 shadow"
+        >→</span
+      >
+      Forward
+    </div>
   </div>
 </template>
 

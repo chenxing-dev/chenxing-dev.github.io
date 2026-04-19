@@ -20,7 +20,7 @@
           operator: ['+', '-', '×', '÷'].includes(btn),
           number: !isNaN(Number(btn)) || btn === '.',
           function: ['C', 'CE', '⌫', '+/-', '%'].includes(btn),
-          equals: btn === '='
+          equals: btn === '=',
         }"
         @click="handleButtonClick(btn)"
       >
@@ -41,7 +41,28 @@ const operator = ref<string | null>(null);
 const shouldResetDisplay = ref(false);
 
 // Button configuration
-const buttons = ["C", "CE", "⌫", "÷", "7", "8", "9", "×", "4", "5", "6", "-", "1", "2", "3", "+", ".", "0", "+/-", "="];
+const buttons = [
+  "C",
+  "CE",
+  "⌫",
+  "÷",
+  "7",
+  "8",
+  "9",
+  "×",
+  "4",
+  "5",
+  "6",
+  "-",
+  "1",
+  "2",
+  "3",
+  "+",
+  ".",
+  "0",
+  "+/-",
+  "=",
+];
 
 // Computed display values
 const currentDisplay = computed(() => {
@@ -177,7 +198,10 @@ const clearEntry = () => {
 
 // Backspace
 const backspace = () => {
-  if (currentValue.value.length === 1 || (currentValue.value.length === 2 && currentValue.value.startsWith("-"))) {
+  if (
+    currentValue.value.length === 1 ||
+    (currentValue.value.length === 2 && currentValue.value.startsWith("-"))
+  ) {
     currentValue.value = "0";
   } else {
     currentValue.value = currentValue.value.slice(0, -1);
@@ -186,7 +210,9 @@ const backspace = () => {
 
 // Toggle sign
 const toggleSign = () => {
-  currentValue.value = currentValue.value.startsWith("-") ? currentValue.value.slice(1) : "-" + currentValue.value;
+  currentValue.value = currentValue.value.startsWith("-")
+    ? currentValue.value.slice(1)
+    : "-" + currentValue.value;
 };
 
 // Apply percentage

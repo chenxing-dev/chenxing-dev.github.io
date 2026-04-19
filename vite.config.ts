@@ -9,10 +9,10 @@ export default defineConfig({
   base: "./",
   resolve: {
     alias: {
-      "@": fileURLToPath(new URL("./src", import.meta.url))
-    }
+      "@": fileURLToPath(new URL("./src", import.meta.url)),
+    },
   },
   build: {
     cssCodeSplit: false, // fewer CSS chunks
-  }
+  },
 });
