@@ -18,7 +18,6 @@ const { settings } = useSettings();
 const isMobile = useMediaQuery("(max-width: 768px)");
 
 const {
-  windowRef,
   position,
   title,
   contentComponent,
