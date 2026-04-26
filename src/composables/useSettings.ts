@@ -4,8 +4,8 @@ import type { Settings } from "@/types";
 
 // Default settings
 export const defaultSettings: Settings = {
-  theme: "theme-minimal",
-  background: "bg-off-white",
+  theme: "theme-pastel",
+  background: "bg-sky-blue",
   clockFormat: "24h",
 };
 
