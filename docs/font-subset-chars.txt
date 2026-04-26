@@ -1,0 +1,51 @@
+About Me
+Code Projects
+Projects
+Terminal
+Weather
+Music Player
+Analog Clock
+Calculator
+Digital Clock
+Settings
+System Settings
+Appearance
+Desktop
+Gymnopédie No.1
+Hi, I'm 陈刑
+陈刑
+微博
+@陈刑很刑
+Welcome to 陈刑OS Terminal!
+陈刑OS is a personal web desktop. Built with Vue 3, curiosity, and caffeine.
+微博: @陈刑很刑
+GitHub: chenxing-dev
+★ ✦ ✧ ✺ ✹ ✸ ✶ ✵ ✷
+Available commands:
+user@chenxing-dev.github.io
+os           陈刑OS v1.0
+host       chenxing-dev.github.io
+shell      vue-sh 3.5.13
+陈刑OS is a personal desktop environment built with Vue.js
+cat: missing file operand
+Frontend Development
+Game Modding Experience
+Deep Learning Research
+Math Education
+GitHub
+JavaScript
+TypeScript
+React
+Vue
+Svelte
+Astro
+Preact
+Alpine.js
+Python
+Node.js
+Arduino
+Arch Linux
+TailwindCSS
+Lua
+PyTorch
+C++

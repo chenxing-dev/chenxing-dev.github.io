@@ -20,6 +20,42 @@ onMounted(() => {
       }, 2500);
     }, 1000);
   }
+  // Lazy-load the full serif font after initial render (safe fallback)
+  const loadFullSerif = () => {
+    try {
+      const fullUrl = "/fonts/noto-serif-sc-chinese-simplified-900-normal.woff2";
+      if (typeof (window as any).FontFace === "function") {
+        const ff = new (window as any).FontFace(
+          "Noto Serif SC",
+          `url(${fullUrl}) format("woff2")`,
+          { weight: "900", style: "normal" },
+        );
+        ff.load()
+          .then((loaded: any) => {
+            (document as any).fonts.add(loaded);
+          })
+          .catch(() => {
+            /* ignore load errors */
+          });
+      } else {
+        const link = document.createElement("link");
+        link.rel = "preload";
+        link.as = "font";
+        link.href = fullUrl;
+        link.type = "font/woff2";
+        link.crossOrigin = "anonymous";
+        document.head.appendChild(link);
+      }
+    } catch (e) {
+      /* defensive */
+    }
+  };
+
+  if ("requestIdleCallback" in window) {
+    (window as any).requestIdleCallback(() => loadFullSerif(), { timeout: 3000 });
+  } else {
+    setTimeout(loadFullSerif, 3000);
+  }
 });
 </script>
 
@@ -51,7 +87,7 @@ onMounted(() => {
   font-weight: 900;
   font-stretch: 100%;
   font-display: swap;
-  src: url(/fonts/noto-serif-sc-chinese-simplified-900-normal.woff2) format("woff2");
+  src: url(/fonts/noto-serif-sc-chinese-simplified-900-normal-subset.woff2) format("woff2");
 }
 
 :root {
