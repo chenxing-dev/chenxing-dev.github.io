@@ -18,9 +18,10 @@ const availableApps = markRaw(getDesktopApps());
 </script>
 
 <template>
-  <div
+  <main
     :class="settings.theme"
     class="relative w-screen h-dvh overflow-hidden select-none text-secondary"
+    aria-label="Desktop"
   >
     <!-- Desktop background and icons -->
     <Wallpaper />
@@ -28,6 +29,8 @@ const availableApps = markRaw(getDesktopApps());
     <div
       v-memo="[availableApps]"
       class="absolute w-full min-w-72 justify-items-center p-2 md:p-12 grid gap-2 md:gap-4 grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 2xl:grid-cols-14"
+      aria-label="Desktop apps"
+      role="navigation"
     >
       <DesktopIcon
         v-for="app in availableApps"
@@ -40,5 +43,5 @@ const availableApps = markRaw(getDesktopApps());
 
     <!-- Window Layer -->
     <WindowLayer :windows="windows" @close="closeWindow" @focus="focusWindow" />
-  </div>
+  </main>
 </template>

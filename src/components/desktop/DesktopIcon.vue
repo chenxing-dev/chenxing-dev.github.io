@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useMediaQuery } from "@vueuse/core";
 import { computed, nextTick, onMounted, onUnmounted, ref } from "vue";
 import gsap from "gsap";
 import { useSettings } from "@/composables/useSettings";
@@ -26,10 +27,12 @@ const iconComponent = computed(() => {
 const iconContainer = ref<HTMLElement | null>(null);
 const iconElement = ref<HTMLElement | null>(null);
 const iconLabel = ref<HTMLElement | null>(null);
+const prefersReducedMotion = useMediaQuery("(prefers-reduced-motion: reduce)");
 let hoverTimeline: gsap.core.Timeline | null = null;
 
 // Create hover animation timeline
 const createHoverTimeline = () => {
+  if (prefersReducedMotion.value) return null;
   if (!iconContainer.value || !iconElement.value || !iconLabel.value) return null;
 
   return gsap
@@ -51,6 +54,8 @@ const createHoverTimeline = () => {
 
 // Create vintage boot-up animation
 const animateIcons = async () => {
+  if (prefersReducedMotion.value || !iconContainer.value) return;
+
   // Wait for DOM to update
   await nextTick();
 
@@ -74,36 +79,21 @@ const animateIcons = async () => {
   });
 };
 
-// Setup event listeners
-const setupEventListeners = () => {
-  if (!iconContainer.value) return;
-  // Named handlers so we can remove them later
-  const onMouseEnter = () => {
-    hoverTimeline = createHoverTimeline();
+const handleMouseEnter = () => {
+  if (prefersReducedMotion.value) return;
 
-    if (hoverTimeline) {
-      hoverTimeline.play();
-    }
-  };
+  hoverTimeline ??= createHoverTimeline();
+  hoverTimeline?.play();
+};
 
-  const onMouseLeave = () => {
-    if (hoverTimeline) {
-      hoverTimeline.reverse();
+const handleMouseLeave = () => {
+  if (!hoverTimeline) return;
 
-      hoverTimeline.eventCallback("onReverseComplete", () => {
-        hoverTimeline?.kill();
-        hoverTimeline = null;
-      });
-    }
-  };
-
-  iconContainer.value.addEventListener("mouseenter", onMouseEnter);
-  iconContainer.value.addEventListener("mouseleave", onMouseLeave);
-
-  // Expose handlers for removal in onUnmounted by attaching to the element
-  // (avoid creating reactive refs for these simple functions)
-  (iconContainer.value as any).__desktopOnMouseEnter = onMouseEnter;
-  (iconContainer.value as any).__desktopOnMouseLeave = onMouseLeave;
+  hoverTimeline.reverse();
+  hoverTimeline.eventCallback("onReverseComplete", () => {
+    hoverTimeline?.kill();
+    hoverTimeline = null;
+  });
 };
 
 const openApp = () => {
@@ -113,49 +103,41 @@ const openApp = () => {
 // Setup animations when component mounts
 onMounted(() => {
   animateIcons();
-  setupEventListeners();
 });
 
 // Clean up animations
 onUnmounted(() => {
   if (hoverTimeline) hoverTimeline.kill();
-
-  if (iconContainer.value) {
-    // Retrieve the same handler references we attached when setting up listeners
-    const onMouseEnter = (iconContainer.value as any).__desktopOnMouseEnter as
-      | EventListener
-      | undefined;
-    const onMouseLeave = (iconContainer.value as any).__desktopOnMouseLeave as
-      | EventListener
-      | undefined;
-
-    if (onMouseEnter) iconContainer.value.removeEventListener("mouseenter", onMouseEnter);
-    if (onMouseLeave) iconContainer.value.removeEventListener("mouseleave", onMouseLeave);
-
-    // Clean up attached properties
-    delete (iconContainer.value as any).__desktopOnMouseEnter;
-    delete (iconContainer.value as any).__desktopOnMouseLeave;
-  }
 });
 </script>
 <template>
-  <div
+  <button
     ref="iconContainer"
-    class="desktop-icon group flex flex-col items-center p-2 w-16 cursor-pointer"
+    type="button"
+    class="desktop-icon group flex flex-col items-center p-2 w-16 cursor-pointer border-0 bg-transparent text-inherit focus:outline-none focus-visible:ring-2 focus-visible:ring-zinc-500 focus-visible:ring-offset-2"
+    :aria-label="`Open ${label}`"
+    :title="`Open ${label}`"
     @click="openApp"
+    @mouseenter="handleMouseEnter"
+    @mouseleave="handleMouseLeave"
   >
     <div
       ref="iconElement"
       class="icon-container mb-1 w-12 h-12 flex items-center justify-center rounded-lg"
     >
-      <component :is="iconComponent" v-if="iconComponent" class="text-6xl bg-transparent" />
+      <component
+        :is="iconComponent"
+        v-if="iconComponent"
+        class="text-6xl bg-transparent"
+        aria-hidden="true"
+      />
     </div>
     <span
       ref="iconLabel"
       class="text-sm text-zinc-500 px-1 py-0.5 rounded text-center text-shadow-lg text-secondary"
-      :class="settings.background + settings.theme"
+      :class="settings.background + ' ' + settings.theme"
     >
       {{ label }}
     </span>
-  </div>
+  </button>
 </template>

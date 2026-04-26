@@ -19,6 +19,7 @@ const isMobile = useMediaQuery("(max-width: 768px)");
 
 const { position, title, contentComponent, onDrag, onDragStop, onMousedown, handleClose, focus } =
   useWindowController(props.window, emit);
+const titleId = computed(() => `window-title-${props.window.id}`);
 
 // Computed dimensions
 const width = computed(() => props.window.app.size.width);
@@ -52,6 +53,8 @@ const height = computed(() =>
       ref="windowRef"
       :class="settings.theme"
       class="window-container bg-primary border-2 border-accent overflow-hidden flex flex-col md:w-full h-full p-0.5 m-2"
+      :aria-labelledby="titleId"
+      role="dialog"
       @mousedown="onMousedown"
     >
       <!-- Title Bar -->
@@ -59,7 +62,7 @@ const height = computed(() =>
         class="title-bar drag-handle flex items-center justify-between md:cursor-grab border-2 border-b-0 border-accent h-6 bg-title-bar"
       >
         <div class="flex items-center mx-auto">
-          <span class="text-sm font-medium truncate max-w-[200px]">{{ title }}</span>
+          <span :id="titleId" class="text-sm font-medium truncate max-w-[200px]">{{ title }}</span>
         </div>
         <div class="flex items-center border-l-2 border-accent h-full">
           <button
