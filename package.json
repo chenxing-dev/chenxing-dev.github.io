@@ -6,7 +6,7 @@
     "dev": "vite",
     "build": "vue-tsc -b && vite build",
     "preview": "vite preview",
-    "prepare": "husky .",
+    "prepare": "husky",
     "deploy": "gh-pages -d dist",
     "lint": "oxlint",
     "lint:fix": "oxlint --fix",
@@ -34,6 +34,9 @@
     "unocss": "^66.2.3",
     "vite": "^6.3.5",
     "vue-tsc": "^2.2.8"
+  },
+  "lint-staged": {
+    "*.{ts,vue}": "oxlint --fix",
+    "*.{ts,vue,json,md,html}": "oxfmt --write"
   }
 }
-
