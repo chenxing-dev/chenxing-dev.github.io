@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { markRaw } from "vue";
 
-import useDesktopState from "@/composables/useDesktopState";
+import useWindowState from "@/composables/useWindowState";
 import { useSettings } from "@/composables/useSettings";
 import { getDesktopApps } from "@/config/apps-registry";
 import Wallpaper from "@/components/desktop/Wallpaper.vue";
 import DesktopIcon from "@/components/desktop/DesktopIcon.vue";
-import WindowManager from "@/components/WindowManager.vue";
+import WindowLayer from "@/components/WindowLayer.vue";
 
-const { windows, openWindow, closeWindow, focusWindow } = useDesktopState();
+const { windows, openWindow, closeWindow, focusWindow } = useWindowState();
 const { settings } = useSettings();
 
 // Make the apps list non-reactive
@@ -38,7 +38,7 @@ const availableApps = markRaw(getDesktopApps());
       />
     </div>
 
-    <!-- Window Manager -->
-    <WindowManager :windows="windows" @close="closeWindow" @focus="focusWindow" />
+    <!-- Window Layer -->
+    <WindowLayer :windows="windows" @close="closeWindow" @focus="focusWindow" />
   </div>
 </template>

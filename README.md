@@ -62,9 +62,9 @@ chenxing-dev.github.io/
 │   └── fonts/                        # Custom fonts
 ├── src/
 │   ├── components/                   # Desktop shell and app windows
-│   │   ├── AppWindow.vue             # Shared window frame
 │   │   ├── Desktop.vue               # Desktop orchestrator
-│   │   ├── WindowManager.vue         # Window renderer and event bridge
+│   │   ├── Window.vue                # Shared window frame
+│   │   ├── WindowLayer.vue           # Window renderer and event bridge
 │   │   ├── apps/                     # Individual desktop apps
 │   │   │   ├── AboutMe.vue
 │   │   │   ├── AnalogClock.vue
@@ -79,10 +79,10 @@ chenxing-dev.github.io/
 │   │       ├── DesktopIcon.vue
 │   │       └── Wallpaper.vue
 │   ├── composables/                  # Shared state and window behavior
-│   │   ├── useDesktopState.ts
 │   │   ├── useSettings.ts
 │   │   ├── useWindowAnimations.ts
-│   │   └── useWindowController.ts
+│   │   ├── useWindowController.ts
+│   │   └── useWindowState.ts
 │   ├── config/
 │   │   └── apps-registry.ts          # App metadata and component registry
 │   ├── icons/                        # SVG icon components
@@ -105,16 +105,16 @@ chenxing-dev.github.io/
 
 ## 🏗️ Component Flow
 
-The desktop UI is organized around a small set of shell components and composables. Shared state lives in a central desktop store, window coordination happens in the manager layer, and each app component stays focused on rendering its own interface.
+The desktop UI is organized around a small set of shell components and composables. Shared window state lives in a central store, WindowLayer renders the window stack and relays events, and each app component stays focused on rendering its own interface.
 
 Summary:
 
-- `Desktop.vue` connects the wallpaper, desktop icons, window manager, and shared desktop state.
-- `useDesktopState.ts` is the source of truth for open windows, focus order, z-index changes, and persisted window positions.
-- `WindowManager.vue` maps desktop state to rendered window instances and forwards window events back into the state layer.
-- `AppWindow.vue` provides the shared window shell, including the frame, controls, and app mount point.
+- `Desktop.vue` connects the wallpaper, desktop icons, window layer, and shared desktop state.
+- `WindowLayer.vue` is a thin render-and-event-bridge layer. It renders `Window` for each open window and forwards focus/close events to the desktop state.
+- `Window.vue` provides the shared window shell, including the frame, controls, and app mount point.
+- `useWindowState.ts` is the source of truth for open windows, focus order, z-index changes, and persisted window positions.
 - `useWindowController.ts` handles per-window behavior such as dragging, animation hooks, and app resolution from the registry.
-- App components inside `components/apps/` render feature-specific UI and do not manage global desktop state directly.
+- App components inside `components/apps/` render feature-specific UI and do not manage global window state directly.
 
 ## 🛠️ Built With
 

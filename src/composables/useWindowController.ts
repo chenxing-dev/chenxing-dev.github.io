@@ -1,6 +1,6 @@
 import { ref, reactive, onMounted, markRaw, type Ref, type Component } from "vue";
 import { getComponentById } from "@/config/apps-registry";
-import useDesktopState from "@/composables/useDesktopState";
+import useWindowState from "@/composables/useWindowState";
 import { useWindowAnimations } from "@/composables/useWindowAnimations";
 import type { WindowItem } from "@/types";
 
@@ -16,7 +16,7 @@ export function useWindowController(window: WindowItem, emit: EmitFn) {
   // Use reactive + field mutation to avoid creating a new object on each drag event
   const position = reactive({ x: window.position.x, y: window.position.y });
 
-  const { updateWindowState } = useDesktopState();
+  const { updateWindowState } = useWindowState();
   const { openAnimation, closeAnimation } = useWindowAnimations(windowRef);
 
   const title = window.app.title || "Untitled Window";

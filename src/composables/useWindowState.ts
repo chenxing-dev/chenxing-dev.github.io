@@ -50,7 +50,7 @@ let bootstrapped = false;
 // Z-index ref
 const zIndexCounter = ref(1);
 
-export default function useDesktopState() {
+export default function useWindowState() {
   // Bootstrap once per module load
   if (!bootstrapped) {
     zIndexCounter.value = Math.max(1, ...windows.value.map((w) => w.zIndex)) + 1;
