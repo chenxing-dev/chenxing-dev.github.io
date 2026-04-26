@@ -6,10 +6,7 @@ const DEFAULT_WIDTH = 500;
 const DEFAULT_HEIGHT = 320;
 const START_POSITION_MARGIN = 16;
 
-export const clampWindowPosition = (
-  position: WindowPosition,
-  size: WindowSize,
-): WindowPosition => {
+export const clampWindowPosition = (position: WindowPosition, size: WindowSize): WindowPosition => {
   const viewportWidth = typeof window !== "undefined" ? window.innerWidth : size.width;
   const viewportHeight = typeof window !== "undefined" ? window.innerHeight : size.height;
   const maxX = Math.max(0, viewportWidth - size.width - START_POSITION_MARGIN);

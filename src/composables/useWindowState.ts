@@ -47,13 +47,31 @@ const windows = useStorage<WindowItem[]>("os-windows", [], undefined, {
 // Make bootstrap idempotent aka only run once
 let bootstrapped = false;
 
+// Window id ref
+const windowIdCounter = ref(1);
+
 // Z-index ref
 const zIndexCounter = ref(1);
+
+const normalizeWindowStack = (windowList: WindowItem[]) => {
+  return [...windowList]
+    .sort((left, right) => left.zIndex - right.zIndex || left.id - right.id)
+    .map((windowItem, index) => ({
+      ...windowItem,
+      zIndex: index + 1,
+    }));
+};
+
+const syncWindowCounters = () => {
+  windowIdCounter.value = Math.max(0, ...windows.value.map((windowItem) => windowItem.id)) + 1;
+  zIndexCounter.value = windows.value.length + 1;
+};
 
 export default function useWindowState() {
   // Bootstrap once per module load
   if (!bootstrapped) {
-    zIndexCounter.value = Math.max(1, ...windows.value.map((w) => w.zIndex)) + 1;
+    windows.value = normalizeWindowStack(windows.value);
+    syncWindowCounters();
     bootstrapped = true;
   }
 
@@ -77,7 +95,7 @@ export default function useWindowState() {
       app.size,
     );
     return {
-      id: Date.now(),
+      id: windowIdCounter.value++,
       app,
       position,
       zIndex: zIndexCounter.value++, // Increment zIndex for new window
@@ -103,15 +121,20 @@ export default function useWindowState() {
       startPosition,
     );
     windows.value.push(newWindow);
-    focusWindow(newWindow.id);
     return newWindow.id;
   };
 
   const closeWindow = (id: number) => {
-    windows.value = windows.value.filter((w) => w.id !== id);
+    windows.value = normalizeWindowStack(windows.value.filter((w) => w.id !== id));
+    syncWindowCounters();
   };
 
   const focusWindow = (id: number) => {
+    const topWindow = getTopWindow(windows.value);
+    if (topWindow?.id === id) {
+      return;
+    }
+
     // Bring to front by updating zIndex
     windows.value.forEach((w) => {
       if (w.id === id) {
