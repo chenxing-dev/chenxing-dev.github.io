@@ -44,14 +44,7 @@ export function useWindowController(window: WindowItem, emit: EmitFn) {
   };
 
   onMounted(() => {
-    const run = () => requestAnimationFrame(() => openAnimation());
-    if (document.readyState === "complete") {
-      run();
-    } else {
-      if (windowRef.value) {
-        windowRef.value.addEventListener("load", run, { once: true });
-      }
-    }
+    requestAnimationFrame(() => openAnimation());
   });
 
   return {
