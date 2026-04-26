@@ -1,7 +1,7 @@
 import { ref, computed } from "vue";
 import { useStorage } from "@vueuse/core";
 import { getAppById } from "@/config/apps-registry";
-import { sanitizeAndRehydrate } from "@/lib/stored-window";
+import { clampWindowPosition, sanitizeAndRehydrate } from "@/lib/stored-window";
 import type { AppConfig, AppItem, StoredWindow, WindowItem, WindowPosition } from "@/types";
 
 // Default window dimensions
@@ -61,19 +61,21 @@ export default function useWindowState() {
   const activeWindow = computed(() => getTopWindow(windows.value));
 
   function createWindow(app: AppItem, startPosition?: WindowPosition): WindowItem {
-    const position: WindowPosition =
+    const position = clampWindowPosition(
       startPosition ??
-      (() => {
-        const maxX = Math.max(
-          0,
-          window.innerWidth - (app.size.width || DEFAULT_WIDTH) - START_POSITION_MARGIN,
-        );
-        const maxY = Math.max(
-          0,
-          window.innerHeight - (app.size.height || DEFAULT_HEIGHT) - START_POSITION_MARGIN,
-        );
-        return { x: Math.random() * maxX, y: Math.random() * maxY };
-      })();
+        (() => {
+          const maxX = Math.max(
+            0,
+            window.innerWidth - (app.size.width || DEFAULT_WIDTH) - START_POSITION_MARGIN,
+          );
+          const maxY = Math.max(
+            0,
+            window.innerHeight - (app.size.height || DEFAULT_HEIGHT) - START_POSITION_MARGIN,
+          );
+          return { x: Math.random() * maxX, y: Math.random() * maxY };
+        })(),
+      app.size,
+    );
     return {
       id: Date.now(),
       app,

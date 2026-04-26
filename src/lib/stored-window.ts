@@ -1,10 +1,25 @@
 import { getAppById } from "@/config/apps-registry";
 import { clamp, isFiniteNumber } from "@/lib/number";
-import type { AppItem, StoredWindow, WindowItem, WindowPosition } from "@/types";
+import type { AppItem, StoredWindow, WindowItem, WindowPosition, WindowSize } from "@/types";
 
 const DEFAULT_WIDTH = 500;
 const DEFAULT_HEIGHT = 320;
 const START_POSITION_MARGIN = 16;
+
+export const clampWindowPosition = (
+  position: WindowPosition,
+  size: WindowSize,
+): WindowPosition => {
+  const viewportWidth = typeof window !== "undefined" ? window.innerWidth : size.width;
+  const viewportHeight = typeof window !== "undefined" ? window.innerHeight : size.height;
+  const maxX = Math.max(0, viewportWidth - size.width - START_POSITION_MARGIN);
+  const maxY = Math.max(0, viewportHeight - size.height - START_POSITION_MARGIN);
+
+  return {
+    x: clamp(position.x, 0, maxX),
+    y: clamp(position.y, 0, maxY),
+  };
+};
 
 const isWindowPosition = (value: unknown): value is WindowPosition => {
   if (typeof value !== "object" || value === null) {
@@ -58,23 +73,6 @@ export const sanitizeAndRehydrate = (stored: StoredWindow[] | unknown): WindowIt
         return null;
       }
 
-      const position: WindowPosition = {
-        x: clamp(
-          item.position.x,
-          0,
-          (typeof window !== "undefined" ? window.innerWidth : app.width || DEFAULT_WIDTH) -
-            (app.width || DEFAULT_WIDTH) -
-            START_POSITION_MARGIN,
-        ),
-        y: clamp(
-          item.position.y,
-          0,
-          (typeof window !== "undefined" ? window.innerHeight : app.height || DEFAULT_HEIGHT) -
-            (app.height || DEFAULT_HEIGHT) -
-            START_POSITION_MARGIN,
-        ),
-      };
-
       const rehydratedApp: AppItem = {
         id: app.id,
         title: app.title,
@@ -84,6 +82,8 @@ export const sanitizeAndRehydrate = (stored: StoredWindow[] | unknown): WindowIt
         },
         mobileSize: app.mobileSize,
       };
+
+      const position = clampWindowPosition(item.position, rehydratedApp.size);
 
       const windowItem: WindowItem = {
         id: item.id,
