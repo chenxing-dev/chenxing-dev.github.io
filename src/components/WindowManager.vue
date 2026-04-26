@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Window from "@/components/Window.vue";
+import AppWindow from "@/components/AppWindow.vue";
 import type { WindowItem } from "@/types";
 
 defineProps<{
@@ -13,7 +13,7 @@ const emit = defineEmits(["close", "focus"]);
   <div
     class="window-manager absolute inset-0 pointer-events-none w-dvw h-dvh flex items-center justify-center md:block"
   >
-    <Window
+    <AppWindow
       v-for="window in windows"
       :key="window.id"
       :window="window"

@@ -5,7 +5,7 @@ import "vue-draggable-resizable/style.css";
 
 import { computed } from "vue";
 import { useSettings } from "@/composables/useSettings";
-import { useWindowInstance } from "@/composables/useWindowInstance";
+import { useWindowController } from "@/composables/useWindowController";
 import type { WindowItem } from "@/types";
 
 const props = defineProps<{ window: WindowItem }>();
@@ -18,7 +18,7 @@ const { settings } = useSettings();
 const isMobile = useMediaQuery("(max-width: 768px)");
 
 const { position, title, contentComponent, onDrag, onDragStop, onMousedown, handleClose, focus } =
-  useWindowInstance(props.window, emit);
+  useWindowController(props.window, emit);
 
 // Computed dimensions
 const width = computed(() => props.window.app.size.width);
@@ -34,7 +34,7 @@ const height = computed(() =>
     class="window max-w-dvw bg-transparent"
     :class="[
       settings.theme,
-      isMobile ? (window.app.mobileSize?.height ? '' : '!h-dvh !max-h-full') : '',
+      isMobile ? (props.window.app.mobileSize?.height ? '' : '!h-dvh !max-h-full') : '',
     ]"
     :draggable="!isMobile"
     :resizable="false"
@@ -43,7 +43,7 @@ const height = computed(() =>
     :y="isMobile ? 0 : position.y"
     :w="width"
     :h="height"
-    :z="window.zIndex"
+    :z="props.window.zIndex"
     @activated="focus"
     @dragging="onDrag"
     @drag-stop="onDragStop"
@@ -77,7 +77,7 @@ const height = computed(() =>
 
       <!-- Window Content -->
       <div class="window-content flex-1 overflow-auto border-2 border-accent">
-        <component :is="contentComponent" v-if="contentComponent" :type="window.app.id" />
+        <component :is="contentComponent" v-if="contentComponent" :type="props.window.app.id" />
         <div v-else class="h-full flex items-center justify-center text-zinc-400">
           Window content not available
         </div>

@@ -56,26 +56,65 @@ To run locally:
 
 ```
 chenxing-dev.github.io/
-├── public/                  # Static assets
-│   ├── audio/               # Sound files
-│   └── images/              # Background images
+├── public/                           # Static assets served by Vite
+│   ├── audio/                        # Music files
+│   ├── favicon.svg                   # Site favicon
+│   └── fonts/                        # Custom fonts
 ├── src/
-│   ├── components/                   # Vue components
-│   │   ├── desktop/                  # Desktop icons and wallpaper
-│   │   └── windows/                  # Window components for each app
-│   │       ├── MusicPlayer.vue
-│   │       ├── TerminalWindow.vue
-│   │       ├── Window.vue            # Window wrapper component
-│   │       └── ...                   # Other app windows
-│   ├── App.vue                       # Main app component
-│   └── main.ts                       # Entry point
+│   ├── components/                   # Desktop shell and app windows
+│   │   ├── AppWindow.vue             # Shared window frame
+│   │   ├── Desktop.vue               # Desktop orchestrator
+│   │   ├── WindowManager.vue         # Window renderer and event bridge
+│   │   ├── apps/                     # Individual desktop apps
+│   │   │   ├── AboutMe.vue
+│   │   │   ├── AnalogClock.vue
+│   │   │   ├── Calculator.vue
+│   │   │   ├── DigitalClock.vue
+│   │   │   ├── MusicPlayer.vue
+│   │   │   ├── ProjectsApp.vue
+│   │   │   ├── SettingsApp.vue
+│   │   │   ├── Terminal.vue
+│   │   │   └── Weather.vue
+│   │   └── desktop/                  # Desktop visuals and icons
+│   │       ├── DesktopIcon.vue
+│   │       └── Wallpaper.vue
+│   ├── composables/                  # Shared state and window behavior
+│   │   ├── useDesktopState.ts
+│   │   ├── useSettings.ts
+│   │   ├── useWindowAnimations.ts
+│   │   └── useWindowController.ts
+│   ├── config/
+│   │   └── apps-registry.ts          # App metadata and component registry
+│   ├── icons/                        # SVG icon components
+│   ├── lib/
+│   │   ├── number.ts
+│   │   └── vue-draggable-resizable.d.ts
+│   ├── App.vue                       # Root app component
+│   ├── main.ts                       # Entry point
+│   ├── types.d.ts                    # Shared TypeScript types
+│   └── vite-env.d.ts                 # Vite type declarations
 ├── index.html                        # HTML template
 ├── package.json
 ├── README.md                         # Project documentation
-├── tsconfig.json                     # TypeScript configuration
+├── tsconfig.app.json                 # App TypeScript config
+├── tsconfig.json                     # Base TypeScript config
+├── tsconfig.node.json                # Node and tooling TypeScript config
 ├── uno.config.ts                     # UnoCSS configuration
 └── vite.config.ts                    # Vite configuration
 ```
+
+## 🏗️ Component Flow
+
+The desktop UI is organized around a small set of shell components and composables. Shared state lives in a central desktop store, window coordination happens in the manager layer, and each app component stays focused on rendering its own interface.
+
+Summary:
+
+- `Desktop.vue` connects the wallpaper, desktop icons, window manager, and shared desktop state.
+- `useDesktopState.ts` is the source of truth for open windows, focus order, z-index changes, and persisted window positions.
+- `WindowManager.vue` maps desktop state to rendered window instances and forwards window events back into the state layer.
+- `AppWindow.vue` provides the shared window shell, including the frame, controls, and app mount point.
+- `useWindowController.ts` handles per-window behavior such as dragging, animation hooks, and app resolution from the registry.
+- App components inside `components/apps/` render feature-specific UI and do not manage global desktop state directly.
 
 ## 🛠️ Built With
 

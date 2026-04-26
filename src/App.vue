@@ -2,10 +2,10 @@
 import { onMounted } from "vue";
 import { useStorage } from "@vueuse/core";
 
-import useDesktop from "@/composables/useDesktop";
+import useDesktopState from "@/composables/useDesktopState";
 import Desktop from "@/components/Desktop.vue";
 
-const { openWindow } = useDesktop();
+const { openWindow } = useDesktopState();
 
 onMounted(() => {
   // First run logic
