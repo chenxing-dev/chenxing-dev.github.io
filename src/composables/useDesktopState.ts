@@ -1,8 +1,8 @@
 import { ref, computed } from "vue";
 import { useStorage } from "@vueuse/core";
 import { getAppById } from "@/config/apps-registry";
+import { sanitizeAndRehydrate } from "@/lib/stored-window";
 import type { AppConfig, AppItem, StoredWindow, WindowItem, WindowPosition } from "@/types";
-import { clamp } from "@/lib/number";
 
 // Default window dimensions
 const DEFAULT_WIDTH = 500;
@@ -10,62 +10,14 @@ const DEFAULT_HEIGHT = 320;
 // Safety margin to account for window borders, shadows, and UI chrome
 const START_POSITION_MARGIN = 16;
 
-// Convert persisted window to full window object
-export const sanitizeAndRehydrate = (stored: StoredWindow[] | unknown): WindowItem[] => {
-  const list = Array.isArray(stored) ? stored : [];
-
-  return list
-    .map((item: any) => {
-      const appId = item.appId ?? item.app?.id;
-      const app = appId ? getAppById(appId) : undefined;
-      if (!app) {
-        if (appId) {
-          // Guard: unknown app persisted in storage, skip it gracefully
-          console.warn(
-            `[os-windows] Unknown app id in storage: ${String(appId)} — skipping window ${item?.id}`,
-          );
-        }
-        return null;
-      }
-
-      // Clamp position to viewport
-      const position: WindowPosition = {
-        x: clamp(
-          item.position.x,
-          0,
-          (typeof window !== "undefined" ? window.innerWidth : app.width || DEFAULT_WIDTH) -
-            (app.width || DEFAULT_WIDTH) -
-            START_POSITION_MARGIN,
-        ),
-        y: clamp(
-          item.position.y,
-          0,
-          (typeof window !== "undefined" ? window.innerHeight : app.height || DEFAULT_HEIGHT) -
-            (app.height || DEFAULT_HEIGHT) -
-            START_POSITION_MARGIN,
-        ),
-      };
-
-      const rehydratedApp: AppItem = {
-        id: app.id,
-        title: app.title,
-        size: {
-          width: app.width || DEFAULT_WIDTH,
-          height: app.height || DEFAULT_HEIGHT,
-        },
-        mobileSize: app.mobileSize,
-      };
-
-      const windowItem: WindowItem = {
-        id: item.id,
-        zIndex: item.zIndex,
-        app: rehydratedApp,
-        position,
-      };
-
+// Helper to get the topmost window based on the highest zIndex; returns null if no windows
+const getTopWindow = (windowList: WindowItem[]) => {
+  return windowList.reduce<WindowItem | null>((topWindow, windowItem) => {
+    if (!topWindow || windowItem.zIndex > topWindow.zIndex) {
       return windowItem;
-    })
-    .filter((w): w is WindowItem => w !== null);
+    }
+    return topWindow;
+  }, null);
 };
 
 // Persistent storage for open windows using a serializer
@@ -95,22 +47,18 @@ const windows = useStorage<WindowItem[]>("os-windows", [], undefined, {
 // Make bootstrap idempotent aka only run once
 let bootstrapped = false;
 
-// Z-index and active refs
+// Z-index ref
 const zIndexCounter = ref(1);
-const activeWindowId = ref<number | null>(null);
 
 export default function useDesktopState() {
   // Bootstrap once per module load
   if (!bootstrapped) {
     zIndexCounter.value = Math.max(1, ...windows.value.map((w) => w.zIndex)) + 1;
-    activeWindowId.value = windows.value.length ? windows.value[windows.value.length - 1].id : null;
     bootstrapped = true;
   }
 
   // Computed active window
-  const activeWindow = computed(
-    () => windows.value.slice().sort((a, b) => b.zIndex - a.zIndex)[0] || null,
-  );
+  const activeWindow = computed(() => getTopWindow(windows.value));
 
   function createWindow(app: AppItem, startPosition?: WindowPosition): WindowItem {
     const position: WindowPosition =
@@ -159,12 +107,6 @@ export default function useDesktopState() {
 
   const closeWindow = (id: number) => {
     windows.value = windows.value.filter((w) => w.id !== id);
-    if (activeWindowId.value === id) {
-      // If the closed window was active,
-      // set activeWindowId to the next topmost window
-      const topWindow = activeWindow.value;
-      activeWindowId.value = topWindow ? topWindow.id : null;
-    }
   };
 
   const focusWindow = (id: number) => {
@@ -172,7 +114,6 @@ export default function useDesktopState() {
     windows.value.forEach((w) => {
       if (w.id === id) {
         w.zIndex = zIndexCounter.value++;
-        activeWindowId.value = id;
       }
     });
   };
@@ -198,7 +139,6 @@ export default function useDesktopState() {
     zIndexCounter,
     createWindow,
     updateWindowState,
-    activeWindowId,
     activeWindow,
   };
 }
