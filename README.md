@@ -22,7 +22,7 @@
 ## 🚀 Live Demo
 
 Experience 陈刑OS directly in your browser:  
-[https://chenxing-dev.github.io/](https://dev-chenxing.github.io/)
+[https://chenxing.fyi/](https://chenxing.fyi/)
 
 ## 🛠️ Installation
 
