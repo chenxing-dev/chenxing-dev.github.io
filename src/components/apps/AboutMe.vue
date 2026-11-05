@@ -5,27 +5,27 @@
     <div class="flex flex-col md:flex-row gap-8 items-center md:mb-4">
       <div class="flex-1 text-center md:text-left">
         <h1 class="text-4xl md:text-5xl font-bold text-neutral-800 mb-2">
-          <span class="text-secondary">Hi, I'm </span> <span class="font-serif">陈刑</span>
+          <span class="font-serif">陈刑开发</span>
           <a
             class="text-2xl md:text-3xl text-neutral-500 underline"
             href="https://github.com/chenxing-dev"
             >(chenxing-dev),</a
           >
         </h1>
-        <h2 class="text-xl md:text-2xl font-medium text-neutral-600 mb-4">a Frontend Developer.</h2>
+        <h2 class="text-xl md:text-2xl font-medium text-neutral-600 mb-4">全栈开发（偏前端）</h2>
+        <p class="text-neutral-700 text-base md:text-lg">数学专业，有2年以上实际开发经验。</p>
       </div>
     </div>
 
     <!-- Info Grid -->
-    <div class="grid grid-cols-1 gap-8 mb-4 md:mb-8">
+    <div class="grid grid-cols-1 gap-8 mb-2 md:mb-3">
       <!-- Skills / Tech Stack -->
       <div class="bg-white/80 p-4 pb-6 rounded-xl shadow-sm border border-neutral-100">
-        <h3 class="text-xl font-bold text-neutral-800 mb-4 flex items-center">🛠️ Tech Stack</h3>
         <div>
-          <div class="mb-2 font-semibold text-neutral-700">Frontend:</div>
+          <div class="mb-2 font-semibold text-neutral-700">🛠️ 用惯的 Tech Stack</div>
           <div class="flex flex-wrap gap-2">
             <span
-              v-for="(tech, _) in frontendStack"
+              v-for="(tech, _) in stack"
               :key="tech"
               class="px-3 py-1 rounded-full font-medium text-sm text-white cursor-pointer"
               :style="{
@@ -36,10 +36,10 @@
               {{ tech }}
             </span>
           </div>
-          <div class="mt-4 mb-2 font-semibold text-neutral-700">Tools & Platforms:</div>
+          <div class="mt-4 mb-2 font-semibold text-neutral-700">有经验</div>
           <div class="flex flex-wrap gap-2">
             <span
-              v-for="(tool, _) in toolsStack"
+              v-for="(tool, _) in other"
               :key="tool"
               class="px-3 py-1 rounded-full font-medium text-sm text-white shadow cursor-pointer"
               :style="{
@@ -54,11 +54,11 @@
       </div>
     </div>
 
-    <div class="mb-4 md:mb-12">
-      <h3 class="text-xl md:text-2xl mb-4 md:mb-6 font-bold text-neutral-800 flex items-center">
+    <div class="mb-3 md:mb-8">
+      <h3 class="text-lg md:text-xl mb-3 md:mb-4 font-bold text-neutral-800 flex items-center">
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          class="h-6 w-6 mr-2 text-secondary"
+          class="h-5 w-5 mr-2 text-secondary"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -73,31 +73,31 @@
         Learning Journey
       </h3>
 
-      <div class="relative pl-8 border-l-2 border-neutral-400/50 space-y-6 md:space-y-8">
+      <div class="relative pl-6 border-l-2 border-neutral-400/50 space-y-4 md:space-y-5">
         <div v-for="(item, index) in unprofessionalExperience" :key="index" class="relative group">
           <!-- Timeline Dot with Icon -->
           <div
-            class="absolute rounded-full bg-linear-to-br from-neutral-50 to-neutral-100 flex items-center justify-center border-1 border-accent text-white shadow-md px-1 pb-1 -left-13 top-4 w-8 h-8 md:w-10 md:h-10"
+            class="absolute rounded-full bg-linear-to-br from-neutral-50 to-neutral-100 flex items-center justify-center border-1 border-accent text-white shadow-md px-1 pb-1 -left-11 top-3 w-7 h-7 md:w-8 md:h-8"
           >
-            <span v-if="item.icon" class="text-xl">{{ item.icon }}</span>
+            <span v-if="item.icon" class="text-lg md:text-xl">{{ item.icon }}</span>
             <span v-else class="w-4 h-4 bg-white rounded-full"></span>
           </div>
           <div
-            class="bg-white/90 p-5 rounded-xl shadow-sm border border-neutral-100 transition-all group-hover:shadow-md"
+            class="bg-white/90 p-4 rounded-xl shadow-sm border border-neutral-100 transition-all group-hover:shadow-md"
           >
             <span
-              class="text-xs font-semibold text-secondary bg-primary/10 py-1 rounded tracking-wide"
+              class="text-[11px] font-semibold text-secondary bg-primary/10 rounded tracking-wide block leading-none"
             >
               {{ item.period }}
             </span>
-            <h4 class="text-xl font-bold mt-2 mb-1">{{ item.title }}</h4>
-            <p class="font-medium text-neutral-700">{{ item.subtitle }}</p>
-            <p class="text-neutral-600 my-2 md:my-3 text-sm md:text-base">{{ item.description }}</p>
+            <h4 class="text-lg md:text-xl font-bold mt-1 mb-0.5">{{ item.title }}</h4>
+            <p class="text-sm md:text-base font-medium text-neutral-700">{{ item.subtitle }}</p>
+            <p class="text-neutral-600 my-1.5 md:my-2 text-sm">{{ item.description }}</p>
             <div class="flex flex-wrap gap-2">
               <span
                 v-for="(tech, techIndex) in item.tags"
                 :key="techIndex"
-                class="text-xs px-2 pb-1 bg-neutral-100 text-neutral-700 rounded-lg shadow-sm cursor-pointer hover:bg-neutral-200 transition"
+                class="text-[11px] px-2 py-0.5 bg-neutral-100 text-neutral-700 rounded-lg shadow-sm cursor-pointer hover:bg-neutral-200 transition"
                 :style="{
                   backgroundColor: badgeColors[tech]?.bg || '#eee',
                   color: badgeColors[tech]?.text || '#333',
@@ -112,11 +112,11 @@
     </div>
 
     <!-- Contact -->
-    <div class="bg-white/90 rounded-xl shadow-sm border border-neutral-100 px-6 py-4">
-      <h3 class="text-xl md:text-2xl font-bold text-neutral-800 mb-4 flex items-center">
+    <div class="bg-white/90 rounded-xl shadow-sm border border-neutral-100 px-5 pt-3.5 pb-4">
+      <h3 class="text-lg md:text-xl font-bold text-neutral-800 mb-2.5 flex items-center">
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          class="h-6 w-6 mr-2 text-secondary"
+          class="h-5 w-5 mr-2 text-secondary shrink-0 translate-y-px"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -130,16 +130,16 @@
         </svg>
         Contact With Me
       </h3>
-      <div class="grid grid-rows-2 md:grid-rows-1 md:grid-cols-2 gap-2 md:gap-4">
+      <div class="grid grid-rows-2 md:grid-rows-1 md:grid-cols-2 gap-2 md:gap-3">
         <a
           v-for="(contact, index) in contacts"
           :key="index"
           :href="contact.link"
           target="_blank"
-          class="flex items-center px-4 py-2 md:p-4 bg-neutral-50 rounded-lg hover:bg-neutral-50 transition-colors group border border-neutral-200 hover:border-neutral-300"
+          class="flex items-center px-3 py-2.5 md:px-4 md:py-3 bg-neutral-50 rounded-lg hover:bg-neutral-50 transition-colors group border border-neutral-200 hover:border-neutral-300"
         >
           <div
-            class="w-6 h-6 md:w-12 md:h-12 rounded-full flex flex-shrink-0 items-center justify-center mr-2"
+            class="w-6 h-6 md:w-10 md:h-10 rounded-full flex flex-shrink-0 items-center justify-center mr-2"
           >
             <component
               :is="contact.icon"
@@ -147,10 +147,8 @@
             />
           </div>
           <div>
-            <div class="text-sm text-neutral-500">{{ contact.label }}</div>
-            <div
-              class="text-sm md:text-base font-medium text-neutral-800 group-hover:text-neutral-700"
-            >
+            <div class="text-xs md:text-sm text-neutral-500">{{ contact.label }}</div>
+            <div class="text-sm font-medium text-neutral-800 group-hover:text-neutral-700">
               {{ contact.value }}
             </div>
           </div>
@@ -166,18 +164,8 @@ import { gsap } from "gsap";
 
 const contentContainer = ref<HTMLElement | null>(null);
 
-const frontendStack = [
-  "JavaScript",
-  "TypeScript",
-  "React",
-  "Vue",
-  "Svelte",
-  "Astro",
-  "Preact",
-  "Alpine.js",
-  "TailwindCSS",
-];
-const toolsStack = ["Python", "Node.js", "Arduino", "Arch Linux", "C++", "Lua"];
+const stack = ["TypeScript", "Vue", "React"];
+const other = ["Python", "C++"];
 const badgeColors: Record<string, { bg: string; text: string }> = {
   JavaScript: { bg: "#F7DF1E", text: "#222" },
   TypeScript: { bg: "#3178C6", text: "#fff" },
@@ -202,9 +190,10 @@ const badgeColors: Record<string, { bg: string; text: string }> = {
 const unprofessionalExperience = ref([
   {
     period: "2024 - Present",
-    title: "Frontend Development",
-    subtitle: "Self-Taught Coder",
-    description: "Building creative web apps with TypeScript, Vue 3, and TailwindCSS. ",
+    title: "Fullstack Development",
+    subtitle: "Part-time Coder",
+    description:
+      "Building kanban board for my full-time job and creative web projects with TypeScript, Vue 3, and TailwindCSS. ",
     tags: ["JavaScript", "TypeScript", "Vue.js", "TailwindCSS"],
     icon: "💻",
   },

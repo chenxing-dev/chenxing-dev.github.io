@@ -12,8 +12,7 @@ System Settings
 Appearance
 Desktop
 Gymnopédie No.1
-Hi, I'm 陈刑
-陈刑
+陈刑开发
 微博
 @陈刑很刑
 Welcome to 陈刑OS Terminal!
