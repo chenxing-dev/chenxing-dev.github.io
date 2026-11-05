@@ -9,6 +9,7 @@ const { settings } = useSettings();
 const props = defineProps<{
   label: string;
   id: string;
+  link?: string;
 }>();
 
 const emit = defineEmits<{
@@ -22,6 +23,13 @@ const iconComponent = computed(() => {
   }
   return null;
 });
+
+const labelParts = computed(() =>
+  Array.from(props.label).map((character, index, characters) => ({
+    character,
+    breakAfter: /\d/.test(character) && /\d/.test(characters[index + 1] ?? ""),
+  })),
+);
 
 // Refs for animation targets
 const iconContainer = ref<HTMLElement | null>(null);
@@ -96,8 +104,10 @@ const handleMouseLeave = () => {
   });
 };
 
-const openApp = () => {
-  emit("open", props.id);
+const handleClick = () => {
+  if (!props.link) {
+    emit("open", props.id);
+  }
 };
 
 // Setup animations when component mounts
@@ -111,13 +121,15 @@ onUnmounted(() => {
 });
 </script>
 <template>
-  <button
+  <component
+    :is="link ? 'a' : 'button'"
     ref="iconContainer"
-    type="button"
-    class="desktop-icon group flex flex-col items-center p-2 w-16 cursor-pointer border-0 bg-transparent text-inherit focus:outline-none focus-visible:ring-2 focus-visible:ring-zinc-500 focus-visible:ring-offset-2"
-    :aria-label="`Open ${label}`"
-    :title="`Open ${label}`"
-    @click="openApp"
+    :type="link ? undefined : 'button'"
+    class="desktop-icon group flex w-20 min-w-0 max-w-full flex-col items-center p-2 cursor-pointer border-0 bg-transparent text-inherit focus:outline-none focus-visible:ring-2 focus-visible:ring-zinc-500 focus-visible:ring-offset-2"
+    :href="link"
+    :aria-label="`${link ? 'Visit' : 'Open'} ${label}`"
+    :title="`${link ? 'Visit' : 'Open'} ${label}`"
+    @click="handleClick"
     @mouseenter="handleMouseEnter"
     @mouseleave="handleMouseLeave"
   >
@@ -134,10 +146,12 @@ onUnmounted(() => {
     </div>
     <span
       ref="iconLabel"
-      class="text-sm text-zinc-500 px-1 py-0.5 rounded text-center text-shadow-lg text-secondary"
+      class="w-full min-w-0 text-sm text-zinc-500 px-1 py-0.5 rounded text-center text-shadow-lg text-secondary"
       :class="settings.background + ' ' + settings.theme"
     >
-      {{ label }}
+      <template v-for="(part, index) in labelParts" :key="index">
+        {{ part.character }}<wbr v-if="part.breakAfter" />
+      </template>
     </span>
-  </button>
+  </component>
 </template>

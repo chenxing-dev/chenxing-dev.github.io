@@ -36,19 +36,30 @@ export interface AppItem {
   };
 }
 
-export interface AppConfig {
+interface AppConfigBase {
   id: string; // Unique app type identifier
   label: string; // Icon label
+  icon: Component; // async component returned by defineAsyncComponent
+  showOnDesktop: boolean; // Whether the app should be shown on the desktop
+  pinToBottomRight?: boolean;
+}
+
+export interface WindowAppConfig extends AppConfigBase {
   title: string; // Window title
   component: Component; // async component returned by defineAsyncComponent
-  icon: Component; // async component returned by defineAsyncComponent
   width?: number;
   height?: number;
   mobileSize?: {
     height: number;
   };
-  showOnDesktop: boolean; // Whether the app should be shown on the desktop
+  link?: never;
 }
+
+export interface LinkAppConfig extends AppConfigBase {
+  link: string;
+}
+
+export type AppConfig = WindowAppConfig | LinkAppConfig;
 
 // Define the Repository interface
 export interface Repository {

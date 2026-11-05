@@ -107,6 +107,9 @@ export default function useWindowState() {
     if (!appConfig) {
       throw new Error(`No app configuration found for: ${id}`);
     }
+    if (!("component" in appConfig)) {
+      throw new Error(`App configuration for ${id} does not define a window component`);
+    }
     const newWindow = createWindow(
       {
         id: appConfig.id,

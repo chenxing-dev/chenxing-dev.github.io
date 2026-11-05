@@ -69,6 +69,12 @@ export const sanitizeAndRehydrate = (stored: StoredWindow[] | unknown): WindowIt
         );
         return null;
       }
+      if (!("component" in app)) {
+        console.warn(
+          `[os-windows] Link app id in storage: ${item.appId} — skipping window ${item.id}`,
+        );
+        return null;
+      }
 
       const rehydratedApp: AppItem = {
         id: app.id,

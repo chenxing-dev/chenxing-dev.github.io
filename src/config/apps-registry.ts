@@ -7,6 +7,7 @@ import FluentEmojiFlatMusicalNote from "@/icons/FluentEmojiFlatMusicalNote.vue";
 import FluentEmojiFlatNineOclock from "@/icons/FluentEmojiFlatNineOclock.vue";
 import FluentEmojiFlatWomanTechnologistLight from "@/icons/FluentEmojiFlatWomanTechnologistLight.vue";
 import GameIconsCalculator from "@/icons/GameIconsCalculator.vue";
+import GlyphsPolyFilingCabinet from "@/icons/GlyphsPolyFilingCabinet.vue";
 import MdiClockDigital from "@/icons/MdiClockDigital.vue";
 import SimpleIconsGnometerminal from "@/icons/SimpleIconsGnometerminal.vue";
 import TwemojiSunBehindCloud from "@/icons/TwemojiSunBehindCloud.vue";
@@ -110,6 +111,14 @@ export const APPS: AppConfig[] = [
     height: 540,
     showOnDesktop: true,
   },
+  {
+    id: "beian",
+    label: "粤ICP备2026167417号",
+    link: "https://beian.miit.gov.cn/",
+    showOnDesktop: true,
+    pinToBottomRight: true,
+    icon: GlyphsPolyFilingCabinet,
+  },
 ];
 
 // Helper function to get app configuration by id
@@ -133,6 +142,9 @@ export const getComponentById = (id: string) => {
   const app = getAppById(id);
   if (!app) {
     throw new Error(`No app configuration found for: ${id}`);
+  }
+  if (!("component" in app)) {
+    throw new Error(`App configuration for ${id} does not define a window component`);
   }
   return app.component;
 };
