@@ -41,7 +41,6 @@ interface AppConfigBase {
   label: string; // Icon label
   icon: Component; // async component returned by defineAsyncComponent
   showOnDesktop: boolean; // Whether the app should be shown on the desktop
-  pinToBottomRight?: boolean;
 }
 
 export interface WindowAppConfig extends AppConfigBase {

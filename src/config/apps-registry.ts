@@ -7,7 +7,6 @@ import FluentEmojiFlatMusicalNote from "@/icons/FluentEmojiFlatMusicalNote.vue";
 import FluentEmojiFlatNineOclock from "@/icons/FluentEmojiFlatNineOclock.vue";
 import FluentEmojiFlatWomanTechnologistLight from "@/icons/FluentEmojiFlatWomanTechnologistLight.vue";
 import GameIconsCalculator from "@/icons/GameIconsCalculator.vue";
-import GlyphsPolyFilingCabinet from "@/icons/GlyphsPolyFilingCabinet.vue";
 import MdiClockDigital from "@/icons/MdiClockDigital.vue";
 import SimpleIconsGnometerminal from "@/icons/SimpleIconsGnometerminal.vue";
 import TwemojiSunBehindCloud from "@/icons/TwemojiSunBehindCloud.vue";
@@ -110,14 +109,6 @@ export const APPS: AppConfig[] = [
     width: 720,
     height: 540,
     showOnDesktop: true,
-  },
-  {
-    id: "beian",
-    label: "粤ICP备2026167417号",
-    link: "https://beian.miit.gov.cn/",
-    showOnDesktop: true,
-    pinToBottomRight: true,
-    icon: GlyphsPolyFilingCabinet,
   },
 ];
 

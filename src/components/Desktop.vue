@@ -4,6 +4,7 @@ import { markRaw } from "vue";
 import useWindowState from "@/composables/useWindowState";
 import { useSettings } from "@/composables/useSettings";
 import { getDesktopApps } from "@/config/apps-registry";
+import { FILING_LINKS } from "@/config/filing-links";
 import Wallpaper from "@/components/desktop/Wallpaper.vue";
 import DesktopIcon from "@/components/desktop/DesktopIcon.vue";
 import WindowLayer from "@/components/WindowLayer.vue";
@@ -14,8 +15,8 @@ const { settings } = useSettings();
 // Make the apps list non-reactive
 // as it doesn't change during runtime
 // and to avoid unnecessary re-renders
-const desktopApps = markRaw(getDesktopApps().filter((app) => !app.pinToBottomRight));
-const bottomRightApps = markRaw(getDesktopApps().filter((app) => app.pinToBottomRight));
+const desktopApps = markRaw(getDesktopApps());
+const filingLinks = markRaw(FILING_LINKS);
 </script>
 
 <template>
@@ -44,22 +45,25 @@ const bottomRightApps = markRaw(getDesktopApps().filter((app) => app.pinToBottom
           @open="openWindow"
         />
       </div>
-      <div
-        v-if="bottomRightApps.length"
-        v-memo="[bottomRightApps]"
-        class="justify-items-center grid gap-2 grid-cols-3 sm:grid-cols-4 md:grid-cols-6 md:gap-4 lg:grid-cols-8 xl:grid-cols-10 2xl:grid-cols-14"
-      >
-        <DesktopIcon
-          v-for="app in bottomRightApps"
-          :key="app.id"
-          :id="app.id"
-          :label="app.label"
-          :link="app.link"
-          :style="{ gridColumn: '-2 / -1' }"
-          @open="openWindow"
-        />
-      </div>
     </div>
+
+    <footer
+      v-if="filingLinks.length"
+      v-memo="[filingLinks]"
+      class="fixed bottom-1 left-1/2 -translate-x-1/2 z-10 flex items-center gap-3 px-3 py-1 text-[10px] md:text-xs text-secondary opacity-35 hover:opacity-55 transition-opacity"
+      aria-label="Site filing links"
+    >
+      <a
+        v-for="item in filingLinks"
+        :key="item.id"
+        :href="item.link"
+        target="_blank"
+        rel="noopener noreferrer nofollow"
+        class="whitespace-nowrap hover:underline decoration-dotted underline-offset-2"
+      >
+        {{ item.label }}
+      </a>
+    </footer>
 
     <!-- Window Layer -->
     <WindowLayer :windows="windows" @close="closeWindow" @focus="focusWindow" />
